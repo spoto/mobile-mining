@@ -1,0 +1,34 @@
+name: LaTeX-Build
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v4
+      - name: Compile paper
+        uses: xu-cheng/latex-action@v3
+        with:
+          working_directory: ./icbc_2026
+          root_file: icbc_2026.tex
+      - name: Check PDF file
+        run: |
+          file icbc_2026/icbc_2026.pdf | grep -q ' PDF '
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-mining
+          path: |
+            icbc_2026/icbc_2026.pdf
+        if: always()

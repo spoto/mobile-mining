@@ -1,0 +1,29 @@
+\section{Introduction}\label{sec:introduction}
+
+Blockchain is a distributed network of computers (\emph{peers}).
+Each peer receives transaction requests and eventually packs
+such transactions into new \emph{blocks}. These blocks form a growing tree,
+with each block pointing back to the previous one. Mining is the process of
+block creation and includes a notion of chain quality that
+determines which of the many tree branches eventually emerges
+as the stable chain (hence reaching \emph{consensus}). The mining
+activity is remunerated, since the block creator has the right to
+mint and earn a predetermined amount of cryptocurrency for each block created.
+
+This very abstract description of a blockchain network explicitly
+leaves two specific implementation choices generic:
+
+\begin{enumerate}
+  \item The exact notion of transaction
+    is irrelevant in this paper.
+    In general, a transaction is the specification of an
+    operation that, once executed, modifies the state of an abstract machine.
+    For instance, a transaction is a coin transfer in Bitcoin, while it is
+    a code execution over a shared state of objects in Ethereum and in
+    other blockchains that support Turing-complete smart contracts.
+  \item The mining algorithm is a parameter of the blockchain definition
+    and can be replaced, in principle. Namely, Bitcoin pioneered the
+    proof of work algorihtm, while more modern blockchains tend to use a
+    proof of stake algorithm. This paper will concentrate on a proof
+    of space algorithm instead.
+\end{enumerate}

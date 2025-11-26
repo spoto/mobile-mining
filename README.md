@@ -1,6 +1,6 @@
 [![LaTeX-Build Action Status](https://github.com/spoto/mobile-mining/workflows/LaTeX-Build/badge.svg)](https://github.com/spoto/mobile-mining/actions)
 
-# A Mobile Miner for Proof of Space
+# Mobile Mining with Proof of Space
 
 This paper.
 

@@ -9,11 +9,17 @@
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{xcolor}
+\usepackage{url}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\DeclareUrlCommand\email{\urlstyle{tt}}
+\DeclareUrlCommand\website{\urlstyle{same}}
+\DeclareUrlCommand\directory{\urlstyle{same}}
+
 \begin{document}
 
-\title{Mobile Mining for Proof of Space}
+\title{Mobile Mining with Proof of Space}
 \thanks{Thank funding institutions, if any.}
 
 \author{\IEEEauthorblockN{1\textsuperscript{st} Given Name Surname}
@@ -104,5 +110,7 @@ copy& More table copy$^{\mathrm{a}}$& &  \\
 \section*{Acknowledgment}
 
 \bibliographystyle{IEEEtran}
+
+\bibliography{biblio}
 
 \end{document}

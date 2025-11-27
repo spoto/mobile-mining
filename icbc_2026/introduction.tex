@@ -18,17 +18,20 @@ generic wrt.\ two implementation choices:
   \item The exact notion of transaction. This is irrelevant in this paper.
     In general, a transaction is the specification of an
     operation that, once executed, modifies the state of an abstract machine.
-    For instance, a transaction is a money transfer in Bitcoin, while in Ethereum
-    (and in other blockchains that support Turing-complete smart contracts, up to gas
+    For instance, a transaction is a money transfer
+    in Bitcoin~\cite{Nakamoto08}, while in Ethereum~\cite{AntonopoulosW25}
+    (and in other blockchains that support Turing-complete smart contracts,
+    up to gas
     exhaustion) it is the execution of some code over a shared state of objects.
   \item The chosen mining algorithm (also called consensus algorithm).
     Namely, Bitcoin pioneered the
-    proof of work algorihtm, while more modern blockchains tend to use a
-    proof of stake algorithm, and this paper focuses on a proof
-    of space algorithm.
+    proof of work algorihtm~\cite{DworkN92}, while more modern blockchains tend to use a
+    proof of stake algorithm~\cite{Kwon14}, and this paper focuses on a proof
+    of space algorithm~\cite{Spoto25}.
 \end{enumerate}
 
-In Bitcoin's proof of work, minted blocks must carry evidence of some computational
+In Bitcoin's proof of work,
+minted blocks must carry evidence of some computational
 work that has been performed for their creation. The more work, the higher the
 likelihood for the blocks to be integrated in the stable chain of the blockchain.
 It is well-known how this led to high mining costs, in terms of electricity for CPU
@@ -44,7 +47,8 @@ Non-validators can stake on the success of the validators, but
 it is generally accepted that proof of stake remains less decentralized than proof of work.
 Nevertheless, it is the most used mining algorithm, at the moment.
 
-Proof of space is a less-known algorithm. Its idea is that minted blocks must carry evidence
+Proof of space is a less-known family of algorithms~\cite{AtenieseBFG14,CohenP19,DziembowskiFKP15,ParkKFGAP18,RenD16,Spoto25}.
+Its idea is that minted blocks must carry evidence
 of the allocation of a large data structure on disk. The larger, the higher the likelihood
 for the blocks to be integrated in the stable chain. Proof of space is decentralized like
 Bitcoin's proof of work and ecologically sustainable like proof of stake, although the actual
@@ -56,7 +60,7 @@ mining on a mobile phone or tablet. In principle, mobile mining is appealing bec
 \begin{itemize}
 \item it leverages a huge existing base of devices, that otherwise remain idle
   for most of their time;
-\item it makes mining available to a larger part of humanity, who owns a mobile
+\item it makes mining available to a larger portion of humanity, who owns a mobile
   phone but not a powerful connected computer;
 \item it can be easily updated, thanks to the automatic update system of mobile apps;
 \item it simplifies the start-up of new blockchains, since it is easier to convince people
@@ -65,17 +69,18 @@ mining on a mobile phone or tablet. In principle, mobile mining is appealing bec
 
 Nevertheless, mobile mining has not been used up to now because of an evident limitation
 of mobile phones: their battery capacity and their network bandwidth are limited, in particular
-in least favorite countries. As this paper will show, this limit is relative to the
-specific mining algorithm. Proof of space emerges here as a niche solution that matches the
-limitations of mobile mining.
+in least favorite countries. As this paper will show, this limit depends on the
+specific mining algorithm. Namely, proof of space emerges here as a niche solution that
+suffers much less from the limitations of mobile mining.
 
 This paper makes the following contributions:
 %
 \begin{enumerate}
-\item it gives a theoretical presentation of mobile mining, its power and its limitations;
+\item it presents mobile mining, its power and its limitations;
 \item it shows how proof of space is much more adequate to mobile mining than other mining algorithms;
 \item it presents Mokaminter, our actual Android app for mobile mining with proof of space;
-\item it reports experimental results with Mokaminter (battery consumption, data exchanged).
+\item it reports experimental results with Mokaminter, discussing the battery consumption
+  and the amount of exchanged data.
 \end{enumerate}
 
 Mokaminter is an open-source app for Android, licensed under the Apache 2.0 terms. It can be installed

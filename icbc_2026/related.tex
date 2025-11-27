@@ -1,8 +1,23 @@
 \section{Related Work}\label{sec:related_work}
 
+There is a lack of scientific research on the use of mobile phones for blockchain mining.
+In~\cite{LeePSB20}, a blockchain system is proposed, to build local blockchains
+for industrial IoT networks, where mobile miners are drones that mine blocks
+through proof of work. Their approach does not scale
+to a global blockchain and to mobile phones, since
+the latters would not be competitive against expensive specialized hardware
+and the mining process would immediately drain their battery.
+The same consideration applies to~\cite{SuankaewmaneeHN18}, that
+presents a specialized blockchain for mobile commerce
+whose miners are Android phones that perform the proof of work.
+Despite its title, a different problem is tackled
+in~\cite{JiangLW22}, namely, how to offload blockchain applications
+to a cloud computing provider so that such applications become
+usable with the limited resources of a mobile phone.
+
 A simple search on Google Play lists quite a few Android apps for
 \emph{crypto mining}. A deeper look makes it clear that such apps,
-despite their descriptions, do not mine cryptocurrencies, but are either:
+despite their descriptions, are not miners of cryptocurrencies, but rather:
 
 \begin{itemize}
   \item mobile dashboards
@@ -12,15 +27,8 @@ despite their descriptions, do not mine cryptocurrencies, but are either:
     Cloud mining Bitcoin Crypto (\website{https://play.google.com/store/apps/details?id=com.cmio.id1739008702352}),
     MineX (\website{https://play.google.com/store/apps/details?id=com.grenterprise.minexcryptomining})
     and many more;
-  \item dubious games that promise Bitcoins in exchange of help for solving some tasks
+  \item or dubious games that promise Bitcoins in exchange of help for solving some tasks
     or in exchange of watching promotional content. This is the case, for instance,
     of Bitcoin Miner Earn Real Crypto (\website{https://play.google.com/store/apps/details?id=com.fumbgames.bitcoinminor}) and
     Crypto Fortune Tycoon: BTCMiner (\website{https://play.google.com/store/apps/details?id=com.minertycoon.ripple}).
 \end{itemize}
-
-This lack of a mobile mining app is not suprprising: mining for proof of work is not possible on a
-mobile phone, that cannot compete with big hardware and cannot afford to drain the
-battery for a heavy CPU-bound computation; mining for proof of stake is not possible
-on a mobile phone since it is restricted to the validators and a validator's node and database
-would never fit in a mobile phone; it remains mining for proof of space, which is what
-this paper is going to present.

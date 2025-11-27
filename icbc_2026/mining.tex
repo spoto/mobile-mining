@@ -1,1 +1,96 @@
-\section{Local and Remote Mining}\label{sec:local_and_remote_mining}
+\section{An Abstract Presentation of Mining}\label{sec:mining}
+
+The different mining algorithms can be actually presented
+inside a uniform setting. Namely, mining is a competitive game,
+played, concurrently and independently, by each peer of a blockchain network.
+Its goal is to choose which peer wins the right to create the \textbf{next}
+block of the blockchain. This block must be \emph{valid}, that is, respect
+all consensus rules, that are largely blockchain-specific. For example,
+\textbf{next} must point back to the previous top of the blockchain; and
+the transactions included in \textbf{next} must have valid signatures. But the
+actual list of consensus rules is quite larger.
+
+Mining algorithms can be presented in terms of:
+%
+\begin{itemize}
+\item \emph{challenge}: given the current chain $\xi$,
+  determine, deterministically,
+  a challenge for \textbf{next};
+\item \emph{answer}: create, if possible,
+  a \textbf{next} that satisfies the challenge;
+\item \emph{competition}: in case of more possible \textbf{next}, prefer the \emph{best}
+  one \textit{wrt.\ }some notion of chain quality.
+\end{itemize}
+%
+Each peer performs the mining algorithm, whispers the resulting \textbf{next} block to its
+connected peers and receives the \textbf{next} block of its connected peers. In case
+of more alternatives for \textbf{next}, the competition rule is used to choose the
+emerging winner. This gives rise to a \emph{consensus algorithm}, which uses the mining
+algorithm as a subroutine.
+
+For proof of work, the general scheme for the mining algorithm becomes:
+%
+\begin{itemize}
+\item \emph{challenge}: compute an integer $\difficulty$ from $\xi$
+  and find a valid \textbf{next} such that
+  $\hash(\mathbf{next})\ge\difficulty$;
+\item \emph{answer}: create a \textbf{next} by rotating among possible
+  values for its nonce field, until $\hash(\textbf{next})\ge\difficulty$;
+\item in case of more possible \textbf{next}, prefer that with the largest hash.
+\end{itemize}
+%
+The algorithm for computing $\difficulty$ is not relevant here.
+Moreover, note that Bitcoin's proof of work is traditionally specified
+in terms of the \emph{smallest} hash, but we prefer the equivalent
+definition above, in terms of the largest hash,
+to match the intuition that a higher $\difficulty$ makes mining harder.
+
+For proof of stake, the generally accepted idea is that there is
+\emph{no} mining~\cite{Kwon14}. However, a mining algorithm can be defined
+also in this case:
+%
+\begin{itemize}
+\item \emph{challenge}: compute an integer $i$ from $\xi$ (the index of the chosen
+  validator) and find a valid \textbf{next};
+\item \emph{answer}: if this algorithm is run by the $i$th validator,
+  create a valid \textbf{next} block; otherwise, do not create any \textbf{next};
+\item in case of more possible \textbf{next}, choose any of them, since
+  the choice is irrelevant for what mining is concerned.
+\end{itemize}
+%
+The algorithm for computing $i$ is irrelevat here: usually, a simple
+round-robin is used. Moreover, what is reported above is the mining
+algorithm, not the consensus algorithm, that is typically based on a Byzantine
+protocol of pre-votes and pre-commits~\cite{Kwon14}.
+
+Finally, proof of space, as presented in~\cite{Spoto25},
+is based on the idea that \textbf{next} must contain
+a data structure, called \emph{nonce}, that can be quickly recovered from disk from a
+set of precomputed nonces (called, a \emph{plot file}). The mining algorithm in this case
+becomes:
+%
+\begin{itemize}
+\item \emph{challenge}: compute some data $\kappa$ from $\xi$;
+\item \emph{answer}: create a valid \textbf{next} block, containing a nonce $\nu$
+  from the plot file;
+\item in case of more possible \textbf{next}, choose that with the smallest
+  $\delay(\nu,\kappa)$ for its nonce $\nu$.
+\end{itemize}
+%
+The algorithm for computing the challenge $\kappa$ is irrelevant here. In any case,
+this $\kappa$ is used to choose a nonce from the plot file, whose quality measure,
+the inverse of $\delay$, is maximized. The key point of this proof of space algorithm
+is that the computation of the nonces (\emph{ie.}, of the plot file) is so expensive
+that it cannot be done on-the-fly, at each mined block, but the plot file must be computed
+instead once and for all, before starting mining, and kept on disk to answer, quickly, the mining
+challenges. The consensus algorithm will use $\delay$ to wait for the time after which the block
+becomes valid.
+
+This abstract presentation of mining has the nice property of making it clear
+that mining is a subroutine whose input is the challenge derived from the current
+chain $\xi$ and whose output is the information needed to create \textbf{next}:
+a nonce for proof of work and proof of space\footnote{Although the notion of nonce is
+different in the two cases.}, and a Boolean for proof of stake
+(create the block or rather let another validator create the block). As such, the
+mining algorithm could be offloaded to a device external to the peer that holds
+the blockchain and that creates \textbf{next}, as discussed in the next section.

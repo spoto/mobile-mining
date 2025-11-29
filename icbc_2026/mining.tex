@@ -74,7 +74,7 @@ becomes:
 \item \emph{answer}: create a valid \textbf{next} block, containing a nonce $\nu$
   from the plot file;
 \item in case of more possible \textbf{next}, choose that with the smallest
-  $\delay(\nu,\kappa)$ for its nonce $\nu$.
+  $\delay(\nu,\kappa)$, where $\nu$ is the nonce in \textbf{next}.
 \end{itemize}
 %
 The algorithm for computing the challenge $\kappa$ is irrelevant here. In any case,
@@ -88,9 +88,32 @@ becomes valid.
 
 This abstract presentation of mining has the nice property of making it clear
 that mining is a subroutine whose input is the challenge derived from the current
-chain $\xi$ and whose output is the information needed to create \textbf{next}:
+chain $\xi$ and whose output is the answer, that is, the information
+needed to create \textbf{next}:
 a nonce for proof of work and proof of space\footnote{Although the notion of nonce is
 different in the two cases.}, and a Boolean for proof of stake
-(create the block or rather let another validator create the block). As such, the
-mining algorithm could be offloaded to a device external to the peer that holds
-the blockchain and that creates \textbf{next}, as discussed in the next section.
+(create the block or rather let another validator create the block).
+This is shown in Fig.~\ref{fig:local_mining}, where the peer that creates the node
+and the miner that provides the answer to create te node are two distinct software
+parts of the same tool, working on the same machine.
+
+\begin{figure}[t]
+  \begin{center}
+    \begin{tikzpicture}
+      \draw [fill=VioletRed,thick] (0,0) rectangle +(3,1.5);
+      \draw (1.5,0.75) node {{\scriptsize bockchain peer}};
+
+      \draw [fill=lightred,thick] (5,0.35) rectangle +(2,0.8);
+      \draw (6.0,0.75) node {{\scriptsize local miner}};
+
+      \draw[->, thick] (3,1.0) -- (5,1.0);
+      \draw (4.0,1.2) node {{\scriptsize challenges}};
+
+      \draw[<-, thick] (3,0.5) -- (5,0.5);
+      \draw (4.0,0.25) node {{\scriptsize answers}};
+
+    \end{tikzpicture}
+  \end{center}
+  \caption{Peer and local miner as a separate software parts in the same machine.}\label{fig:local_mining}
+\end{figure}
+

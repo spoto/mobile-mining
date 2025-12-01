@@ -28,20 +28,47 @@ The creation and activation of a miner with Mokaminter works as follows:
 %
 \begin{enumerate}
 \item the user specifies the URI (universal resource identifier) of a
-  blockchain peer and the size of the plot file for the miner;
+  blockchain peer and the size of the plot file for the miner
+  (Fig.~\ref{fig:mokaminter_add_miner}, upmost part of the screen);
 \item the app creates a new private/public key pair to identify the miner,
   represented, as usual from Bitcoin's time~\cite{Antonopoulos23},
-  in terms of a $12$ words mnemonics;
+  in terms of a $12$ words mnemonics (Fig.~\ref{fig:mokaminter_add_miner},
+  lower part of the screen);
   \begin{itemize}
   \item alternatively, the user can insert the $12$ words of a key pair,
     if she wants to use an existing key;
   \end{itemize}
 \item the app informs the user about the expected size of the plot file
-  and asks for confirmation;
+  and asks for confirmation (Fig.~\ref{fig:mokaminter_confirmation});
 \item if confirmed, the creation of the plot file runs in background;
-\item once the plot file is created, the app activates a background process
-  that mines by using the new plot file.
+\item once the plot file is created, the app adds a miner tile
+  and activates a background process that mines by using the new plot file
+  (Fig.~\ref{fig:mokaminter_mining}).
 \end{enumerate}
+
+\begin{figure}[t]
+  \begin{center}
+    \includegraphics[width=\textwidth/3]{pictures/mokaminter_add_miner}
+  \end{center}
+  \caption{Specification of the parameters for the creation of a miner.}
+  \label{fig:mokaminter_add_miner}
+\end{figure}
+
+\begin{figure}[b]
+  \begin{center}
+    \includegraphics[width=\textwidth/3]{pictures/mokaminter_confirmation}
+  \end{center}
+  \caption{Confirmation is required before creating a new plot file.}
+  \label{fig:mokaminter_confirmation}
+\end{figure}
+
+\begin{figure}[t]
+  \begin{center}
+    \includegraphics[width=\textwidth/3]{pictures/mokaminter_mining}
+  \end{center}
+  \caption{A new tile for a miner, working in the background.}
+  \label{fig:mokaminter_mining}
+\end{figure}
 
 \subsubsection*{Security Considerations}
 %

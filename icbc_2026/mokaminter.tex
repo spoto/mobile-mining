@@ -64,7 +64,8 @@ The creation and activation of a miner with Mokaminter works as follows:
   \begin{center}
     \includegraphics[width=\textwidth/3]{pictures/mokaminter_mining}
   \end{center}
-  \caption{A new tile for a miner, working in the background.}
+  \caption{A new tile for a miner, working in the background. Eventually, its
+  cryptocurrency balance will increase.}
   \label{fig:mokaminter_mining}
 \end{figure}
 
@@ -72,9 +73,9 @@ The creation and activation of a miner with Mokaminter works as follows:
 %
 A lost or stolen mobile phone is a relatively frequent event.
 If the private key of the miner were kept in the mobile phone, who finds
-or stoles the phone would be able to access and move the cryptocurrency
+or steals the phone would be able to access and move the cryptocurrency
 accumulated while mining.
-Because of this, it has been an explicit choice to avoid
+Because of this, it has been an explicit design choice for Mokaminter to avoid
 storing the private key of the miners in the mobile phone.
 Namely, after creating or importing the private/public key pair,
 only the public key is used for creating the plot and the nonces,
@@ -89,7 +90,7 @@ from those of a desktop application.
 %
 A first consideration is about giving feedback to the user.
 In a desktop application, the user could check warnings or error messages, as
-well as the logs of the running application. In a mobile app this is not
+well as the logs of the running application. In a mobile app, this is not
 comfortable. Therefore, Mokaminter gives feedback through
 a heartbeat graphical effect that informs the user that the miner is
 actually working, producing nonces. Moreover, network disconnection
@@ -97,13 +98,14 @@ is represented by turning the miner's tile grey in the list of miners.
 %
 Another usability issue is related to the insertion of the
 $12$ words, if an existing key pair is imported.
-Inserting words on a mobile phone software keyboard is extremely error-prone.
+Inserting words on a mobile phone, through a software keyboard, is frustrating
+and error-prone.
 Therefore, Mokaminter suggests the possible words while typing, so that
 the user can autocomplete them.
 %
 A last issue is about the specification of a plot file's size
 that is too large to complete its creation in a reasonable time:
-it would hang the mobile and drain its battery. To avoid this risk,
+it would hang the mobile phone and drain its battery. To avoid this risk,
 Mokaminter imposes a maximum size for the plot file, that can be
 overridden, but only by an explicit choice of the user.
 
@@ -112,9 +114,9 @@ overridden, but only by an explicit choice of the user.
 Mokaminter connects to the blockchain peers by using websockets,
 that perfectly match the continuous, bidirectional flow of challenges
 and answers (Fig.~\ref{fig:remote_mining}). However, network connection in a
-mobile phone is unreliable in comparison to a desktop computer, since
+mobile phone is unreliable in comparison to that of a desktop computer, since
 it gets lost frequently (thick walls, tunnels, network switches).
-Mokaminter tries to reconnect whenever the connection is down or
+Mokaminter tries to reconnect whenever the connection gets down or
 no challenges have been received for an extended period of time. If it fails, it
 tries again after a minute, to avoid draining the battery with
 very frequent reconnection attempts.
@@ -123,9 +125,9 @@ Another technical issue is related to the background task for mining.
 The Android system is becoming more and more restrictive with background
 tasks, since they might consume battery power. There are official guidelines
 for them, but these guidelines changed often
-across different android versions. Moreover,
-phone productors often add extra constraints. In practice, it is
-frequent for Mokaminter to be turned off by the system overnight, when
+across different Android versions. Moreover,
+phone productors often add extra constraints. On many phones, the Android system
+turns Mokaminter off overnight, when
 the system enters a special \emph{doze mode}. If this happens, it is enough
 to turn it on again in the morning. A better solution does not seem in sight,
 at the moment.

@@ -65,8 +65,8 @@ protocol of pre-votes and pre-commits~\cite{Kwon14}.
 
 Finally, proof of space, as presented in~\cite{Spoto25},
 is based on the idea that \textbf{next} must contain
-a data structure, called \emph{nonce}, that can be quickly recovered from disk from a
-set of precomputed nonces (called, a \emph{plot file}). The mining algorithm in this case
+a data structure, called \emph{nonce}, that can be quickly recovered from a
+set of precomputed nonces on disk (called, a \emph{plot file}). The mining algorithm in this case
 becomes:
 %
 \begin{itemize}
@@ -83,8 +83,8 @@ the inverse of $\delay$, is maximized. The key point of this proof of space algo
 is that the computation of the nonces (\emph{ie.}, of the plot file) is so expensive
 that it cannot be done on-the-fly, at each mined block, but the plot file must be computed
 instead once and for all, before starting mining, and kept on disk to answer, quickly, the mining
-challenges. The consensus algorithm will use $\delay$ to wait for the time after which the block
-becomes valid.
+challenges. The consensus algorithm will use $\delay$ to wait until
+the moment when the block becomes valid.
 
 This abstract presentation of mining has the nice property of making it clear
 that mining is a subroutine whose input is the challenge derived from the current
@@ -94,7 +94,7 @@ a nonce for proof of work and proof of space\footnote{Although the notion of non
 different in the two cases.}, and a Boolean for proof of stake
 (create the block or rather let another validator create the block).
 This is shown in Fig.~\ref{fig:local_mining}, where the peer that creates the node
-and the miner that provides the answer to create te node are two distinct software
+and the miner that provides the answer to create the node are two distinct software
 parts of the same tool, working on the same machine.
 
 \begin{figure}[t]
@@ -114,6 +114,6 @@ parts of the same tool, working on the same machine.
 
     \end{tikzpicture}
   \end{center}
-  \caption{Peer and local miner as a separate software parts in the same machine.}\label{fig:local_mining}
+  \caption{Peer and local miner as separate software parts in the same machine.}\label{fig:local_mining}
 \end{figure}
 

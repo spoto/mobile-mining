@@ -1,5 +1,41 @@
 \section{Related Work}\label{sec:related_work}
 
+\subsection{Proof of Space}
+
+Proof of space is a mining algorithm where disk (currently SSD) space
+is used for mining, instead of CPU power.
+It is meant to be energetically more efficient than proof of work and
+more decentralized than proof of stake.
+The common idea of the many approaches is to distinguish a preliminary
+\emph{plotting phase}, when large data is allocated on disk,
+through a potentially expensive process, from a subsequent
+\emph{mining phase}, when such data is used to quickly answer
+the block creation challenges received from the blockchain peers.
+The probability that a miner creates a next block is proportional
+to the disk space allocated during the plotting phase.
+
+Pioneering works~\cite{AtenieseBFG14,DziembowskiFKP15} introduce
+formal models of proofs baced on persistent storage, showing that
+CPU-bound on-demand recomputations (later called
+\emph{replotting attacks}~\cite{BaigGP25}) are not viable,
+due to the use of pebbling graphs of high complexity and of Merkle trees:
+any attempt to reduce the allocated space entails a prohibitive increase
+of the cost for recomputation. A subsequent evolution~\cite{RenD16}
+uses \emph{stacked expanders} to reduce the implementational costs
+and simplify the proofs. The SpaceMint prototype~\cite{ParkKFGAP18},
+nowadays discontinued, showed the actual feasibility of the approach,
+with considerations about mitigations of potential attacks that are typical of
+proof of space, such as mining on multiple chains and block/challenge grinding.
+A more robust implementation is Chia~\cite{AbusalahACKPR17,CohenP19}, that combines
+proof of space with verifiable delay functions, in a hybrid
+proof of space and time mechanism.
+A last implementation is Filecoin~\cite{Fil24}, where parties must
+commit space and show, repeatedly, that they are still storing data in the
+committed space. While Chia is fully-permissionless, Filecoin is
+quasi-permissionless: anybody can participate, but only under some requirements.
+
+\subsection{Mobile Apps for Mining on a Phone}
+
 There is a lack of scientific research on the use of mobile phones for blockchain mining.
 In~\cite{LeePSB20}, a blockchain system is proposed, to build local blockchains
 for industrial IoT networks, where mobile miners are drones that mine blocks
@@ -16,10 +52,17 @@ Despite its title, a different problem is tackled
 in~\cite{JiangLW22}, namely, how to offload blockchain applications
 to a cloud computing provider so that such applications become
 usable with the limited resources of a mobile phone.
+More generally, this approach allows edge devices, with strong limitations on
+CPU power, battery and disk space, to offload computationally expensive
+tasks to external servers and the cloud~\cite{SoundararajS25}.
+But this is not what this paper does,
+which is rather to actually perform mining \emph{in} the mobile phone
+and to offload the mining process from the blockchain peers to the many
+mobile phones that are expected to run the mobile mining app.
 
-A simple search on Google Play lists quite a few Android apps for
+A simple search on Google Play reports quite a few Android apps for
 \emph{crypto mining}. A deeper look makes it clear that such apps,
-despite their descriptions, are not miners of cryptocurrencies, but rather:
+despite their description, are not miners of cryptocurrencies, but rather:
 
 \begin{itemize}
   \item mobile dashboards

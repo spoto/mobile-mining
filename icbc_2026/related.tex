@@ -34,7 +34,7 @@ commit space and show, repeatedly, that they are still storing data in the
 committed space. While Chia is fully-permissionless, Filecoin is
 quasi-permissionless: anybody can participate, but only under some requirements.
 
-\subsection{Mobile Apps for Mining on a Phone}
+\subsection{Mobile Apps for Mining in a Phone}
 
 There is a lack of scientific research on the use of mobile phones for blockchain mining.
 In~\cite{LeePSB20}, a blockchain system is proposed, to build local blockchains
@@ -54,16 +54,17 @@ to a cloud computing provider so that such applications become
 usable with the limited resources of a mobile phone.
 More generally, this approach allows edge devices, with strong limitations on
 CPU power, battery and disk space, to offload computationally expensive
-tasks to external servers and the cloud~\cite{SoundararajS25}.
-But this is not what this paper does,
+tasks to external servers and to the cloud~\cite{SoundararajS25}.
+But this is not the goal of the present paper,
 which is rather to actually perform mining \emph{in} the mobile phone
 and to offload the mining process from the blockchain peers to the many
-mobile phones that are expected to run the mobile mining app.
+mobile phones that are expected to run a mobile mining app.
 
 A simple search on Google Play reports quite a few Android apps for
 \emph{crypto mining}. A deeper look makes it clear that such apps,
-despite their description, are not miners of cryptocurrencies, but rather:
-
+despite their description, are not miners of cryptocurrencies, but
+they rather fall in either of the following two categories:
+%
 \begin{itemize}
   \item mobile dashboards
     to cloud pool mining applications: mining occurs in the cloud,
@@ -73,8 +74,10 @@ despite their description, are not miners of cryptocurrencies, but rather:
     Cloud mining Bitcoin Crypto (\website{https://play.google.com/store/apps/details?id=com.cmio.id1739008702352}),
     MineX (\website{https://play.google.com/store/apps/details?id=com.grenterprise.minexcryptomining})
     and many more;
-  \item or dubious games that promise Bitcoins in exchange of help for solving some tasks
+  \item dubious games that promise Bitcoins in exchange of help for solving some tasks
     or in exchange of watching promotional content. This is the case, for instance,
     of Bitcoin Miner Earn Real Crypto (\website{https://play.google.com/store/apps/details?id=com.fumbgames.bitcoinminor}) and
     Crypto Fortune Tycoon: BTCMiner (\website{https://play.google.com/store/apps/details?id=com.minertycoon.ripple}).
 \end{itemize}
+%
+In particular, we could not identify any existing mobile app for mining \emph{in} a phone.

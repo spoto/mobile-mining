@@ -18,15 +18,16 @@ for running smart contracts in a subset of Java~\cite{Spoto19}
 is available as an application
 of Mokamint. This means that Mokaminter mines, at the moment,
 for a blockchain with Java smart contracts whose consensus is based
-on proof of space. This idea of a generic blockchain engine with
-a pluggable application layer has been borrowed from Tendermint,
+on proof of space, but it might mine for other blockchains in the future.
+Mokamint's idea of a generic blockchain engine with
+a pluggable application layer has been borrowed from Tendermint~\cite{Kwon14},
 that pioneered the same approach.
 
 The creation and activation of a miner with Mokaminter works as follows:
 %
 \begin{enumerate}
 \item the user specifies the URI (universal resource identifier) of a
-  blockchain peer and the size of the plot file for the miner
+  blockchain peer running Mokamint and the size of the plot file for the miner
   (Fig.~\ref{fig:mokaminter_add_miner}, upmost part of the screen);
 \item the app creates a new private/public key pair to identify the miner,
   represented, as usual from Bitcoin's time~\cite{Antonopoulos23},
@@ -34,11 +35,11 @@ The creation and activation of a miner with Mokaminter works as follows:
   lower part of the screen);
   \begin{itemize}
   \item alternatively, the user can insert the $12$ words of a key pair,
-    if she wants to use an existing key;
+    if she wants to use an existing one;
   \end{itemize}
 \item the app informs the user about the expected size of the plot file
   and asks for confirmation (Fig.~\ref{fig:mokaminter_confirmation});
-\item if confirmed, the creation of the plot file runs in background;
+\item if confirmed, the creation of the plot file runs in the background;
 \item once the plot file is created, the app adds a miner tile
   and activates a background process that mines by using the new plot file
   (Fig.~\ref{fig:mokaminter_mining}).
@@ -73,11 +74,11 @@ The creation and activation of a miner with Mokaminter works as follows:
 %
 A lost or stolen mobile phone is a relatively frequent event.
 If the private key of the miner were kept in the mobile phone, who finds
-or steals the phone would be able to access and move the cryptocurrency
+or steals the phone would be able to access and steal the cryptocurrency
 accumulated while mining.
 Because of this, it has been an explicit design choice for Mokaminter to avoid
 storing the private key of the miners in the mobile phone.
-Namely, after creating or importing the private/public key pair,
+Namely, after creating or importing the private/public key pair (Fig.~\ref{fig:mokaminter_add_miner}),
 only the public key is used for creating the plot and the nonces,
 and the app forgets the private key. On a negative side, this means
 that the user must keep the $12$ words in a safe place and never lose them,
@@ -90,8 +91,8 @@ from those of a desktop application.
 %
 A first consideration is about giving feedback to the user.
 In a desktop application, the user could check warnings or error messages, as
-well as the logs of the running application. In a mobile app, this is not
-comfortable. Therefore, Mokaminter gives feedback through
+well as the logs of the running application. In a mobile app, this is possible
+but not comfortable for the average user. Therefore, Mokaminter gives feedback through
 a heartbeat graphical effect that informs the user that the miner is
 actually working, producing nonces. Moreover, network disconnection
 is represented by turning the miner's tile grey in the list of miners.
@@ -103,8 +104,8 @@ and error-prone.
 Therefore, Mokaminter suggests the possible words while typing, so that
 the user can autocomplete them.
 %
-A last issue is about the specification of a plot file's size
-that is too large to complete its creation in a reasonable time:
+A last issue is about the risk of specifying a plot file's size
+that is too large to complete the creation of the plot in a reasonable time:
 it would hang the mobile phone and drain its battery. To avoid this risk,
 Mokaminter imposes a maximum size for the plot file, that can be
 overridden, but only by an explicit choice of the user.
@@ -116,7 +117,7 @@ that perfectly match the continuous, bidirectional flow of challenges
 and answers (Fig.~\ref{fig:remote_mining}). However, network connection in a
 mobile phone is unreliable in comparison to that of a desktop computer, since
 it gets lost frequently (thick walls, tunnels, network switches).
-Mokaminter tries to reconnect whenever the connection gets down or
+Mokaminter automatically tries to reconnect whenever the connection gets down or
 no challenges have been received for an extended period of time. If it fails, it
 tries again after a minute, to avoid draining the battery with
 very frequent reconnection attempts.
@@ -127,7 +128,7 @@ tasks, since they might consume battery power. There are official guidelines
 for them, but these guidelines changed often
 across different Android versions. Moreover,
 phone productors often add extra constraints. On many phones, the Android system
-turns Mokaminter off overnight, when
+turns off Mokaminter overnight, when
 the system enters a special \emph{doze mode}. If this happens, it is enough
 to turn it on again in the morning. A better solution does not seem in sight,
 at the moment.

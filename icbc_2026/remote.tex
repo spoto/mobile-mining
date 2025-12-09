@@ -3,8 +3,11 @@
 It is natural to move the two software parts in
 Fig.~\ref{fig:local_mining} into two distinct machines, connected by a network.
 This is because many users want to run a miner on their machine, and earn cryptos,
-but only a few are typically interested in running a full blockchain peer on their machine.
-This is shown in Fig.~\ref{fig:remote_mining}, where connections in code
+but only a few are typically interested in running a full blockchain peer on their machine,
+which requires technical skills, database management, a very good internet connection
+and a dedicated machine.
+The separetion into two machines is shown in Fig.~\ref{fig:remote_mining}, where
+the connections in code in Fig.~\ref{fig:local_mining}
 are replaced by network connections.
 
 \begin{figure}[b]
@@ -34,7 +37,8 @@ are replaced by network connections.
 However, this graphically simple modification might result useless or impractical,
 depending on the specific characteristics of the mining algorithm and of the machine
 where the remote miner must be run. Let us consider, in particular, the case when this
-machine is a mobile phone.
+machine is a mobile phone and the mining algorithm is one of the three discusses
+in Sec.~\ref{sec:introduction}.
 
 \subsubsection*{Proof of work}
 
@@ -42,11 +46,11 @@ In this case, the challenge must include the full block that is being
 created, since the nonce must be chosen in a way that maximizes the block's hash.
 For Bitcoin, a block size can be up to 1~MB, or even 4~MB after the Segregated Witness upgrade.
 This data must be exchanged at the creation of each block, which is hard in many
-countries, where mobile internet is slow; moreover, most operators fix a maximum number of
-GB exchange in the month, which would be easily exhausted; finally, the computational cost
+countries, where mobile internet is slow; moreover, most mobile operators fix a maximum number of
+GB exchanged in the month, which would be easily exhausted; finally, the computational cost
 of proof of work would drain the telephone's battery. These considerations are enough
-to conclude that, at the moment, mining for proof of space, for a global blockchain like
-Bitcoin, on a mobile phone, remains irrealistic.
+to conclude that, at the moment, mining for proof of space on a mobile phone,
+for a global blockchain such as Bitcoin remains irrealistic.
 
 \subsubsection*{Proof of stake}
 
@@ -67,4 +71,4 @@ In particular, the block being created is not needed for mining. This makes this
 of space algorithm an ideal choice for a remote miner running on a mobile phone:
 no need of significant CPU power, enough disk space on the phone and little data exchanged
 with the peer. This is why it has been the choice for the implementation of our
-Mokaminter app.
+Mokaminter app, as discussed below.

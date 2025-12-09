@@ -11,11 +11,11 @@ The common idea of the many approaches is to distinguish a preliminary
 through a potentially expensive process, from a subsequent
 \emph{mining phase}, when such data is used to quickly answer
 the block creation challenges received from the blockchain peers.
-The probability that a miner creates a next block is proportional
-to the disk space allocated during the plotting phase.
+The probability that a miner creates the next block of the stabke chain
+is proportional to the disk space allocated during the plotting phase.
 
 Pioneering works~\cite{AtenieseBFG14,DziembowskiFKP15} introduce
-formal models of proofs baced on persistent storage, showing that
+formal models of proofs based on persistent storage, showing that
 CPU-bound on-demand recomputations (later called
 \emph{replotting attacks}~\cite{BaigGP25}) are not viable,
 due to the use of pebbling graphs of high complexity and of Merkle trees:
@@ -33,6 +33,16 @@ A last implementation is Filecoin~\cite{Fil24}, where parties must
 commit space and show, repeatedly, that they are still storing data in the
 committed space. While Chia is fully-permissionless, Filecoin is
 quasi-permissionless: anybody can participate, but only under some requirements.
+
+The present paper builds on the proof of space algorithm of the Signum blockchain~\cite{signum}.
+Signum, previously, Burstcoin, is based on an
+algorithm where plot files support quick creation of new blocks, but require
+themselves an expensive algorithm for their creation, so that they cannot be created
+on-the-fly for each block. The formalization of this blockchain was missing until
+recently~\cite{Spoto25}. In particular, this article works with the generic blockchain
+engine Mokamint~\cite{mokamint}, derived from the mining algorithm of Signum,
+but generic \emph{w.r.t.} the
+notion of transactions, that is left to an application layer that runs on top of Mokamint.
 
 \subsection{Mobile Apps for Mining in a Phone}
 
@@ -56,7 +66,7 @@ More generally, this approach allows edge devices, with strong limitations on
 CPU power, battery and disk space, to offload computationally expensive
 tasks to external servers and to the cloud~\cite{SoundararajS25}.
 But this is not the goal of the present paper,
-which is rather to actually perform mining \emph{in} the mobile phone
+which is instead to actually perform mining \emph{in} the mobile phone
 and to offload the mining process from the blockchain peers to the many
 mobile phones that are expected to run a mobile mining app.
 
@@ -73,11 +83,12 @@ they rather fall in either of the following two categories:
     ECOS (\website{https://play.google.com/store/apps/details?id=am.ecos.android}),
     Cloud mining Bitcoin Crypto (\website{https://play.google.com/store/apps/details?id=com.cmio.id1739008702352}),
     MineX (\website{https://play.google.com/store/apps/details?id=com.grenterprise.minexcryptomining})
-    and many more;
+    and many others;
   \item dubious games that promise Bitcoins in exchange of help for solving some tasks
     or in exchange of watching promotional content. This is the case, for instance,
     of Bitcoin Miner Earn Real Crypto (\website{https://play.google.com/store/apps/details?id=com.fumbgames.bitcoinminor}) and
     Crypto Fortune Tycoon: BTCMiner (\website{https://play.google.com/store/apps/details?id=com.minertycoon.ripple}).
 \end{itemize}
 %
-In particular, we could not identify any existing mobile app for mining \emph{in} a phone.
+In particular, after our research,
+we could not identify any existing mobile app for mining \emph{in} a phone.

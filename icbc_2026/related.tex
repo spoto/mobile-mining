@@ -1,94 +1,79 @@
 \section{Related Work}\label{sec:related_work}
 
-\subsection{Proof of Space}
-
 Proof of space is a mining algorithm where disk (currently SSD) space
-is used for mining, instead of CPU power.
-It is meant to be energetically more efficient than proof of work and
+is used instead of CPU power.
+It is energetically more efficient than proof of work and
 more decentralized than proof of stake.
-The common idea of the many approaches is to distinguish a preliminary
+A preliminary
 \emph{plotting phase}, when large data is allocated on disk,
-through a potentially expensive process, from a subsequent
+through a potentially expensive process, is followed by a
 \emph{mining phase}, when such data is used to quickly answer
-the block creation challenges received from the blockchain peers.
-The probability that a miner creates the next block of the stabke chain
-is proportional to the disk space allocated during the plotting phase.
+block creation challenges received from blockchain peers:
+the probability to create blocks for the stable chain
+is proportional to the size of the allocated disk space.
 
-Pioneering works~\cite{AtenieseBFG14,DziembowskiFKP15} introduce
-formal models of proofs based on persistent storage, showing that
-CPU-bound on-demand recomputations (later called
-\emph{replotting attacks}~\cite{BaigGP25}) are not viable,
-due to the use of pebbling graphs of high complexity and of Merkle trees:
-any attempt to reduce the allocated space entails a prohibitive increase
-of the cost for recomputation. A subsequent evolution~\cite{RenD16}
-uses \emph{stacked expanders} to reduce the implementational costs
-and simplify the proofs. The SpaceMint prototype~\cite{ParkKFGAP18},
-nowadays discontinued, showed the actual feasibility of the approach,
-with considerations about mitigations of potential attacks that are typical of
-proof of space, such as mining on multiple chains and block/challenge grinding.
-A more robust implementation is Chia~\cite{AbusalahACKPR17,CohenP19}, that combines
-proof of space with verifiable delay functions, in a hybrid
-proof of space and time mechanism.
-A last implementation is Filecoin~\cite{Fil24}, where parties must
-commit space and show, repeatedly, that they are still storing data in the
-committed space. While Chia is fully-permissionless, Filecoin is
-quasi-permissionless: anybody can participate, but only under some requirements.
-
-The present paper builds on the proof of space algorithm of the Signum blockchain~\cite{signum}.
-Signum, previously, Burstcoin, is based on an
-algorithm where plot files support quick creation of new blocks, but require
-themselves an expensive algorithm for their creation, so that they cannot be created
-on-the-fly for each block. The formalization of this blockchain was missing until
-recently~\cite{Spoto25}. In particular, this article works with the generic blockchain
-engine Mokamint~\cite{mokamint}, derived from the mining algorithm of Signum,
-but generic \emph{w.r.t.} the
-notion of transactions, that is left to an application layer that runs on top of Mokamint.
-
-\subsection{Mobile Apps for Mining in a Phone}
+Pioneering work~\cite{AtenieseBFG14,DziembowskiFKP15} introduced
+formal proofs on persistent storage, showing that
+CPU-bound on-demand recomputations (or \emph{replotting attacks}~\cite{BaigGP25}) are not viable,
+due to high complexity pebbling graphs and Merkle trees:
+any attempt to reduce the allocated space adds a prohibitive recomputation cost.
+A subsequent evolution~\cite{RenD16}
+uses \emph{stacked expanders} to reduce the implementation cost
+and simplify proofs. The SpaceMint prototype~\cite{ParkKFGAP18},
+now discontinued, showed the approach feasible and considered
+mitigations to potential attacks, typical of
+proof of space, such as mining on multiple chains or block/challenge grinding.
+Chia~\cite{AbusalahACKPR17,CohenP19}, a more robust implementation, combines
+space with verifiable delay functions, in a hybrid proof of space and time mechanism.
+In Filecoin~\cite{Fil24}, parties commit space and show, repeatedly,
+that they are still storing data in the committed space.
+%While Chia is fully-permissionless, Filecoin is
+%quasi-permissionless: anybody can participate, but under some requirements.
+We build on the proof of space algorithm of Signum~\cite{signum},
+previously Burstcoin, based on the precomputation of
+plot files that later support quick block creation, as formalized
+in~\cite{Spoto25}. Plot file are too expensive to recreate
+on-the-fly for each block. We work with the generic blockchain
+engine Mokamint~\cite{mokamint}, derived from Signum's algorithm, but generic \wrt{} the
+notion of transactions, delegated to an application layer over Mokamint.
 
 There is a lack of scientific research on the use of mobile phones for blockchain mining.
-In~\cite{LeePSB20}, a blockchain system is proposed, to build local blockchains
-for industrial IoT networks, where mobile miners are drones that mine blocks
-through proof of work. Their approach does not scale
-to a global blockchain and to mobile phones, since
-the latters would not be competitive against expensive specialized hardware
-and the mining process would immediately drain their battery.
+In~\cite{LeePSB20}, a blockchain system is proposed, to build local
+industrial IoT blockchain networks, where drones are mobile miners
+based on proof of work. This does not scale
+to a global blockchain and to mobile phones, that
+are not competitive against expensive specialized hardware and whose battery
+would immediately get drained by the proof of work.
 The same consideration applies to~\cite{SuankaewmaneeHN18}, that
-presents a specialized blockchain for mobile commerce
-whose miners are Android phones that perform the proof of work.
+presents a specialized blockchain for mobile commerce, with Android phones as
+mobile miners based on proof of work.
 Experiments are reported for blocks holding up to six transactions,
 which is sensible for a local blockchain but irrealistic for a global one.
-Despite its title, a different problem is tackled
-in~\cite{JiangLW22}, namely, how to offload blockchain applications
-to a cloud computing provider so that such applications become
-usable with the limited resources of a mobile phone.
-More generally, this approach allows edge devices, with strong limitations on
-CPU power, battery and disk space, to offload computationally expensive
+Despite its title, \cite{JiangLW22}~tackles a different problem, namely,
+how to offload blockchain applications
+to a cloud computing provider to make them usable
+with the limited resources of the phone.
+More generally, this approach allows edge devices, with strong hardware limitations,
+to offload computationally expensive
 tasks to external servers and to the cloud~\cite{SoundararajS25}.
-But this is not the goal of the present paper,
-which is instead to actually perform mining \emph{in} the mobile phone
-and to offload the mining process from the blockchain peers to the many
-mobile phones that are expected to run a mobile mining app.
+The goal of the present paper is instead to perform mining \emph{in} the mobile phone
+and offload the mining process from blockchain peers to many
+mobile phones, expected to run a mobile mining app.
 
-A simple search on Google Play reports quite a few Android apps for
-\emph{crypto mining}. A deeper look makes it clear that such apps,
-despite their description, are not miners of cryptocurrencies, but
-they rather fall in either of the following two categories:
-%
-\begin{itemize}
-  \item mobile dashboards
-    to cloud pool mining applications: mining occurs in the cloud,
+A simple search on Google Play reports a few Android apps for
+\emph{crypto mining}. A deeper look makes it clear that,
+despite their name, these apps are not miners, but
+fall in either of the following categories.
+(1) Mobile dashboards
+    to cloud pool miners: mining occurs in the cloud and
     the app is just monitoring.
-    This is the case, for instance, of Ct Pool (\website{https://play.google.com/store/apps/details?id=net.ctpool}), ViaBTC (\website{https://play.google.com/store/apps/details?id=com.viabtc.pool}),
-    ECOS (\website{https://play.google.com/store/apps/details?id=am.ecos.android}),
-    Cloud mining Bitcoin Crypto (\website{https://play.google.com/store/apps/details?id=com.cmio.id1739008702352}),
-    MineX (\website{https://play.google.com/store/apps/details?id=com.grenterprise.minexcryptomining})
-    and many others;
-  \item dubious games that promise Bitcoins in exchange of help for solving some tasks
-    or in exchange of watching promotional content. This is the case, for instance,
-    of Bitcoin Miner Earn Real Crypto (\website{https://play.google.com/store/apps/details?id=com.fumbgames.bitcoinminor}) and
-    Crypto Fortune Tycoon: BTCMiner (\website{https://play.google.com/store/apps/details?id=com.minertycoon.ripple}).
-\end{itemize}
-%
-In particular, after our research,
-we could not identify any existing mobile app for mining \emph{in} a phone.
+    This is the case, for instance, of Ct Pool~\cite{ctpool-google-play},
+    ViaBTC~\cite{viabtc-google-play},
+    ECOS~\cite{ecos-google-play},
+    Cloud Mining Bitcoin Crypto~\cite{cloudminingbitcoincrypto-google-play}
+    and MineX~\cite{minex-google-play}.
+(2) Dubious games that promise Bitcoins in exchange of solving tasks
+    or watching ads. This is the case, for instance,
+    of Bitcoin Miner Earn Real Crypto~\cite{bitcoinminerearnrealcrypto-google-play}
+    and Crypto Fortune Tycoon: BTCMiner~\cite{cryptofortunetycoonbtcminer-google-play}.
+In particular, our research did not find any app for actually mining \emph{in} a phone.

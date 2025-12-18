@@ -1,101 +1,96 @@
 \section{An Abstract Presentation of Mining}\label{sec:mining}
 
-The different mining algorithms can be actually presented
-inside a uniform setting. Namely, mining is a competitive game,
-played, concurrently and independently, by each peer of a blockchain network.
-Its goal is to choose which peer wins the right to create and add the \textbf{next}
-block to the stable chain of the blockchain. This block must be \emph{valid}, that is, respect
-all consensus rules, that are largely blockchain-specific. For example,
-\textbf{next} must point back to the previous top of the blockchain; and
-the transactions included in \textbf{next} must have valid signatures. But the
-actual list of consensus rules is quite larger and is not the topic of this paper.
-
-Mining algorithms can be presented as a game that works in terms of:
+Different mining algorithms can be presented
+inside the uniform setting of a competitive game
+played, concurrently and independently, by each peer of a blockchain network, with the
+goal to choose which peer wins the right to create and add the \textbf{next}
+block to the stable chain. This \textbf{next} must be \emph{valid}, that is, respect
+all consensus rules. For instance,
+it must point back to an existing block and
+include transactions with valid signatures
+(the full list of consensus rules is large and outside the topic of this paper).
+The mining game works in terms of:
 %
 \begin{itemize}
-\item \emph{challenge}: given the current chain $\xi$,
-  determine, deterministically, a challenge for \textbf{next};
+\item \emph{challenge}: from the current chain $\xi$,
+  compute, deterministically, a challenge for \textbf{next};
 \item \emph{answer}: create, if possible,
   a \textbf{next} that satisfies the challenge;
-\item \emph{competition}: in case of more possible \textbf{next}, prefer the \emph{best}
-  one \textit{wrt.\ }some notion of chain quality.
+\item \emph{competition}: among more possible \textbf{next}s, prefer the \emph{best}
+  one \wrt{} some notion of chain quality.
 \end{itemize}
 %
-Each peer performs the mining algorithm concurrently and independetly from the other peers,
+Each peer performs this mining algorithm,
 whispers its resulting \textbf{next} block to its
 connected peers and receives the \textbf{next} block of its connected peers. In case
 of more alternatives for \textbf{next}, the competition rule is used to choose the
-emerging winner. This gives rise to a \emph{consensus algorithm}, which uses the mining
+emerging winner. This gives rise to a \emph{consensus algorithm} that uses the mining
 algorithm as a subroutine.
 
-For proof of work, the general scheme for the mining algorithm becomes:
+For proof of work, the mining game becomes:
 %
 \begin{itemize}
 \item \emph{challenge}: compute an integer $\difficulty$ from $\xi$
-  and find a valid \textbf{next} such that
-  $\hash(\mathbf{next})\ge\difficulty$;
-\item \emph{answer}: create a \textbf{next} by rotating among possible
-  values for its nonce field, until $\hash(\textbf{next})\ge\difficulty$;
-\item in case of more possible \textbf{next}, prefer that with the largest hash.
+  and find a valid \textbf{next} such that $\hash(\mathbf{next})\ge\difficulty$;
+\item \emph{answer}: create a \textbf{next} by rotating the possible
+  values for its nonce field, until $\hash(\mathbf{next})\ge\difficulty$;
+\item among more possible \textbf{next}s, prefer that with the largest hash.
 \end{itemize}
 %
-The algorithm for computing $\difficulty$ is not relevant here.
-Moreover, note that Bitcoin's proof of work is traditionally specified
-in terms of the \emph{smallest} hash, but we preferred the equivalent
-definition above, given in terms of the largest hash,
-to match the intuition that a higher $\difficulty$ makes mining harder.
+The computation of $\difficulty$ is not relevant here.
+Moreover, Bitcoin's proof of work is usually given
+in terms of a \emph{smallest} hash, but we require (equivalently) the
+\emph{largest} hash to match the intuition that a higher $\difficulty$ makes mining harder.
 
-For proof of stake, the generally accepted idea is that there is
-\emph{no} mining~\cite{Kwon14}. However, a mining algorithm can be defined
-also in this case:
+For proof of stake, it is generally accepted that there is
+\emph{no} mining~\cite{Kwon14}, but a mining game can be defined also in this case:
 %
 \begin{itemize}
 \item \emph{challenge}: compute an integer $i$ from $\xi$ (the index of the chosen
-  validator) and find a valid \textbf{next};
+  validator);
 \item \emph{answer}: if this algorithm is run by the $i$th validator,
-  create a valid \textbf{next} block; otherwise, do not create any \textbf{next};
-\item in case of more possible \textbf{next}, choose any of them, since
+  create a valid \textbf{next} block; otherwise, do not create any \textbf{next} and
+  wait to receive one;
+\item among more possible \textbf{next}s, choose any of them, since
   the choice is irrelevant for what mining is concerned.
 \end{itemize}
 %
-The algorithm for computing $i$ is irrelevat here: often, a simple
-round-robin is used. Moreover, what is reported above is the mining
-algorithm, not the consensus algorithm, that is typically based on a Byzantine
-protocol of pre-votes and pre-commits~\cite{Kwon14}.
+The algorithm for computing $i$ is irrelevat here: often, it is a simple
+round-robin. Moreover, the consensus algorithm typically enriches the above
+mining algorithm with a Byzantine protocol of pre-votes and pre-commits~\cite{Kwon14}.
 
 Finally, proof of space, as presented in~\cite{Spoto25},
 is based on the idea that \textbf{next} must contain
 a data structure, called \emph{nonce}, that can be quickly recovered from a
-set of precomputed nonces on disk (called, a \emph{plot file}). The mining algorithm in this case
-becomes:
+set of precomputed nonces on disk (the \emph{plot file}). The mining game in this case is:
 %
 \begin{itemize}
 \item \emph{challenge}: compute some data $\kappa$ from $\xi$;
 \item \emph{answer}: create a valid \textbf{next} block, containing a nonce $\nu$
   derived from the plot file and from $\kappa$;
-\item in case of more possible \textbf{next}, choose that with the smallest
+\item among more possible \textbf{next}s, choose that with the smallest
   $\delay(\nu,\kappa)$, where $\nu$ is the nonce in \textbf{next}.
 \end{itemize}
 %
-The algorithm for computing the challenge $\kappa$ is irrelevant here. In any case,
-this $\kappa$ is used to choose a nonce from the plot file, whose quality measure,
-the inverse of $\delay$, is maximized. The key point of this proof of space algorithm
-is that the computation of the nonces (\emph{i.e.}, of the plot file) is so expensive
-that it cannot be done on-the-fly, at each mined block, but the plot file must be computed
-instead once and for all, before starting mining, and kept on disk to answer, quickly, the mining
-challenges. The consensus algorithm will use $\delay$ to wait until
-the moment when the block becomes valid.
+The algorithm for computing $\kappa$ is irrelevant here. In any case,
+$\kappa$ is used to select a nonce, from the plot file, that minimizes
+$\delay$. The key point of this proof of space algorithm
+is that the computation of the nonces (\ie{}, of the plot file) is so expensive
+that it cannot be done on-the-fly, for each mined block, but they must be computed
+once and for all, before starting mining, and kept on disk to answer, quickly, the mining
+challenges. The consensus algorithm uses $\delay$ to wait until the block becomes valid.
 
-This abstract presentation of mining has the nice property of making it clear
+This abstract presentation of mining makes it clear
 that mining is a subroutine whose input is the challenge derived from the current
-chain $\xi$ and whose output is the answer, that is, the information
+chain $\xi$ and whose output is the answer \ie{}, the information
 needed to create \textbf{next}:
-a nonce for proof of work and proof of space\footnote{Although the notion of nonce is
-different in the two cases.}, and a Boolean for proof of stake
-(create the block or rather let another validator create the block).
-This is shown in Fig.~\ref{fig:local_mining}, where the peer that creates the block
-and the miner that provides the answer to create the block are two distinct software
-parts of the same tool, working on the same machine.
+a nonce for proof of work and proof of space (although a different notion of nonce is
+used in either case), and a Boolean for proof of stake
+(create the block or rather let another validator do it).
+This is shown in Fig.~\ref{fig:local_mining}, where
+the miner that provides the answer to create \textbf{next}
+and the peer that actually creates \textbf{next}
+are distinct software parts of the same tool, working in the same machine.
 
 \begin{figure}[t]
   \begin{center}

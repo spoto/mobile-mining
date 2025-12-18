@@ -27,43 +27,43 @@ on proof of space, but it might mine for other blockchains in the future.
 
 Creation and activation of a miner works as follows:
 (1) the user specifies the URI (universal resource identifier) of a
-  blockchain peer running Mokamint and the desired dimension of the plot file
-  (Fig.~\ref{fig:mokaminter_add_miner}, above);
+  blockchain peer running Mokamint and the desired dimension of the plot file;
+  %(Fig.~\ref{fig:mokaminter_add_miner}, above);
 (2) the app creates a new private/public key pair to identify the miner,
   represented, as usual from Bitcoin's time~\cite{Antonopoulos23},
-  in terms of a $12$ words mnemonics (Fig.~\ref{fig:mokaminter_add_miner}, below);
+  in terms of a $12$ words mnemonics; % (Fig.~\ref{fig:mokaminter_add_miner}, below);
   alternatively, the user can insert the $12$ words of an existing key pair;
 (3) the app informs the user about the expected size of the plot file
-  and asks for confirmation (Fig.~\ref{fig:mokaminter_confirmation});
+  and asks for confirmation; % (Fig.~\ref{fig:mokaminter_confirmation});
 (4) if confirmed, the creation of the plot file starts in the background;
 (5) once the plot file is created, the app adds a miner tile
-  and activates a background process that mines by using the new plot file
-  (Fig.~\ref{fig:mokaminter_mining}).
+  and activates a background process that mines by using the new plot file.
+  %(Fig.~\ref{fig:mokaminter_mining}).
 
-\begin{figure}[t]
-  \begin{center}
-    \includegraphics[width=\textwidth/3]{pictures/mokaminter_add_miner}
-  \end{center}
-  \caption{Specification of the parameters for the creation of a miner.}
-  \label{fig:mokaminter_add_miner}
-\end{figure}
+%\begin{figure}[t]
+%  \begin{center}
+%    \includegraphics[width=\textwidth/3]{pictures/mokaminter_add_miner}
+%  \end{center}
+%  \caption{Specification of the parameters for the creation of a miner.}
+%  \label{fig:mokaminter_add_miner}
+%\end{figure}
 
-\begin{figure}[b]
-  \begin{center}
-    \includegraphics[width=\textwidth/3]{pictures/mokaminter_confirmation}
-  \end{center}
-  \caption{Confirmation is required before creating a new plot file.}
-  \label{fig:mokaminter_confirmation}
-\end{figure}
+%\begin{figure}[b]
+%  \begin{center}
+%    \includegraphics[width=\textwidth/3]{pictures/mokaminter_confirmation}
+%  \end{center}
+%  \caption{Confirmation is required before creating a new plot file.}
+%  \label{fig:mokaminter_confirmation}
+%\end{figure}
 
-\begin{figure}[t]
-  \begin{center}
-    \includegraphics[width=\textwidth/3]{pictures/mokaminter_mining}
-  \end{center}
-  \caption{A new tile for a miner, working in the background. Eventually, its
-  cryptocurrency balance will increase.}
-  \label{fig:mokaminter_mining}
-\end{figure}
+%\begin{figure}[t]
+%  \begin{center}
+%    \includegraphics[width=\textwidth/3]{pictures/mokaminter_mining}
+%  \end{center}
+%  \caption{A new tile for a miner, working in the background. Eventually, its
+%  cryptocurrency balance will increase.}
+%  \label{fig:mokaminter_mining}
+%\end{figure}
 
 \subsubsection*{Security Considerations}
 %
@@ -71,8 +71,8 @@ A lost or stolen phone is a relatively frequent event.
 If the private key of the miner were kept in the phone, who finds
 or steals the phone could also steal the cryptocurrency accumulated while mining.
 Therefore, Mokaminter has been designed to avoid storing private keys in the phone.
-Namely, after creating or importing the private/public key pair
-(Fig.~\ref{fig:mokaminter_add_miner}),
+Namely, after creating or importing the private/public key pair,
+%(Fig.~\ref{fig:mokaminter_add_miner}),
 only the public key is needed for creating the plot and for mining, and
 the app forgets the private key. On the negative side, this means
 that the user must not lose the $12$ words of the key pair,

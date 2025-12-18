@@ -1,49 +1,41 @@
 \section{The Mokaminter App}\label{sec:mokaminter}
 
-We have developed a mobile app, called Mokaminter,
-for mining with proof of space.
-This app creates and maintains a list of remote miners, each connected
+We have developed the Mokaminter app for mining with proof of space.
+It creates and maintains a list of remote miners, each connected
 to a blockchain peer (Fig.~\ref{fig:remote_mining}). It is possible
-to create more miners for peers of the same or of different blockchains.
-Mokaminter is an open-source app for Android, licensed under the Apache 2.0 terms. It can be installed
-from Google Play~\cite{mokaminter-google-play}. Its source code is available from~\cite{mokaminter-source-code}.
+to create more miners, for peers of the same or of different blockchains.
+Mokaminter is an open-source app for Android, distributed
+on Google Play~\cite{mokaminter-google-play} under
+the Apache 2.0 license. Its source code is available from~\cite{mokaminter-source-code}.
 
-Mokaminter is made for mining for peers of blockchains built through
-the Mokamint generic blockchain engine~\cite{mokamint}, that implements
-the proof of space algorithm in~\cite{Spoto25}. Mokamint is
-a software tool that implements the networking and consensus layers of
+Mokaminter works for blockchains built through
+the Mokamint generic engine~\cite{mokamint}, that implements
+the proof of space algorithm in~\cite{Spoto25}. Mokamint
+implements the networking and consensus layers of
 a blockchain, while the application layer is left generic and can be
-built on top of Mokamint. Currently, the Hotmoka software~\cite{hotmoka}
+built on top of Mokamint.
+This idea of a pluggable application layer has been borrowed from Tendermint~\cite{Kwon14}.
+Currently, the Hotmoka software~\cite{hotmoka}
 for running smart contracts in a subset of Java~\cite{Spoto19}
 is available as an application
-of Mokamint. This means that Mokaminter mines, at the moment,
+of Mokamint. Therefore Mokaminter mines, at the moment,
 for a blockchain with Java smart contracts whose consensus is based
 on proof of space, but it might mine for other blockchains in the future.
-Mokamint's idea of a generic blockchain engine with
-a pluggable application layer has been borrowed from Tendermint~\cite{Kwon14},
-that pioneered the same approach.
 
-The creation and activation of a miner with Mokaminter works as follows:
-%
-\begin{enumerate}
-\item the user specifies the URI (universal resource identifier) of a
-  blockchain peer running Mokamint and the size of the plot file for the miner
-  (Fig.~\ref{fig:mokaminter_add_miner}, upmost part of the screen);
-\item the app creates a new private/public key pair to identify the miner,
+Creation and activation of a miner works as follows:
+(1) the user specifies the URI (universal resource identifier) of a
+  blockchain peer running Mokamint and the desired dimension of the plot file
+  (Fig.~\ref{fig:mokaminter_add_miner}, above);
+(2) the app creates a new private/public key pair to identify the miner,
   represented, as usual from Bitcoin's time~\cite{Antonopoulos23},
-  in terms of a $12$ words mnemonics (Fig.~\ref{fig:mokaminter_add_miner},
-  lower part of the screen);
-  \begin{itemize}
-  \item alternatively, the user can insert the $12$ words of a key pair,
-    if she wants to use an existing one;
-  \end{itemize}
-\item the app informs the user about the expected size of the plot file
+  in terms of a $12$ words mnemonics (Fig.~\ref{fig:mokaminter_add_miner}, below);
+  alternatively, the user can insert the $12$ words of an existing key pair;
+(3) the app informs the user about the expected size of the plot file
   and asks for confirmation (Fig.~\ref{fig:mokaminter_confirmation});
-\item if confirmed, the creation of the plot file runs in the background;
-\item once the plot file is created, the app adds a miner tile
+(4) if confirmed, the creation of the plot file starts in the background;
+(5) once the plot file is created, the app adds a miner tile
   and activates a background process that mines by using the new plot file
   (Fig.~\ref{fig:mokaminter_mining}).
-\end{enumerate}
 
 \begin{figure}[t]
   \begin{center}
@@ -72,68 +64,60 @@ The creation and activation of a miner with Mokaminter works as follows:
 
 \subsubsection*{Security Considerations}
 %
-A lost or stolen mobile phone is a relatively frequent event.
-If the private key of the miner were kept in the mobile phone, who finds
-or steals the phone would be able to access and steal the cryptocurrency
-accumulated while mining.
-Because of this, it has been an explicit design choice for Mokaminter to avoid
-storing the private key of the miners in the mobile phone.
-Namely, after creating or importing the private/public key pair (Fig.~\ref{fig:mokaminter_add_miner}),
-only the public key is used for creating the plot and the nonces,
-and the app forgets the private key. On a negative side, this means
-that the user must keep the $12$ words in a safe place and never lose them,
+A lost or stolen phone is a relatively frequent event.
+If the private key of the miner were kept in the phone, who finds
+or steals the phone could also steal the cryptocurrency accumulated while mining.
+Therefore, Mokaminter has been designed to avoid storing private keys in the phone.
+Namely, after creating or importing the private/public key pair
+(Fig.~\ref{fig:mokaminter_add_miner}),
+only the public key is needed for creating the plot and for mining, and
+the app forgets the private key. On the negative side, this means
+that the user must not lose the $12$ words of the key pair,
 or otherwise access to the earned cryptocurrency becomes impossible.
 
 \subsubsection*{Usability Considerations}
 %
 A mobile app has quite different usability considerations
-from those of a desktop application.
+than a desktop application.
 %
-A first consideration is about giving feedback to the user.
-In a desktop application, the user could check warnings or error messages, as
-well as the logs of the running application. In a mobile app, this is possible
-but not comfortable for the average user. Therefore, Mokaminter gives feedback through
-a heartbeat graphical effect that informs the user that the miner is
-actually working, producing nonces. Moreover, network disconnection
-is represented by turning the miner's tile grey in the list of miners.
+A first one is about feedback.
+In a desktop application, the user could check warnings, error messages and logs.
+In a mobile app, this is possible
+but uncomfortable for most users. Therefore, Mokaminter gives feedback through
+a heartbeat graphical effect that informs the user that it is
+actually mining, producing nonces. Moreover, network disconnection
+turns the miner's tile gray in the list of miners.
 %
 Another usability issue is related to the insertion of the
-$12$ words, if an existing key pair is imported.
-Inserting words on a mobile phone, through a software keyboard, is frustrating
-and error-prone.
-Therefore, Mokaminter suggests the possible words while typing, so that
-the user can autocomplete them.
+$12$ words, to import and existing key pair.
+This is frustrating and error-prone in a mobile phone, through a software keyboard.
+Thus, Mokaminter suggests the possible words while typing and the user can
+autocomplete them.
 %
-A last issue is about the risk of specifying a plot file's size
-that is too large to complete the creation of the plot in a reasonable time:
-it would hang the mobile phone and drain its battery. To avoid this risk,
-Mokaminter imposes a maximum size for the plot file, that can be
-overridden, but only by an explicit choice of the user.
+A last issue is the risk of specifying a plot dimension that is
+too large to complete the plot's creation in a reasonable time:
+this would hang the phone and drain its battery. To avoid this risk,
+Mokaminter imposes a maximum plot dimension, that can only be
+overridden by an explicit choice of the user.
 
 \subsubsection*{Technical Considerations}
 %
-Mokaminter connects to the blockchain peers by using websockets,
+Mokaminter uses websockets for network connections,
 that perfectly match the continuous, bidirectional flow of challenges
-and answers (Fig.~\ref{fig:remote_mining}). However, network connection in a
-mobile phone is unreliable in comparison to that of a desktop computer, since
-it gets lost frequently (thick walls, tunnels, network switches).
-Mokaminter automatically tries to reconnect whenever the connection gets down or
+and answers (Fig.~\ref{fig:remote_mining}). But network connection in a
+mobile phone is less reliable than that of a desktop computer, since
+it gets frequently lost (thick walls, tunnels, network switches).
+Mokaminter automatically tries to reconnect when the connection is lost or
 no challenges have been received for an extended period of time. If it fails, it
 tries again after a minute, to avoid draining the battery with
 very frequent reconnection attempts.
 %
 Another technical issue is related to the background task for mining.
-The Android system is becoming more and more restrictive with background
-tasks, since they might consume battery power. There are official guidelines
-for them, but these guidelines changed often
-across different Android versions. Moreover,
-phone productors often add extra constraints. On many phones, the Android system
-turns off Mokaminter overnight, when
-the system enters a special \emph{doze mode}. If this happens, it is enough
-to turn it on again in the morning. A better solution does not seem in sight,
-at the moment.
+The Android system is extremely restrictive with background
+tasks, since they might drain the battery. There are official guidelines
+for them, but they changed across different Android versions and
+phone manufacturers often add extra constraints. Many phones
+turn Mokaminter off overnight, when
+the Android system enters a special \emph{doze mode}. If this happens, it is enough
+to turn it on again in the morning. A better solution does not seem in sight, at the moment.
 
-The next section reports experiments with Mokaminter and measures
-the main quality metrics for the app: the amount of data exchanged
-and the percentage of CPU used for mining. If these were too high,
-Mokaminter would not be usable.

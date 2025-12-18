@@ -28,6 +28,8 @@
 \newcommand{\hash}{{\mathit{hash}}}
 \newcommand{\difficulty}{{\mathit{difficulty}}}
 \newcommand{\delay}{{\mathit{delay}}}
+\newcommand{\ie}{\emph{i.e.}\@}
+\newcommand{\wrt}{\emph{wrt.}\@}
 
 \colorlet{lightred}{red!50!white}
 \colorlet{verylightgray}{gray!25!white}
@@ -62,22 +64,21 @@ Email: \IEEEauthorrefmark{1}\email{ana.zandomeneghi@ufma.br},
 \maketitle
 
 \begin{abstract}
-  This paper advocates the use of mobile phones as blockchain mining devices.
-  Namely, mobile phones form a large and cheap hardware base for mining, which is
-  interesting, in particular, during the start-up phase of a new blockchain, when it might
-  be difficult to convince people to install a complex software product
-  on a continously connected computer. It acknowledges that mining on mobile phones
-  has hardware requirements that make it impractical for most mining algorithms,
-  but it identifies the notable exception of proof of space. Namely, the latter mining
-  algorithm preallocates
-  a large data structure on disk, that is later used for mining, with an
-  algorithm that is inexpensive in terms of CPU execution and data exchanged. Therefore,
-  proof of space matches perfectly the limited resources of a mobile phone.
-  This paper presents Mokaminter, a new Android app for mining blockchains based
+  This paper advocates the use of mobile phones for blockchain mining.
+  Namely, mobile phones are a large and cheap hardware base, which is
+  interesting, in particular, to start up a new blockchain, when it is
+  difficult to convince people to install some complex software
+  on a continously connected computer. This paper acknowledges that mobile phones
+  have hardware limitations that make most mining algorithms impractical,
+  with the notable exception of proof of space. The latter preallocates
+  a large data structure on disk, later used for mining with an
+  inexpensive algorithm, in terms of CPU cost and exchanged data: this
+  copes with the limited resources of a mobile phone.
+  This paper presents our new Android app Mokaminter for mining blockchains based
   on the generic Mokamint proof of space engine.
-  It reports experiments with Mokaminter, that confirm its low battery usage,
-  the reduced amount of data exchanged during mining and its ability to work
-  also in adverse network conditions. To the best of our knowlegde,
+  It experiments with Mokaminter, to confirm its low battery usage,
+  reduced exchanged data and ability to work
+  in adverse network conditions. To the best of our knowlegde,
   Mokaminter is the first mobile app for mining.
 \end{abstract}
 

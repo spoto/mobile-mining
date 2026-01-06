@@ -1,15 +1,15 @@
 \section{An Abstract Presentation of Mining}\label{sec:mining}
 
-Different mining algorithms can be presented
+Different mining algorithms fit
 inside the uniform setting of a competitive game
-played, concurrently and independently, by each peer of a blockchain network, with the
-goal to choose which peer wins the right to create and add the \textbf{next}
-block to the stable chain. This \textbf{next} must be \emph{valid}, that is, respect
+played, concurrently and independently, by the peers of a blockchain network, whose
+goal is to decide which peer may add a \emph{valid} \textbf{next}
+block to the stable chain. \emph{Valid} means that it respects
 all consensus rules. For instance,
-it must point back to an existing block and
-include transactions with valid signatures
-(the full list of consensus rules is large and outside the topic of this paper).
-The mining game works in terms of:
+it points back to an existing block and
+includes transactions with valid signatures
+(the full, large list of consensus rules is outside the topic of this paper).
+The game works in terms of:
 %
 \begin{itemize}
 \item \emph{challenge}: from the current chain $\xi$,
@@ -20,11 +20,11 @@ The mining game works in terms of:
   one \wrt{} some notion of chain quality.
 \end{itemize}
 %
-Each peer performs this mining algorithm,
-whispers its resulting \textbf{next} block to its
-connected peers and receives the \textbf{next} block of its connected peers. In case
-of more alternatives for \textbf{next}, the competition rule is used to choose the
-emerging winner. This gives rise to a \emph{consensus algorithm} that uses the mining
+Each peer runs this mining algorithm,
+whispers its resulting \textbf{next} to its
+connected peers and receives the \textbf{next} of its connected peers. In case
+of more alternative \textbf{next}s, the competition rule lets one choose the
+winner. This gives rise to a \emph{consensus algorithm} that uses the mining
 algorithm as a subroutine.
 
 For proof of work, the mining game becomes:
@@ -34,7 +34,7 @@ For proof of work, the mining game becomes:
   and find a valid \textbf{next} such that $\hash(\mathbf{next})\ge\difficulty$;
 \item \emph{answer}: create a \textbf{next} by rotating the possible
   values for its nonce field, until $\hash(\mathbf{next})\ge\difficulty$;
-\item among more possible \textbf{next}s, prefer that with the largest hash.
+\item among more \textbf{next}s, prefer that with the largest hash.
 \end{itemize}
 %
 The computation of $\difficulty$ is not relevant here.
@@ -48,11 +48,11 @@ For proof of stake, it is generally accepted that there is
 \begin{itemize}
 \item \emph{challenge}: compute an integer $i$ from $\xi$ (the index of the chosen
   validator);
-\item \emph{answer}: if this algorithm is run by the $i$th validator,
-  create a valid \textbf{next} block; otherwise, do not create any \textbf{next} and
-  wait to receive one;
+\item \emph{answer}: the $i$th validator
+  creates a valid \textbf{next}; the others do not create anything and
+  wait to receive \textbf{next};
 \item among more possible \textbf{next}s, choose any of them, since
-  the choice is irrelevant for what mining is concerned.
+  this should not occur for this mining algorithm.
 \end{itemize}
 %
 The algorithm for computing $i$ is irrelevat here: often, it is a simple
@@ -72,25 +72,25 @@ set of precomputed nonces on disk (the \emph{plot file}). The mining game in thi
   $\delay(\nu,\kappa)$, where $\nu$ is the nonce in \textbf{next}.
 \end{itemize}
 %
-The algorithm for computing $\kappa$ is irrelevant here. In any case,
+The computation of $\kappa$ is irrelevant here. In any case,
 $\kappa$ is used to select a nonce, from the plot file, that minimizes
-$\delay$. The key point of this proof of space algorithm
+$\delay$. The key point of this mining algorithm
 is that the computation of the nonces (\ie{}, of the plot file) is so expensive
-that it cannot be done on-the-fly, for each mined block, but they must be computed
-once and for all, before starting mining, and kept on disk to answer, quickly, the mining
+that it cannot be done on-the-fly, for each mined block, but rather
+once and for all, before starting mining. The plot remains on disk to answer, quickly, mining
 challenges. The consensus algorithm uses $\delay$ to wait until the block becomes valid.
 
-This abstract presentation of mining makes it clear
+This abstract presentation of mining clarifies
 that mining is a subroutine whose input is the challenge derived from the current
 chain $\xi$ and whose output is the answer \ie{}, the information
 needed to create \textbf{next}:
 a nonce for proof of work and proof of space (although a different notion of nonce is
 used in either case), and a Boolean for proof of stake
 (create the block or rather let another validator do it).
-This is shown in Fig.~\ref{fig:local_mining}, where
+Fig.~\ref{fig:local_mining} shows this:
 the miner that provides the answer to create \textbf{next}
 and the peer that actually creates \textbf{next}
-are distinct software parts of the same tool, working in the same machine.
+are separate software parts of the same tool, working in the same machine.
 
 \begin{figure}[t]
   \begin{center}

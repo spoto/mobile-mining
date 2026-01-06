@@ -1,12 +1,11 @@
 \section{Remote Mining on a Mobile Phone}\label{sec:remote_mining}
 
-It seems natural to move the two software parts in
-Fig.~\ref{fig:local_mining} into distinct machines connected by a network,
+It seems useful to move the two software parts in
+Fig.~\ref{fig:local_mining} to distinct machines connected by a network,
 as in Fig.~\ref{fig:remote_mining}.
-This is because many users want to run a miner, and earn cryptos,
-but only a few are typically interested in running a full blockchain peer in their machine,
-which requires technical skills, database space, a very good internet connection
-and a dedicated machine.
+Namely, many users want to run a miner and earn cryptos,
+but only a few are interested in running a full blockchain peer on a dedicated machine,
+which requires technical skills, database space and a very good internet connection.
 %
 \begin{figure}[b]
   \begin{center}
@@ -32,28 +31,28 @@ and a dedicated machine.
   \caption{Peer and remote miner connected through a network.}\label{fig:remote_mining}
 \end{figure}
 %
-However, this graphically simple modification might result useless or impractical,
-depending on the characteristics of the mining algorithm and of the machine
-where the remote miner will run. Let us consider, in particular, the case when the latter
-is a mobile phone and the mining algorithm is one of those discussed
-in Sec.~\ref{sec:introduction}.
+But this graphically simple modification might result useless or impractical,
+depending on the mining algorithm and on the machine
+where the remote miner will run. Let us consider, in particular, the case when
+the mining algorithm is one of those discussed
+in Sec.~\ref{sec:introduction} and the miner is a mobile phone.
 
 \subsubsection*{Proof of work}
 %
 In this case, the challenge includes the full block being
 created, since its nonce must maximize its hash.
-For Bitcoin, a block can be up to 1~MB, or even 4~MB after the Segregated Witness upgrade.
-This data must be exchanged for the creation of \emph{each} block, which is hard in many
-countries, where mobile internet is slow; moreover, most mobile operators fix a maximum number of
-GB exchanged in the month, which would be easily exhausted; finally, the computational cost
-of proof of work would drain the phone's battery. These considerations are enough
-to conclude that, at the moment, mining with proof of work, on a mobile phone,
-for a global blockchain such as Bitcoin, is irrealistic.
+For Bitcoin, a block's size is up to 4~MB after the Segregated Witness upgrade.
+This data must be exchanged at \emph{each} block creation, impossible in many
+countries where mobile internet is slow; moreover, most mobile operators limit
+the exchanged GB per month; finally, the computational cost
+of proof of work would drain the phone's battery. Consequently,
+at the moment, mining with proof of work is irrealistic on a mobile phone,
+for a global blockchain such as Bitcoin.
 
 \subsubsection*{Proof of stake}
 %
 In this case, mining is very cheap and limited to the validators. The exchanged data is minimal.
-But validators have no reason to offload the very simple mining activity.
+But validators have no reason to offload their very simple mining activity.
 Therefore, mining on a mobile phone is possible for proof of stake, but it does
 not seem of any practical interest.
 
@@ -61,9 +60,9 @@ not seem of any practical interest.
 %
 In this last case, mining requires the use of disk space, but no significant
 CPU power. Currently, mobile phones have an average disk space
-of 256~GB, smaller than the average 1000~GB of desktop computers, but still significant.
-Moreover, the proof of space of~\cite{Spoto25} uses very small challenges (around 64 bytes)
-and answers (nonces, compacted into \emph{deadlines} of around 200 bytes).
+of 256~GB, smaller than the average 1000~GB of desktop computers but still significant.
+Moreover, the proof of space of~\cite{Spoto25} uses very small challenges (around 64~bytes)
+and answers (nonces, compacted into \emph{deadlines} of around 200~bytes).
 The block being created is not needed for mining. This makes that
 algorithm ideal for a remote miner in a mobile phone:
 no need of significant CPU power, enough disk space in the phone and little data exchange.

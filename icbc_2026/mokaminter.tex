@@ -2,14 +2,13 @@
 
 We have developed the Mokaminter app for mining with proof of space.
 It creates and maintains a list of remote miners, each connected
-to a blockchain peer (Fig.~\ref{fig:remote_mining}). It is possible
-to create more miners, for peers of the same or of different blockchains.
+to a peer of the same or of different blockchains.
 Mokaminter is an open-source app for Android, distributed
 on Google Play~\cite{mokaminter-google-play} under
 the Apache 2.0 license. Its source code is available from~\cite{mokaminter-source-code}.
-An iPhone version might be available
-in the future, but it would be more difficult since
-it could not leverage the existing Java libraries used for desktop miners.
+An iPhone version might be available eventually,
+but it is difficult to create since
+it cannot leverage existing Java libraries from desktop miners.
 
 Mokaminter works for blockchains built through
 the Mokamint generic engine~\cite{mokamint}, that implements
@@ -22,7 +21,7 @@ Currently, the Hotmoka software~\cite{hotmoka}
 for running smart contracts in a subset of Java~\cite{Spoto19}
 is available as an application
 of Mokamint. Therefore Mokaminter mines, at the moment,
-for a blockchain with Java smart contracts whose consensus is based
+for a blockchain with smart contracts in Java whose consensus is based
 on proof of space, but it might mine for other blockchains in the future.
 
 Creation and activation of a miner works as follows:
@@ -108,7 +107,7 @@ overridden by an explicit choice of the user.
 Mokaminter uses websockets for network connections,
 that perfectly match the continuous, bidirectional flow of challenges
 and answers (Fig.~\ref{fig:remote_mining}). But network connection in a
-mobile phone is less reliable than that of a desktop computer, since
+mobile phone is less reliable than in a desktop computer, since
 it gets frequently lost (thick walls, tunnels, network switches).
 Mokaminter automatically tries to reconnect when the connection is lost or
 no challenges have been received for an extended period of time. If it fails, it
@@ -122,5 +121,6 @@ for them, but they changed across different Android versions and
 phone manufacturers often add extra constraints. Many phones
 turn Mokaminter off overnight, when
 the Android system enters a special \emph{doze mode}. If this happens, it is enough
+for the user
 to turn it on again in the morning. A better solution does not seem in sight, at the moment.
 

@@ -1,0 +1,111 @@
+\documentclass[
+% twocolumn,
+% hf,
+]{ceurart}
+
+%%
+%% One can fix some overfulls
+\sloppy
+
+%%
+%% Minted listings support 
+%% Need pygment <http://pygments.org/> <http://pypi.python.org/pypi/Pygments>
+%\usepackage{listings}
+%% auto break lines
+%\lstset{breaklines=true}
+
+%\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{url}
+\usepackage{mathtools}
+\usepackage{relsize}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{arrows.meta}
+
+\DeclareUrlCommand\email{\urlstyle{tt}}
+\DeclareUrlCommand\website{\urlstyle{same}}
+\DeclareUrlCommand\directory{\urlstyle{same}}
+\newcommand{\hash}{{\mathit{hash}}}
+\newcommand{\difficulty}{{\mathit{difficulty}}}
+\newcommand{\delay}{{\mathit{delay}}}
+\newcommand{\ie}{\emph{i.e.}\@}
+\newcommand{\wrt}{\emph{wrt.}\@}
+
+\colorlet{lightred}{red!50!white}
+\colorlet{verylightgray}{gray!25!white}
+
+\newcommand{\computer}{\includegraphics[width=1.3cm]{pictures/computer}}
+\newcommand{\leftArrow}{\includegraphics[width=0.6cm]{pictures/left_arrow}}
+\newcommand{\signature}{\includegraphics[width=0.3cm]{pictures/signature}}
+\newcommand{\leftplug}{\includegraphics[width=0.7cm]{pictures/plug_left}}
+\newcommand{\rightplug}{\includegraphics[width=0.7cm]{pictures/plug_right}}
+\newcommand{\ssd}{\includegraphics[width=0.8cm]{pictures/ssd}}
+
+\begin{document}
+
+\copyrightyear{2026}
+\copyrightclause{Copyright for this paper by its authors.
+  Use permitted under Creative Commons License Attribution 4.0
+  International (CC BY 4.0).}
+
+%%
+%% This command is for the conference information
+\conference{DLT'26: 8th Distributed Ledger Technology Workshop, June 04--06, 2026, Pula, Italy}
+
+%%
+%% The "title" command
+\title{Mobile Mining for Proof of Space}
+%\thanks{Thank funding institutions, if any.}
+
+%%
+%% The "author" command and its associated commands are used to define
+%% the authors and their affiliations.
+\author[1]{Fausto Spoto}[%
+orcid=0000-0003-2973-0384,
+email=fausto.spoto@univr.it
+]
+\cormark[1]
+\fnmark[1]
+\address[1]{Dipartimento di Informatica, Universit\`a di Verona, Verona, Italy}
+
+\author[2]{Ana Lucia Zandomeneghi}[%
+orcid=0000-0001-6140-8841,
+email=ana.zandomeneghi@ufma.br
+]
+\fnmark[1]
+\author[2]{Jos\'e Renato de Oliveira Lima}[%
+orcid=0000-0001-7723-1454,
+email=renato.jose@ufma.br
+]
+\fnmark[1]
+\address[2]{Bacharelado Interdisciplinar em Ci\^encia e Tecnologia (BICT), UFMA, S\~ao Lu\'{\i}s do Maranh\~ao, Brazil}
+
+\cortext[1]{Corresponding author.}
+\fntext[1]{These authors contributed equally.}
+
+\maketitle
+
+%%
+%% Keywords. The author(s) should pick words that accurately describe
+%% the work being presented. Separate the keywords with commas.
+\begin{keywords}
+  blockchain \sep
+  proof of space \sep
+  mining \sep
+  mobile mining \sep
+  energy consumption
+\end{keywords}
+
+\input{extended_abstract}
+
+\bibliography{biblio}
+
+\end{document}

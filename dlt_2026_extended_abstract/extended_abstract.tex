@@ -1,0 +1,76 @@
+\section{Extended Abstract}\label{sec:extended_abstract}
+
+This paper advocates the use of mobile phones or tablets for blockchain mining.
+Namely, they form a large and cheap hardware base, which is
+interesting, in particular, to start up a new blockchain, when it is
+hard to convince people to install complex software
+on a continuously connected computer. This paper acknowledges that mobile phones
+and tablets have hardware limitations that make most mining algorithms impractical,
+with the notable exception of proof of space.
+
+Namely, proof of space~\cite{AbusalahACKPR17,AtenieseBFG14,CohenP19,DziembowskiFKP15,ParkKFGAP18,RenD16,Spoto25}
+is a mining algorithm where disk (currently SSD) space
+is used instead of CPU power.
+With proof of space, blocks carry evidence
+of the allocation of a large data structure on disk for their creation.
+The larger that structure, the higher the likelihood that
+blocks get included in the stable chain. Proof of space is decentralized like
+Bitcoin's proof of work and ecological like proof of stake.
+More specifically, this paper builds on the proof of space algorithm formalized in~\cite{Spoto25},
+where a preliminary, expensive
+\emph{plotting phase} allocates large data on disk,
+which is later used in a
+cheap, inexpensive \emph{mining phase} to quickly answer
+block creation challenges received from blockchain peers.
+
+Mobile mining with a mobile phone or tablet is appealing because:
+%
+\begin{itemize}
+\item it leverages a huge existing hardware base of devices, that otherwise remain idle
+  for most of the time;
+\item it introduces mining to a large portion of humanity, who owns a
+  phone and a limited internet connection, but not a powerful, well-connected computer;
+\item it can be easily updated, thanks to the automatic update system of mobile devices;
+\item it simplifies the start-up of new blockchains, since it is easier to convince people
+  to install an app than to run and maintain a software on an always connected computer.
+\end{itemize}
+%
+Despite that, mobile mining has not been used yet because of obvious limitations
+of mobile devices \wrt{} CPU power, battery capacity and network bandwidth, in particular
+in least favorite countries.
+This paper shows that
+proof of space emerges as a niche solution here, whose mining
+is largely insensitive to these limitations.
+
+This paper makes the following contributions:
+%
+\begin{enumerate}
+\item it presents mobile mining, its power and limitations;
+\item it shows how proof of space emerges as a niche solution here, insensitive
+  to such limitations;
+\item it presents Mokaminter, our actual Android app for mobile mining with proof of space;
+\item it reports experiments with Mokaminter, showing its extremely low
+  CPU use, memory use, battery consumption and amount of exchanged data.
+\end{enumerate}
+
+Mokaminter runs only a miner in the phone, not a full blockchain
+peer, which would be prohibitive for the size of the blockchain,
+that of its state database, the amount of data exchanged and the computational
+cost. The blockchain peer is an external computer, to which the phone connects.
+
+For the best of our knowledge, Mokaminter is the only existing software able
+to mine with a mobile phone or tablet. Namely,
+a simple search on Google Play reports a few Android apps for
+\emph{crypto mining}. Despite their name, these apps are not miners, but either:
+mobile dashboards to cloud pool miners (\ie{}, mining occurs in the cloud and
+the app is just monitoring)
+or dubious games that promise Bitcoins in exchange for solving tasks
+or watching ads.
+
+Mokaminter is an open-source application~\cite{mokaminter-source-code}
+distributed on Google Play~\cite{mokaminter-google-play}
+under the terms of the Apache 2.0 License. It mines for all
+blockchains based on the Mokamint generic tool for building
+blockchains based on proof of space~\cite{mokamint-source-code}. Currently,
+the Hotmoka blockchain~\cite{hotmoka} is
+built over Mokamint, therefore Mokaminter can be used for mining for Hotmoka.

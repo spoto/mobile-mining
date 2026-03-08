@@ -5,6 +5,9 @@
 *.log
 *.out
 *.vtc
+*.xmpdata
+*.abs
+pdfa.xmpi
 *~
 *.pdf
 slides/*.nav

@@ -34,7 +34,7 @@ For proof of work, the mining game becomes:
   and find a valid \textbf{next} such that $\hash(\mathbf{next})\ge\difficulty$;
 \item \emph{answer}: create a \textbf{next} by rotating the possible
   values for its nonce field, until $\hash(\mathbf{next})\ge\difficulty$;
-\item among more \textbf{next}s, prefer that with the largest hash.
+\item \emph{competition}: among more \textbf{next}s, prefer that with the largest hash.
 \end{itemize}
 %
 The computation of $\difficulty$ is not relevant here.
@@ -51,7 +51,7 @@ For proof of stake, it is generally accepted that there is
 \item \emph{answer}: the $i$th validator
   creates a valid \textbf{next}; the others do not create anything and
   wait to receive \textbf{next};
-\item among more possible \textbf{next}s, choose any of them, since
+\item \emph{competition}: among more possible \textbf{next}s, choose any of them, since
   this should not occur for this mining algorithm.
 \end{itemize}
 %
@@ -68,12 +68,11 @@ set of precomputed nonces on disk (the \emph{plot file}). The mining game in thi
 \item \emph{challenge}: compute some data $\kappa$ from $\xi$;
 \item \emph{answer}: create a valid \textbf{next} block, containing a nonce $\nu$
   derived from the plot file and from $\kappa$;
-\item among more possible \textbf{next}s, choose that with the smallest
+\item \emph{competition}: among more possible \textbf{next}s, choose that with the smallest
   $\delay(\nu,\kappa)$, where $\nu$ is the nonce in \textbf{next}.
 \end{itemize}
 %
-The computation of $\kappa$ is irrelevant here. In any case,
-$\kappa$ is used to select a nonce, from the plot file, that minimizes
+The challenge $\kappa$ is used to select a nonce, from the plot file, that minimizes
 $\delay$. The key point of this mining algorithm
 is that the computation of the nonces (\ie{}, of the plot file) is so expensive
 that it cannot be done on-the-fly, for each mined block, but rather
@@ -87,28 +86,86 @@ needed to create \textbf{next}:
 a nonce for proof of work and proof of space (although a different notion of nonce is
 used in either case), and a Boolean for proof of stake
 (create the block or rather let another validator do it).
-Fig.~\ref{fig:local_mining} shows this:
+Fig.~\ref{fig:mining} shows this:
 the miner that provides the answer to create \textbf{next}
 and the peer that actually creates \textbf{next}
-are separate software parts of the same tool, working in the same machine.
+are separate software parts of the same tool. Traditionally,
+such software parts work in the same machine.
+But they have been already moved to different machine, for instance in pool
+mining architectures, where a single peer leverages the power of many, remote
+miners, working in different machines and connected through a network
+(Fig.~\ref{fig:mining}).
+Namely, many users want to run a miner and earn cryptos,
+but only a few are interested in running a full blockchain peer on a dedicated machine,
+which requires technical skills, database space and a very good internet connection.
 
 \begin{figure}[t]
   \begin{center}
     \begin{tikzpicture}
-      \draw [fill=VioletRed,thick] (0,0) rectangle +(3,1.5);
-      \draw (1.5,0.75) node {{\scriptsize bockchain peer}};
+      \draw [fill=verylightviolet,thick] (-0.5,-0.3) rectangle +(4,4.7);
+      \draw (1.5,2.5) node {blockchain peer};
+      \draw (1.5,1.9) node {{\small (networking, consensus}};
+      \draw (1.5,1.5) node {{\small and application)}};
 
-      \draw [fill=lightred,thick] (5,0.35) rectangle +(2,0.8);
-      \draw (6.0,0.75) node {{\scriptsize local miner}};
+      \draw [fill=verylightred,thick] (7,3) rectangle +(2,0.8);
+      \draw (8.0,3.4) node {$\text{miner}_1$};
+      \draw[->, thick] (3.5,3.65) -- (7,3.65);
+      \draw (5.25,3.85) node {{\small challenges}};
+      \draw[<-, thick] (3.5,3.15) -- (7,3.15);
+      \draw (5.25,2.9) node {{\small answers}};
+      \draw (5.25,2.65) node {{\scriptsize (in this paper, nonces)}};
 
-      \draw[->, thick] (3,1.0) -- (5,1.0);
-      \draw (4.0,1.2) node {{\scriptsize challenges}};
+      \draw (8.0,2.075) node {$\vdots$};
 
-      \draw[<-, thick] (3,0.5) -- (5,0.5);
-      \draw (4.0,0.25) node {{\scriptsize answers}};
-
+      \draw [fill=verylightred,thick] (7,0.35) rectangle +(2,0.8);
+      \draw (8.0,0.75) node {$\text{miner}_n$};
+      \draw[->, thick] (3.5,1.0) -- (7,1.0);
+      \draw (5.25,1.2) node {{\small challenges}};
+      \draw[<-, thick] (3.5,0.5) -- (7,0.5);
+      \draw (5.25,0.25) node {{\small answers}};
+      \draw (5.25,0) node {{\scriptsize (in this paper, nonces)}};
     \end{tikzpicture}
   \end{center}
-  \caption{Peer and local miner as separate software parts in the same machine.}\label{fig:local_mining}
+  \caption{Blockchain peer and miner(s) as separate software tools, possibly
+    running in different machines connected through a network.}\label{fig:mining}
 \end{figure}
 
+Up to now, the machines where the miners are running
+are computers or specialized, very expensive hardware. The goal of this article
+is to allow such miners to run inside a mobile device as well.
+But this might result impossible or impractical,
+depending on the mining algorithm and on the machine
+where the miner will run. Let us consider, in particular, the case when
+the mining algorithm is one of those discussed
+in Sec.~\ref{sec:introduction}.
+
+\subsubsection*{Proof of work}
+%
+In this case, the challenge includes the full block being
+created, since its nonce must maximize its hash.
+For Bitcoin, a block's size is up to 4~MB after the Segregated Witness upgrade.
+This data must be exchanged at \emph{each} block creation, impossible in many
+countries where mobile internet is slow; moreover, most mobile operators limit
+the exchanged GB per month; finally, the computational cost
+of proof of work would drain the battery of the mobile device. Consequently,
+at the moment, mining with proof of work is irrealistic on a mobile device,
+for a global blockchain such as Bitcoin.
+
+\subsubsection*{Proof of stake}
+%
+In this case, mining is very cheap and limited to the validators. The exchanged data is minimal.
+But validators have no reason to offload their very simple mining activity.
+Therefore, mining on a mobile device is possible for proof of stake, but it does
+not seem of any practical interest.
+
+\subsubsection*{Proof of space}
+%
+In this last case, mining requires the use of disk space, but no significant
+CPU power. Currently, mobile devices have an average disk space
+of 256~GB, smaller than the average 1000~GB of desktop computers but still significant.
+Moreover, the proof of space of~\cite{Spoto25} uses very small challenges (around 64~bytes)
+and answers (nonces, compacted into \emph{deadlines} of around 200~bytes).
+The block being created is not needed for mining. This makes that
+algorithm ideal for a remote miner in a mobile device:
+no need of significant CPU power, enough disk space in the device and little data exchange.
+This is why it has been the choice for the implementation of our Mokaminter app.

@@ -15,7 +15,10 @@
 %\lstset{breaklines=true}
 
 %\usepackage{cite}
-\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{amssymb,amsmath,amsthm,amsfonts}
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\usepackage{mathtools} % Bonus
 \usepackage{algorithmic}
 \usepackage{graphicx}
 \usepackage{textcomp}
@@ -23,12 +26,30 @@
 \usepackage{url}
 \usepackage{mathtools}
 \usepackage{relsize}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{amsfonts}
 \usepackage{tikz}
 \usetikzlibrary{decorations.pathreplacing}
 \usetikzlibrary{arrows.meta}
+
+\usepackage[ruled,vlined]{algorithm2e}
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+\SetKwInOut{Ensures}{Ensures}
+\SetKwInOut{Throws}{Throws}
+\SetKw{Throw}{throw}
+\SetKw{ThrowsKw}{throws}
+\SetKw{Continue}{continue}
+\SetKw{Var}{var}
+\SetKw{Or}{or}
+\SetKw{And}{and}
+\SetKw{Not}{not}
+\SetKw{record}{record}
+\SetKwProg{function}{function}{}{end}
+\SetKwProg{procedure}{procedure}{}{end}
+\SetKwProg{thread}{thread}{}{end}
+\SetKwProg{try}{try}{}{}
+\SetKwProg{catch}{catch}{}{end}
+\SetKwProg{forever}{forever}{}{end}
+\SetKwProg{synchronized}{synchronized}{}{end}
 
 \DeclareUrlCommand\email{\urlstyle{tt}}
 \DeclareUrlCommand\website{\urlstyle{same}}
@@ -38,7 +59,8 @@
 \newcommand{\delay}{{\mathit{delay}}}
 \newcommand{\ie}{\emph{i.e.}\@}
 \newcommand{\wrt}{\emph{wrt.}\@}
-
+\newcommand{\Challenges}{{\mathsf{Challenges}}}
+\newcommand{\generation}{{\mathit{generation}}}
 
 \colorlet{lightred}{red!50!white}
 \colorlet{verylightred}{red!20!white}
@@ -53,6 +75,35 @@
 \newcommand{\leftplug}{\includegraphics[width=0.7cm]{pictures/plug_left}}
 \newcommand{\rightplug}{\includegraphics[width=0.7cm]{pictures/plug_right}}
 \newcommand{\ssd}{\includegraphics[width=0.8cm]{pictures/ssd}}
+\newcommand{\numberofscoops}{{\#\mathit{scoops}}}
+\newcommand{\scoop}{{\mathit{scoop}}}
+\newcommand{\scoops}{{\mathit{scoops}}}
+\newcommand{\scoopnumber}{{\mathit{scoopNumber}}}
+\newcommand{\deadline}{{\mathit{deadline}}}
+\newcommand{\Scoops}{{\mathsf{Scoops}}}
+\newcommand{\Nonces}{{\mathsf{Nonces}}}
+\newcommand{\nat}{\mathbb{N}}
+\newcommand{\nonce}{{\mathit{nonce}}}
+\newcommand{\Prologs}{{\mathsf{Prologs}}}
+\newcommand{\private}{{\mathit{private}}}
+\newcommand{\public}{{\mathit{public}}}
+\newcommand{\chainid}{{\mathit{chainId}}}
+\newcommand{\PrivateKeys}{{\mathsf{PrivateKeys}}}
+\newcommand{\PublicKeys}{{\mathsf{PublicKeys}}}
+\newcommand{\seed}{{\mathit{seed}}}
+\newcommand{\finalhash}{{h_{\mathit{final}}}}
+\newcommand{\Plots}{{\mathsf{Plots}}}
+\newcommand*\xor{\oplus}
+\newcommand{\nonces}{{\mathit{nonces}}}
+\newcommand{\challenge}{{\mathit{challenge}}}
+\newcommand{\beat}{{\mathit{beat}}}
+\newcommand{\Deadlines}{{\mathsf{Deadlines}}}
+\newcommand{\size}{{\mathit{size}}}
+\newcommand{\waitingtime}{{\mathit{waitingTime}}}
+\newcommand{\plot}{{\mathit{plot}}}
+\newcommand{\key}{{\mathit{key}}}
+
+\DeclareMathOperator*{\append}{\bowtie}
 
 \begin{document}
 
@@ -133,6 +184,7 @@ email=renato.jose@ufma.br
 \input{introduction}
 \input{related}
 \input{mining}
+\input{proof_of_space}
 \input{mokaminter}
 \input{experiments}
 \input{conclusion}

@@ -6,12 +6,11 @@ It is energetically more efficient than proof of work and
 more decentralized than proof of stake.
 A preliminary, expensive
 \emph{plotting phase} allocates large data on disk,
-which is later used in a
+which is later used in a cheap
 \emph{mining phase} to quickly answer
 block creation challenges received from blockchain peers:
 the probability of creating blocks for the stable chain
 is proportional to the allocated data size.
-
 Pioneering work~\cite{AtenieseBFG14,DziembowskiFKP15} introduced
 formal proofs on persistent storage and showed that
 on-demand recomputations (or \emph{replotting attacks}~\cite{BaigGP25}) are not viable,
@@ -32,19 +31,19 @@ that they still hold data in the committed space.
 We build on the proof of space algorithm of Signum~\cite{signum}
 based on the precomputation of
 plot files that later support quick block creation, as formalized
-in~\cite{Spoto25}, and that are too expensive to recreate
-on-the-fly for each block. We work with the generic blockchain
-engine Mokamint~\cite{mokamint}, derived from Signum's algorithm, but generic \wrt{} the
+in~\cite{Spoto25}. We work with the generic blockchain
+engine Mokamint~\cite{mokamint-source-code},
+derived from Signum's algorithm, but generic \wrt{} the
 notion of transactions, delegated to an application layer over Mokamint.
 
 There is a lack of scientific research on the use of mobile phones for blockchain mining.
 In~\cite{LeePSB20}, a system is proposed to build local
 industrial IoT blockchains, where drones are mobile miners
 with proof of work. It does not scale
-to a global blockchain and to mobile phones, that
+to a global blockchain and to mainstream mobile devices, that
 are not competitive against expensive specialized hardware and whose limited battery
 cannot sustain the proof of work.
-The same consideration applies to~\cite{SuankaewmaneeHN18}, that
+The same limitation applies to~\cite{SuankaewmaneeHN18}, that
 presents a specialized blockchain for mobile commerce, with Android phones as
 mobile miners with proof of work.
 Experiments are reported for blocks holding up to six transactions,
@@ -57,8 +56,8 @@ More generally, this allows edge devices, with strong hardware limitations,
 to offload expensive computations
 to external servers and to the cloud~\cite{SoundararajS25}.
 The goal of the present paper is instead to perform mining \emph{in} the mobile phone
-and offload the mining process from blockchain peers to many
-mobile phones running a mobile mining app.
+and let blockchain peers leverage many
+mainstream mobile devices running a mining app.
 
 A simple search on Google Play reports a few Android apps for
 \emph{crypto mining}. Despite their name, these apps are not miners, but either:
@@ -74,4 +73,5 @@ A simple search on Google Play reports a few Android apps for
     or watching ads. This is the case, for instance,
     of Bitcoin Miner Earn Real Crypto~\cite{bitcoinminerearnrealcrypto-google-play}
     and Crypto Fortune Tycoon: BTCMiner~\cite{cryptofortunetycoonbtcminer-google-play}.
-In particular, our research did not find any app for actually mining \emph{in} a phone.
+    In particular, our research did not find any app for actually mining \emph{in}
+    a mainstream mobile device.

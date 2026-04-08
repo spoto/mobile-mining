@@ -12,33 +12,26 @@ is normally remunerated: block creators may
 mint and earn a predetermined amount of cryptocurrency. % for each block that it creates.
 %as well as to earn a small fee on the transactions included in the blocks.
 
-This very abstract description is explicitly generic \wrt{} two implementation choices:
-%
-\begin{enumerate}
-  \item The notion of transaction, irrelevant in this paper.
-    It is the specification of an
-    operation whose execution modifies the state of an abstract machine.
-    For instance, a money transfer
-    in Bitcoin~\cite{Nakamoto08} or
-    the execution of some code over shared objects
-    in Ethereum~\cite{AntonopoulosW25}.
-    %(and in other blockchains that support Turing-complete smart contracts,
-    %up to gas exhaustion).
-  \item The mining algorithm. Namely, Bitcoin pioneered the
-    proof of work algorihtm~\cite{DworkN92}, while more modern blockchains tend to use a
-    proof of stake algorithm~\cite{Kwon14}, and this paper focuses on a proof
-    of space algorithm~\cite{Spoto25}.
-\end{enumerate}
-
+This very abstract description is explicitly generic \wrt{}
+the notion of transaction, irrelevant in this paper.
+A transaction is the execution of an operation
+that modifies the state of an abstract machine.
+For instance, it is a money transfer in Bitcoin~\cite{Nakamoto08} or
+the execution of some code over shared objects in Ethereum~\cite{AntonopoulosW25}.
+This description is also generic \wrt{} the mining algorithm. Namely,
+Bitcoin pioneered the proof of work algorihtm~\cite{DworkN92},
+while more modern blockchains mostly use a
+proof of stake algorithm~\cite{Kwon14}, and this paper focuses on a proof
+of space algorithm~\cite{Spoto25}.
 In Bitcoin's proof of work,
 minted blocks carry evidence of the performance of some computational
 work for their creation. The more this work, the higher the
-likelihood for the blocks to be integrated in the stable chain of the blockchain.
+likelihood for the blocks to be integrated in the stable chain.
 It is well-known that this generates high electricity costs for CPU
 computation and data centers, with a high ecological impact (resource
-consumption, e-waste). Moreover, this induces the concentration of mining power in countries
+consumption, e-waste). Moreover, this induces the concentration of mining power
+in countries
 where electricity is cheap, against the idea of full decentralization.
-
 Proof of stake emerged as a reaction to this. Its idea is that
 only a restricted set of peers (\emph{validators}) may mint blocks.
 This makes mining cheaper, efficient and ecologically sustainable.
@@ -46,23 +39,21 @@ Non-validators may stake on the success of validators. That introduces some
 decentralization, but
 it is generally accepted that proof of stake is more centralized than proof of work.
 This is the most used mining algorithm, at the moment.
-
 The idea of proof of space~\cite{AbusalahACKPR17,AtenieseBFG14,CohenP19,DziembowskiFKP15,ParkKFGAP18,RenD16,Spoto25} is that blocks carry evidence
 of the allocation of a large data structure on disk for their creation.
 The larger that structure, the higher the likelihood that
 blocks get included in the stable chain. Proof of space is decentralized like
-Bitcoin's proof of work and ecological like proof of stake, although % the actual
-disk degradation (e-waste), due to mining, has not been studied up to now.
+Bitcoin's proof of work and ecological like proof of stake.
 
 This paper focuses on \emph{mobile mining}, that is,
 mining on a mobile phone or tablet. In principle, this is appealing because:
 %
 \begin{itemize}
-\item it leverages a huge existing hardware base of devices, that otherwise remain idle
+\item it leverages a huge existing hardware base, that otherwise remain unused
   for most of the time;
 \item it introduces mining to a large portion of humanity, who owns a
   phone but not a powerful connected computer;
-\item it can be easily updated, thanks to the automatic update system of mobile phones;
+\item it can be easily updated, thanks to the automatic update system of mobile devices;
 \item it simplifies the start-up of new blockchains, since it is easier to convince people
   to install an app than to run and maintain a software on an always connected computer.
 \end{itemize}
@@ -70,9 +61,6 @@ mining on a mobile phone or tablet. In principle, this is appealing because:
 Mobile mining has not been used yet because of obvious limitations
 of mobile phones \wrt{} battery capacity and network bandwidth, in particular
 in least favorite countries.
-%This paper shows that
-%proof of space emerges as a niche solution here, whose mining
-%is less sensitive to these limitations.
 
 This paper makes the following contributions:
 %
@@ -81,22 +69,23 @@ This paper makes the following contributions:
 \item it shows how proof of space emerges as a niche solution here, whose mining
   is less sensitive to these limitations;
 \item it presents Mokaminter, our actual Android app for mobile mining with proof of space;
-\item it reports experiments with Mokaminter, discussing its battery consumption
-  and amount of exchanged data.
+\item it reports experiments with Mokaminter, discussing its battery consumption,
+  amount of exchanged data and earned cryptos on different devices.
 \end{enumerate}
 %
-Mokaminter runs only a miner in the phone, not a full blockchain
-peer, which would be prohibitive for the size of the blockchain,
-that of its state database, the amount of data exchanged and the computational
-cost. The blockchain peer is an external computer, to which the phone connects.
+Mokaminter is a miner for mobile devices, it is not a full blockchain
+peer, it does not hold nor exchange blocks, it does not host the blockchain,
+it does not use a blockchain database:
+all that would be prohibitive on a mobile device.
+The blockchain peer takes care of such aspects and it
+is an external computer, to which Mokaminter connects.
 
 The rest of this paper is organized as follows.
 Sec.~\ref{sec:related_work} discusses related work.
-Sec.~\ref{sec:mining} gives a uniform description of various mining algorithms.
-Sec.~\ref{sec:remote_mining} considers if such algorithms can be implemented
-on a mobile phone connected to a blockchain peer.
-Sec.~\ref{sec:mokaminter} presents the Mokaminter mobile app for mining
-with proof of space.
-Sec.~\ref{sec:experiments} confirms its low battery cost
-and its reduced bandwidth.
+Sec.~\ref{sec:mining} gives a uniform description of various mining algorithms and
+discusses if such algorithms can be implemented on a mobile device.
+Sec.~\ref{sec:pos} describes the proof of space mining algorithm implemented by Mokaminter.
+Sec.~\ref{sec:mokaminter} describes the Mokaminter mobile app.
+Sec.~\ref{sec:experiments} confirms its low battery cost,
+its reduced bandwidth and the quality of its mining activity.
 Sec.~\ref{sec:conclusion} concludes.

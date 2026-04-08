@@ -2,102 +2,61 @@
 
 Different mining algorithms fit
 inside the uniform setting of a competitive game
-played, concurrently and independently, by the peers of a blockchain network, whose
-goal is to decide which peer may add a \emph{valid} \textbf{next}
-block to the stable chain. \emph{Valid} means that it respects
-all consensus rules. For instance,
-it points back to an existing block and
-includes transactions with valid signatures
-(the full, large list of consensus rules is outside the topic of this paper).
-The game works in terms of:
+played, concurrently and independently, by the peers of a blockchain network, with the
+goal to decide which peer may add a \textbf{next} block to the current chain $\xi$:
 %
 \begin{itemize}
-\item \emph{challenge}: from the current chain $\xi$,
-  compute, deterministically, a challenge for \textbf{next};
-\item \emph{answer}: create, if possible,
-  a \textbf{next} that satisfies the challenge;
+\item \emph{challenge}: compute, deterministically,
+  from $\xi$ a challenge for \textbf{next};
+\item \emph{answer}: create, if possible, a \textbf{next} that satisfies the challenge;
 \item \emph{competition}: among more possible \textbf{next}s, prefer the \emph{best}
   one \wrt{} some notion of chain quality.
 \end{itemize}
 %
-Each peer runs this mining algorithm,
-whispers its resulting \textbf{next} to its
+Each peer plays this game, whispers its resulting \textbf{next} to its
 connected peers and receives the \textbf{next} of its connected peers. In case
-of more alternative \textbf{next}s, the competition rule lets one choose the
-winner. This gives rise to a \emph{consensus algorithm} that uses the mining
-algorithm as a subroutine.
-
-For proof of work, the mining game becomes:
-%
-\begin{itemize}
-\item \emph{challenge}: compute an integer $\difficulty$ from $\xi$
-  and find a valid \textbf{next} such that $\hash(\mathbf{next})\ge\difficulty$;
-\item \emph{answer}: create a \textbf{next} by rotating the possible
-  values for its nonce field, until $\hash(\mathbf{next})\ge\difficulty$;
-\item \emph{competition}: among more \textbf{next}s, prefer that with the largest hash.
-\end{itemize}
-%
-The computation of $\difficulty$ is not relevant here.
-Moreover, Bitcoin's proof of work is usually given
-in terms of a \emph{smallest} hash, but we require (equivalently) the
-\emph{largest} hash to match the intuition that a higher $\difficulty$ makes mining harder.
-
+of more alternative \textbf{next}s, the competition rule lets a
+winner emerge, reaching consensus.
+For proof of work, the challenge is a new block and a $\difficulty$
+value and the answer is to rotate some fields of the new block in such a way that
+its hash becomes smaller than $\difficulty$. For the competition, the block with the
+smallest hash wins.
 For proof of stake, it is generally accepted that there is
-\emph{no} mining~\cite{Kwon14}, but a mining game can be defined also in this case:
-%
-\begin{itemize}
-\item \emph{challenge}: compute an integer $i$ from $\xi$ (the index of the chosen
-  validator);
-\item \emph{answer}: the $i$th validator
-  creates a valid \textbf{next}; the others do not create anything and
-  wait to receive \textbf{next};
-\item \emph{competition}: among more possible \textbf{next}s, choose any of them, since
-  this should not occur for this mining algorithm.
-\end{itemize}
-%
-The algorithm for computing $i$ is irrelevat here: often, it is a simple
-round-robin. Moreover, the consensus algorithm typically enriches the above
-mining algorithm with a Byzantine protocol of pre-votes and pre-commits~\cite{Kwon14}.
-
+\emph{no} mining~\cite{Kwon14}, but a mining game can be defined also in this case,
+whose challenge is the index $i$ of the chosen validator,
+derived from $\xi$ often through a simple round-robin. The $i$th validator will create
+\textbf{next}, while the others will wait for that \textbf{next}.
+This process is often enriched with a Byzantine protocol
+of pre-votes and pre-commits~\cite{Kwon14}.
 Finally, proof of space, as presented in~\cite{Spoto25},
 is based on the idea that \textbf{next} must contain
-a data structure, called \emph{nonce}, that can be quickly recovered from a
+a data structure, called \emph{nonce}, that can be quickly chosen among a
 set of precomputed nonces on disk (the \emph{plot file}). The mining game in this case is:
 %
 \begin{itemize}
-\item \emph{challenge}: compute some data $\kappa$ from $\xi$;
-\item \emph{answer}: create a valid \textbf{next} block, containing a nonce $\nu$
-  derived from the plot file and from $\kappa$;
-\item \emph{competition}: among more possible \textbf{next}s, choose that with the smallest
-  $\delay(\nu,\kappa)$, where $\nu$ is the nonce in \textbf{next}.
+\item \emph{challenge}: compute a data structure from $\xi$ (see Sec.~\ref{sec:pos});
+\item \emph{answer}: provide one of the nonces in the precomputed plot,
+  the one that minimizes its \emph{waiting time} \wrt{} the challenge;
+\item \emph{competition}: among more \textbf{next}s, choose the one whose
+  nonce has the minimal waiting time.
 \end{itemize}
 %
-The challenge $\kappa$ is used to select a nonce, from the plot file, that minimizes
-$\delay$. The key point of this mining algorithm
-is that the computation of the nonces (\ie{}, of the plot file) is so expensive
+The key point of this mining algorithm
+is that the computation of the plot is so expensive
 that it cannot be done on-the-fly, for each mined block, but rather
-once and for all, before starting mining. The plot remains on disk to answer, quickly, mining
-challenges. The consensus algorithm uses $\delay$ to wait until the block becomes valid.
+once and for all, before starting mining.
+The plot remains on disk to answer, quickly, mining challenges.
 
 This abstract presentation of mining clarifies
 that mining is a subroutine whose input is the challenge derived from the current
 chain $\xi$ and whose output is the answer \ie{}, the information
-needed to create \textbf{next}:
-a nonce for proof of work and proof of space (although a different notion of nonce is
-used in either case), and a Boolean for proof of stake
-(create the block or rather let another validator do it).
-Fig.~\ref{fig:mining} shows this:
+needed to create \textbf{next}.
+Fig.~\ref{fig:mining} shows that
 the miner that provides the answer to create \textbf{next}
 and the peer that actually creates \textbf{next}
-are separate software parts of the same tool. Traditionally,
-such software parts work in the same machine.
-But they have been already moved to different machine, for instance in pool
-mining architectures, where a single peer leverages the power of many, remote
-miners, working in different machines and connected through a network
-(Fig.~\ref{fig:mining}).
-Namely, many users want to run a miner and earn cryptos,
-but only a few are interested in running a full blockchain peer on a dedicated machine,
-which requires technical skills, database space and a very good internet connection.
+are logically separate software parts of the same tool. Miners do not store
+blocks nor the blockchain; they do not even have a database: the peer
+deals with such topics.
 
 \begin{figure}[t]
   \begin{center}
@@ -130,42 +89,46 @@ which requires technical skills, database space and a very good internet connect
     running in different machines connected through a network.}\label{fig:mining}
 \end{figure}
 
-Up to now, the machines where the miners are running
-are computers or specialized, very expensive hardware. The goal of this article
+Traditionally, peer and miners work in the same machine,
+but they have been already offloaded to different machines, for instance in pool
+mining architectures, where a single peer leverages the power of many, remote
+miners, working in different machines and connected through a network.
+Namely, many users want to run a miner and earn cryptos,
+but only a few are interested in running a full blockchain peer on a dedicated machine,
+which requires technical skills, database space and a very good internet connection.
+Up to now, miners run on specialized, very expensive hardware. The goal of this article
 is to allow such miners to run inside a mobile device as well.
 But this might result impossible or impractical,
 depending on the mining algorithm and on the machine
 where the miner will run. Let us consider, in particular, the case when
-the mining algorithm is one of those discussed
-in Sec.~\ref{sec:introduction}.
+the mining algorithm is one of those discussed in Sec.~\ref{sec:introduction}.
 
-\subsubsection*{Proof of work}
+\vspace{0.5ex}\noindent\textbf{Proof of work.}
 %
 In this case, the challenge includes the full block being
-created, since its nonce must maximize its hash.
+created, whose hash must be minimized.
 For Bitcoin, a block's size is up to 4~MB after the Segregated Witness upgrade.
 This data must be exchanged at \emph{each} block creation, impossible in many
 countries where mobile internet is slow; moreover, most mobile operators limit
-the exchanged GB per month; finally, the computational cost
-of proof of work would drain the battery of the mobile device. Consequently,
+the exchanged data per month; finally, the computational cost
+of proof of work would drain the battery of a mobile device. Consequently,
 at the moment, mining with proof of work is irrealistic on a mobile device,
 for a global blockchain such as Bitcoin.
 
-\subsubsection*{Proof of stake}
+\vspace{0.5ex}\noindent\textbf{Proof of stake.}
 %
-In this case, mining is very cheap and limited to the validators. The exchanged data is minimal.
+In this case, mining is very cheap and limited to validators. Data exchange is minimal.
 But validators have no reason to offload their very simple mining activity.
 Therefore, mining on a mobile device is possible for proof of stake, but it does
 not seem of any practical interest.
 
-\subsubsection*{Proof of space}
+\vspace{0.5ex}\noindent\textbf{Proof of space.}
 %
 In this last case, mining requires the use of disk space, but no significant
-CPU power. Currently, mobile devices have an average disk space
+CPU power nor disk activity. Currently, mobile devices have an average disk space
 of 256~GB, smaller than the average 1000~GB of desktop computers but still significant.
 Moreover, the proof of space of~\cite{Spoto25} uses very small challenges (around 64~bytes)
 and answers (nonces, compacted into \emph{deadlines} of around 200~bytes).
-The block being created is not needed for mining. This makes that
-algorithm ideal for a remote miner in a mobile device:
-no need of significant CPU power, enough disk space in the device and little data exchange.
-This is why it has been the choice for the implementation of our Mokaminter app.
+The block being created is not needed for mining in this case. This makes proof of space
+ideal for a mobile miner with limited resources and that
+is why it has been chosen for the implementation of our Mokaminter mobile miner app.

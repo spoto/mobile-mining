@@ -102,28 +102,28 @@ which requires technical skills, database space and a very good internet connect
 \begin{figure}[t]
   \begin{center}
     \begin{tikzpicture}
-      \draw [fill=verylightviolet,thick] (-0.5,-0.3) rectangle +(4,4.7);
-      \draw (1.5,2.5) node {blockchain peer};
-      \draw (1.5,1.9) node {{\small (networking, consensus}};
-      \draw (1.5,1.5) node {{\small and application)}};
+      \draw [fill=verylightviolet,thick] (-1,-0.3) rectangle +(4,4.7);
+      \draw (1,2.5) node {blockchain peer};
+      \draw (1,1.9) node {{\small (networking, consensus}};
+      \draw (1,1.5) node {{\small and application)}};
 
       \draw [fill=verylightred,thick] (7,3) rectangle +(2,0.8);
       \draw (8.0,3.4) node {$\text{miner}_1$};
-      \draw[->, thick] (3.5,3.65) -- (7,3.65);
+      \draw[->, thick] (3,3.65) -- (7,3.65);
       \draw (5.25,3.85) node {{\small challenges}};
-      \draw[<-, thick] (3.5,3.15) -- (7,3.15);
+      \draw[<-, thick] (3,3.15) -- (7,3.15);
       \draw (5.25,2.9) node {{\small answers}};
-      \draw (5.25,2.65) node {{\scriptsize (in this paper, nonces)}};
+      \draw (5.25,2.65) node {{\scriptsize (in this paper, nonces or deadlines)}};
 
       \draw (8.0,2.075) node {$\vdots$};
 
       \draw [fill=verylightred,thick] (7,0.35) rectangle +(2,0.8);
       \draw (8.0,0.75) node {$\text{miner}_n$};
-      \draw[->, thick] (3.5,1.0) -- (7,1.0);
+      \draw[->, thick] (3,1.0) -- (7,1.0);
       \draw (5.25,1.2) node {{\small challenges}};
-      \draw[<-, thick] (3.5,0.5) -- (7,0.5);
+      \draw[<-, thick] (3,0.5) -- (7,0.5);
       \draw (5.25,0.25) node {{\small answers}};
-      \draw (5.25,0) node {{\scriptsize (in this paper, nonces)}};
+      \draw (5.25,0) node {{\scriptsize (in this paper, nonces or deadlines)}};
     \end{tikzpicture}
   \end{center}
   \caption{Blockchain peer and miner(s) as separate software tools, possibly

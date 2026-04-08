@@ -1,5 +1,38 @@
 \section{Experiments}\label{sec:experiments}
 
+Namely, Fig.~\ref{fig:plot_and_mining_costs} reports the time for the creation of a plot file and the time for
+using that file for mining, collected with Mokamint. Both grow linearly with the number of nonces in the plot file.
+We recall that the goal of Signum's proof of space is to make the former expensive and the latter cheap. For instance, Fig.~\ref{fig:plot_and_mining_costs} shows that,
+even with a powerful CPU, a plot of $4000$ nonces cannot
+be recomputed at every block challenge, if the block creation rate is $20$ seconds.
+That is, the nonces must be precomputed and stored on disk.
+
+\begin{figure}[t]
+  \begin{tabular}{|c||c|c|c|c|c|c|c|}
+    \hline
+    nonces & size & time for creation & time per challenge \\\hline\hline
+    1000 & 256MBytes & 7.85s & 0.00078s \\\hline
+    2000 & 512MBytes & 14.73s & 0.00156s \\\hline
+    4000 & 1GByte & 31.47s & 0.00273s \\\hline
+    8000 & 2GBytes & 64.80s & 0.00546s \\\hline
+    16000 & 4GBytes & 130.99s & 0.01131s \\\hline
+    32000 & 8GBytes & 257.71s & 0.02223s \\\hline
+    64000 & 16GBytes & 554.25s & 0.04407s \\\hline
+  \end{tabular}
+  \caption{Time for the creation of plot files and for their use for mining:
+    \emph{nonces} is the number of nonces in the plot file; \emph{size} is the size
+    of the plot file; \emph{time for creation} is the time (in seconds) for creating the
+    plot file (Def.~\ref{def:plot} and~\ref{def:nonce_construction});
+    \emph{time for challenge} is the time (in seconds) to answer a challenge
+    to compute a deadline, with that plot file (steps~\ref{step:deadline_mining:minimize}
+    and~\ref{step:deadline_mining:compute_deadline} of Alg.~\ref{alg:deadline_mining}).
+    Experiments have been performed on am Intel Core i7-11800H CPU.
+    They can be verified by executing the \texttt{PlotProfiler} class
+    of the \texttt{io-mokamint-plotter} module of~\cite{MokamintSourceCode}.
+  }
+  \label{fig:plot_and_mining_costs}
+\end{figure}
+
 Mokaminter has been installed on the personal phone of
 a group of $11$ professors and students from the UFMA university in Brazil
 (other potential users

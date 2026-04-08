@@ -1,17 +1,17 @@
 \section{Mokamint's Proof of Space Mining Algorithm}\label{sec:pos}
 
 Mokamint uses a mining algorithm based on a specific instance of proof of space,
-derived from Signum's. The idea is relatively simple: each peer
+derived from Signum's. The idea is relatively simple: each miner
 allocates, on disk, its own \emph{plot}, \ie{}, a set of data structures called \emph{nonces}.
 A nonce (Fig.~\ref{fig:waiting_time_nonce}) is an array of bytes, split into chunks called \emph{scoops}.
-Whenever a peer needs to create a new block, to expand a chain of blocks $\xi$,
+Whenever a peer needs to create a new block \textbf{next}, to expand a chain of blocks $\xi$,
 it computes a \emph{challenge} from $\xi$ that sends to its miner (Fig.~\ref{fig:mining}). The miner uses
 that challenge to compute the minimal waiting time among that of the nonces
-in its plot on disk (Fig.~\ref{fig:waiting_time_plot}).
+in its plot on disk (Fig.~\ref{fig:waiting_time_nonce} and~\ref{fig:waiting_time_plot}).
 The nonce that generates the minimal
-waiting time is sent to the peer, that will selevct the minimal waiting time among those
-of all its connected miners and use it to build the block that expands $\xi$.
-That block can then be propagated to all peers, but only after the waiting time has elapsed,
+waiting time is sent to the peer, that will select the minimal waiting time among those
+of all its connected miners and use it to build \textbf{next}: the latter
+will be propagated to all peers, but only after the waiting time has elapsed,
 or otherwise other peers might reject it as (still) invalid.
 
 \begin{figure}[t]
@@ -36,15 +36,13 @@ or otherwise other peers might reject it as (still) invalid.
       \draw [thick] (-0.75,0) rectangle +(1.75,0.5);
       \draw (0.13,0.2) node {$\scoop_{4095}$};
 
-      \draw (-5.5,-0.5) node {the waiting time of the nonce \wrt{} a challenge $\langle i,\gamma\rangle$ is $\hash(\scoop_i\append\gamma)$};
+      \draw (-5.5,-0.5) node {its waiting time \wrt{} a challenge $\langle i,\gamma\rangle$ is $\hash(\scoop_i\append\gamma)$};
 %      \draw (-5.5, -0.9) node {normalized \wrt{} the current acceleration of the network};
 
     \end{tikzpicture}
   \end{center}
-  \caption{A nonce is an array of bytes, split into chunks called scoops.
-    The computation of the waiting time of a nonce \wrt{} the challenge
-    $\langle i,\gamma\rangle$ selects the $i$th scoop of the nonce
-    and computes a hash value that is interpreted as a numerical waiting time.}\label{fig:waiting_time_nonce}
+  \caption{A nonce is an array of bytes split into scoops. It lets one to compute a waiting time for
+    each challenge.}\label{fig:waiting_time_nonce}
 \end{figure}
 
 Let us formalize these mining algorithm now.
@@ -58,11 +56,10 @@ Let us formalize these mining algorithm now.
   \end{array}
   \right.\right\}.
   \]
-  The $\gamma$ component of a challenge is said to be its \emph{generation}.
 \end{definition}
 %
 The intuition is that $\gamma$ is a sort of digest of the history of the chain $\xi$ that
-one wants to expand with a next block. Sec.~\ref{sec:blockchain_construction} will
+one wants to expand with \textbf{next}. Sec.~\ref{sec:blockchain_construction} will
 show how a challenge is derived from $\xi$.
 
 A \emph{scoop} is a pair of hashes. A \emph{nonce} is a \emph{progressive number} $p$, and
@@ -137,7 +134,7 @@ number is not shown, for simplicity).
     For instance, it might be that of $\nonce_2$ in the picture.}\label{fig:waiting_time_plot}
 \end{figure}
 
-A \emph{prolog} identifies the parts involved in mining: the peer, the miner (Fig.~\ref{fig:genericity})
+A \emph{prolog} identifies the parties involved in mining: the peer, the miner
 and the chain identifier of the blockchain for which mining is performed.
 %
 \begin{definition}[Prolog]\label{def:prolog}
@@ -153,19 +150,18 @@ and the chain identifier of the blockchain for which mining is performed.
   \]
 \end{definition}
 %
-Prologs are relevant since they are used to mark nonces:
-each nonce and consequently each plot is \emph{for a given prolog}.
-Therefore, a miner cannot use the same plot for mining for more peers or for more
-chains.
-
-Def.~\ref{def:nonce_construction} formalizes the construction of a nonce, given its progressive number and a prolog. It uses a constant $\kappa>0$
+Each nonce and consequently each plot is \emph{for a given prolog}.
+Therefore, a miner cannot use the same plot for mining for more peers or for more chains.
+Def.~\ref{def:nonce_construction} formalizes the construction of a nonce,
+given its progressive number and a prolog. It uses a constant $\kappa>0$
 to limit its computational cost, by avoiding hashing very large chunks of data.
-The construction algorithm derives a sequence of hashes (steps~\ref{step:nonce_construction:seed}
-and~\ref{step:nonce_construction:first_hash}) and constructs a \emph{final} hash from
+The algorithm computes a sequence of hashes (steps~\ref{step:nonce_construction:seed}
+and~\ref{step:nonce_construction:first_hash}, where $\append$ is concatenation of bytes) and constructs a \emph{final} hash from
 all of them (step~\ref{step:nonce_construction:final_hash}) that uses to modify
-the original sequence of hashes (step~\ref{step:nonce_construction:modify}).
+the original sequence of hashes (step~\ref{step:nonce_construction:modify}, where $\xor$
+is bitwise exclusive or, to minimize information loss).
 Then it shuffles the sequence (step~\ref{step:nonce_construction:swap}), which intuitively
-guarantees that, in order to compute a given scoop of the nonce
+guarantees that, in order to compute each given scoop of the nonce
 (\ie{}, a pair of consecutive hashes), the algorithm must be thoroughly executed.
 %
 \begin{definition}[$\nonce(p,\pi)$]\label{def:nonce_construction}
@@ -199,163 +195,77 @@ guarantees that, in order to compute a given scoop of the nonce
 %
 Let us discuss Def.~\ref{def:nonce_construction} now.
 Step~\ref{step:nonce_construction:seed} starts a chain of hash computations that includes the prolog $\pi$
-in the seed. As a consequence, the resulting nonces will be \emph{for $\pi$}: for instance,
-the nonces of another peer or of another miner or for another chain identifier
-will have a different $\pi$ and consequently
-they will be different nonces.
+in the seed. As a consequence, the resulting nonces will be \emph{for $\pi$}.
 Step~\ref{step:nonce_construction:first_hash} is a loop that computes all $h_i$ from the seed.
 It uses a hashing function $\hash$ that is expected to be expensive to compute, such
-as shabal256: this makes it hard to recompute nonces and plots on-the-fly (which would
-be a proof of work algorithm) rather than once and for all before mining.
+as shabal256: this makes it hard to recompute nonces and plots on-the-fly: they must be
+precomputed on disk, once and for all, before starting mining.
 Step~\ref{step:nonce_construction:final_hash} computes a digest $\finalhash$ of all $h_i$'s and
 step~\ref{step:nonce_construction:modify} uses that digest to make each $h_i$ dependent on all others, so that
 one must compute them all in order to compute each of them.
-This is strengthened by the traditional use of $\oplus$ (the bitwise xor function) to minimize the information loss.
 Step~\ref{step:nonce_construction:swap} makes each scoop include a $h_i$ with $i\ge 4096$,
 so that smaller scoops are not easier to compute than the others. This avoids a potential
 time/memory tradeoff attack~\cite{ParkKFGAP18}.
 
-Mokamint miners hold one or more plots on disk. Their initialization is performed
-only once and offline, hence it is not part of the mining protocol.
+Mokamint miners hold a plot on disk, whose initialization is performed
+only once and offline before starting mining.
 Namely, a plot is a set of nonces constructed according to Def.~\ref{def:nonce_construction},
-for a finite non-empty set of progressive numbers $P$ and
-for a given prolog $\pi$.
-%
-\begin{definition}[Plot]\label{def:plot}
-  The set of \emph{plots} is defined as
-  \[
-  \Plots=\left\{\left<\pi,\nonces\right>\left|\begin{array}{l}
-  \pi\in\Prologs,\ \varnothing\not=P\subset\mathbb{N}\text{ is finite and }
-  \nonces=\left\{\nonce(p,\pi)\left|\;p\in P\right.\right\}
-  \end{array}\right.\right\}.
-  \]
-\end{definition}
-
-Given a challenge and a nonce, the latter has a \emph{waiting time} that specifies how well
-the nonce answers the challenge (Fig.~\ref{fig:waiting_time_nonce}).
-%
-\begin{definition}[$\mathit{waitingTime}(\nonce,\challenge)$]\label{def:nonce_value}
-  Let $\nonce\in\Nonces$ and $\challenge\in\Challenges$.
-  The \emph{waiting time of $\nonce$ \wrt{} $\challenge$} is
-  \[
-    \mathit{waitingTime}(\nonce,\challenge)=\hash(\nonce.\scoops[\challenge.i]\append\challenge.\gamma).
-  \]
-\end{definition}
-%
-Miners use the waiting time of their nonces
-to choose the best nonce for each given challenge,
-\ie{}, the one with minimal value (Fig.~\ref{fig:waiting_time_plot}).
-Note that only the $(\challenge.i)\mathit{th}$ scoop is used to compute that value.
-That is, Mokamint consults only a small portion of the whole plot
-file at each mining challenge.
-That nonce could then be sent to the peer as answer for
-the challenge (Fig.~\ref{fig:mining}).
+for a finite non-empty set of progressive numbers. Larger plots are preferrable since they
+induce, statistically, shorter waiting times (Fig.~\ref{fig:waiting_time_plot}).
+Only the $(\challenge.i)\mathit{th}$ scoop is used to compute the waiting time
+(Fig.~\ref{fig:waiting_time_nonce}).
+That is, miners consult only a small portion of the whole plot
+at each mining challenge to identify the best nonce to send to the peer as answer
+(Fig.~\ref{fig:mining}).
 But nonces are relatively big: around $262$ kbytes. Since they
-must be stored in blockchain, inside each block, and since they should be
+should be stored in blockchain, inside each block, and since they should be
 exchanged between miner and peer
-(Fig.~\ref{fig:mining}), a more compact data structure is needed.
-\emph{Deadlines} are exactly this compact data structure
-that represents the nonce computed for a challenge.
-Namely, a deadline carries the information needed
-to reconstruct the nonce (progressive $p$ and prolog $\pi$, see Def.~\ref{def:nonce_construction}),
-the value of that nonce (to avoid its repeated expensive recomputation through the formula
-in Def.~\ref{def:nonce_value}), and
-the challenge that that nonce was meant to answer. Therefore, in Fig.~\ref{fig:genericity}, the miner
-will actually send back deadlines rather than nonces to the peer, which reduces the
-data throughput. This is paramount if peer and miner are connected through a network rather
-than being in the same physical machine.
+(Fig.~\ref{fig:mining}), a more compact data structure, called \emph{deadline}, is used.
+A deadline carries the information needed
+to reconstruct the represented nonce (progressive $p$ and prolog $\pi$, see Def.~\ref{def:nonce_construction}).
+Therefore, in Fig.~\ref{fig:mining}, a miner
+will actually send back to the peer a small deadline $\delta(\nonce,\pi)$ rather a larger $\nonce$
+and the peer will actually store deadlines in blocks, non nonces.
 %
 \begin{definition}[Deadline]\label{def:deadline}
-  The set of \emph{deadlines} is
-  \[
-  \Deadlines=\left\{
-  \langle p,\pi,\mathit{value},\challenge\rangle
-  \left|\begin{array}{l}
-  \pi\in\Prologs,\ p\in\mathbb{N},\ \mathit{value}\text{ is a hash}\\
-  \text{and }\challenge\in\Challenges
-  \end{array}
-  \right.
-  \right\}.
-  \]
-\end{definition}
-%
-When a miner has selected its best nonce for a challenge, from a plot with prolog $\pi$,
-and wants to send it to the peer,
-it actually sends the much smaller deadline $\delta(\nonce,\pi,\challenge)$.
-%
-\begin{definition}[$\delta(\nonce,\pi,\challenge)$]\label{def:deadline_from_nonce}
-  Given $\nonce\in\Nonces$, $\pi\in\Prologs$ and $\challenge\in\Challenges$, the
-  \emph{deadline computed from $\nonce$ for $\pi$ and $\challenge$} is
-  $\delta(\nonce,\pi,\challenge)=\langle\nonce.p,\pi,\mathit{value}(\nonce,\challenge),\challenge\rangle$.
+  The set of \emph{deadlines} is $\Deadlines=\{\langle p,\pi\rangle\mid\pi\in\Prologs\text{ and }p\in\nat\}$.
+  Given a $\nonce$ built for $\pi$, its compact representation is
+  the deadline: $\delta(\nonce,\pi)=\langle\nonce.p,\pi\rangle$.
 \end{definition}
 
 \begin{algorithm}[t]
   \Input{a $\plot$, already computed on disk}
   \Input{the peer $P$ connected to $M$}
   \BlankLine
-  \thread{$\mathsf{mineDeadline}(\plot,P)$}{
+  \thread{$\mathsf{mine}(\plot,P)$}{
     \forever{}{
       \nl\label{step:deadline_mining:wait}
       wait to receive a $\challenge\in\Challenges$ from $P$\;
       %
       \nl\label{step:deadline_mining:minimize}
-      identify the $\nonce\in\plot.\nonces$ that minimizes its waiting time
-      \wrt{} $\challenge$ (Def.~\ref{def:nonce_value})\;
+      identify the $\nonce\in\plot$ that minimizes its waiting time
+      \wrt{} $\challenge$ (Fig.~\ref{fig:waiting_time_plot})\;
       %
       \nl\label{step:deadline_mining:compute_deadline}
       send $\delta(\nonce,\plot.\pi,\challenge)$ to $P$ (Def.~\ref{def:deadline_from_nonce})\;
     }
   }
-  \caption{The deadline mining algorithm, performed by each miner $M$ in its own thread.}
+  \caption{The mining algorithm, performed by each miner $M$ in its own thread.}
   \label{alg:deadline_mining}
 \end{algorithm}
 
-Alg.~\ref{alg:deadline_mining} is executed, inside a dedicated thread,
+Alg.~\ref{alg:deadline_mining} is the mining algorithm executed, inside a dedicated thread,
 by each Mokamint miner $M$, connected to a peer $P$. It is an infinite loop that
 waits for a challenge (step~\ref{step:deadline_mining:wait}), finds the best nonce
 for that challenge, among those in the precomputed plot stored on its disk
 (step~\ref{step:deadline_mining:minimize}), and sends back to $P$ the deadline
 corresponding to that nonce (step~\ref{step:deadline_mining:compute_deadline}).
-
 As already observed, step~\ref{step:deadline_mining:minimize}
 of Alg.~\ref{alg:deadline_mining}, for each received challenge,
 consults only a small portion of the plot file to identify the
-nonce with minimal waiting time:
-it consults a single scoop for each nonce (Fig.~\ref{fig:waiting_time_nonce}).
-Therefore, that step requires a fraction of
-second only, even for large plot files. It follows that the life of a miner consists almost only in waiting
-at step~\ref{step:deadline_mining:wait}, and that a miner is almost always idle
-(no CPU computation, no disk activity), which explains the minimal energy-consumption of
-Alg.~\ref{alg:deadline_mining}.
-Namely, Fig.~\ref{fig:plot_and_mining_costs} reports the time for the creation of a plot file and the time for
-using that file for mining, collected with Mokamint. Both grow linearly with the number of nonces in the plot file.
-We recall that the goal of Signum's proof of space is to make the former expensive and the latter cheap. For instance, Fig.~\ref{fig:plot_and_mining_costs} shows that,
-even with a powerful CPU, a plot of $4000$ nonces cannot
-be recomputed at every block challenge, if the block creation rate is $20$ seconds.
-That is, the nonces must be precomputed and stored on disk.
-
-\begin{figure}[t]
-  \begin{tabular}{|c||c|c|c|c|c|c|c|}
-    \hline
-    nonces & size & time for creation & time per challenge \\\hline\hline
-    1000 & 256MBytes & 7.85s & 0.00078s \\\hline
-    2000 & 512MBytes & 14.73s & 0.00156s \\\hline
-    4000 & 1GByte & 31.47s & 0.00273s \\\hline
-    8000 & 2GBytes & 64.80s & 0.00546s \\\hline
-    16000 & 4GBytes & 130.99s & 0.01131s \\\hline
-    32000 & 8GBytes & 257.71s & 0.02223s \\\hline
-    64000 & 16GBytes & 554.25s & 0.04407s \\\hline
-  \end{tabular}
-  \caption{Time for the creation of plot files and for their use for mining:
-    \emph{nonces} is the number of nonces in the plot file; \emph{size} is the size
-    of the plot file; \emph{time for creation} is the time (in seconds) for creating the
-    plot file (Def.~\ref{def:plot} and~\ref{def:nonce_construction});
-    \emph{time for challenge} is the time (in seconds) to answer a challenge
-    to compute a deadline, with that plot file (steps~\ref{step:deadline_mining:minimize}
-    and~\ref{step:deadline_mining:compute_deadline} of Alg.~\ref{alg:deadline_mining}).
-    Experiments have been performed on am Intel Core i7-11800H CPU.
-    They can be verified by executing the \texttt{PlotProfiler} class
-    of the \texttt{io-mokamint-plotter} module of~\cite{MokamintSourceCode}.
-  }
-  \label{fig:plot_and_mining_costs}
-\end{figure}
+nonce with minimal waiting time.
+Therefore, that step requires very little time and
+the life of a miner consists almost only in waiting, idle,
+at step~\ref{step:deadline_mining:wait}: no CPU computation and no disk activity,
+which explains the minimal energy-consumption of
+Alg.~\ref{alg:deadline_mining}. Sec.~\ref{sec:experiments} reports exact numbers.

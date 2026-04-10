@@ -5,28 +5,26 @@ It creates and maintains a list of remote miners, each connected
 to a peer of the same or of different blockchains.
 Mokaminter is an open-source app for Android, distributed
 on Google Play~\cite{mokaminter-google-play} under
-the Apache 2.0 license. Its source code is available from~\cite{mokaminter-source-code}.
+the Apache 2.0 license. Its source code is available at~\cite{mokaminter-source-code}.
 An iPhone version might be available eventually,
-but it is difficult to create since
+but it is more difficult to create since
 it cannot leverage existing Java libraries from desktop miners.
 
 Mokaminter works for blockchains built through
-the Mokamint generic engine~\cite{mokamint}, that implements
+the Mokamint generic engine~\cite{mokamint-source-code}, that implements
 the proof of space algorithm in~\cite{Spoto25}. Mokamint
 implements the networking and consensus layers of
 a blockchain, while the application layer is left generic and can be
-built on top of Mokamint.
+built on top.
 This idea of a pluggable application layer has been borrowed from Tendermint~\cite{Kwon14}.
-Currently, the Hotmoka software~\cite{hotmoka}
-for running smart contracts in a subset of Java~\cite{Spoto19}
-is available as an application
-of Mokamint. Therefore Mokaminter mines, at the moment,
-for a blockchain with smart contracts in Java whose consensus is based
-on proof of space, but it might mine for other blockchains in the future.
+Currently, there exist Mokamint applications for Hotmoka~\cite{hotmoka}, a software layer
+for running smart contracts in a subset of Java~\cite{Spoto19}, and for a ledger functionally
+equivalent to Bitcoin~\cite{bitcoin-mokamint}. Therefore Mokaminter mines, at the moment,
+for either of those blockchains, with more to come in the future.
 
 Creation and activation of a miner works as follows:
 (1) the user specifies the URI (universal resource identifier) of a
-  blockchain peer running Mokamint and the desired dimension of the plot file;
+  blockchain peer running Mokamint and the desired number of nonces of the plot file;
   %(Fig.~\ref{fig:mokaminter_add_miner}, above);
 (2) the app creates a new private/public key pair to identify the miner,
   represented, as usual from Bitcoin's time~\cite{Antonopoulos23},
@@ -34,9 +32,9 @@ Creation and activation of a miner works as follows:
   alternatively, the user can insert the $12$ words of an existing key pair;
 (3) the app informs the user about the expected size of the plot file
   and asks for confirmation; % (Fig.~\ref{fig:mokaminter_confirmation});
-(4) if confirmed, the creation of the plot file starts in the background;
-(5) once the plot file is created, the app adds a miner tile
-  and activates a background process that mines by using the new plot file.
+(4) if confirmed, the plot file gets created in the background;
+(5) once the plot is created, the app adds a miner tile
+  and activates a background process that mines by using the new plot.
   %(Fig.~\ref{fig:mokaminter_mining}).
 
 %\begin{figure}[t]
@@ -66,16 +64,14 @@ Creation and activation of a miner works as follows:
 
 \subsubsection*{Security Considerations}
 %
-A lost or stolen phone is a relatively frequent event.
-If the private key of the miner were kept in the phone, who finds
-or steals the phone could also steal the cryptocurrency accumulated while mining.
-Therefore, Mokaminter has been designed to avoid storing private keys in the phone.
-Namely, after creating or importing the private/public key pair,
-%(Fig.~\ref{fig:mokaminter_add_miner}),
-only the public key is needed for creating the plot and for mining, and
-the app forgets the private key. On the negative side, this means
+A lost or stolen device is a relatively frequent event.
+If private keys were kept in the device, who finds
+or steals the device could also steal the cryptocurrency accumulated while mining for such keys.
+Therefore, Mokaminter does not store private keys in the device.
+Namely, only the public key is needed for creating the plot (Def.~\ref{def:nonce_construction}), and
+the app can forget the private key. On the negative side, this means
 that the user must not lose the $12$ words of the key pair,
-or otherwise access to the earned cryptocurrency becomes impossible.
+or otherwise the earned crypto becomes inaccessible.
 
 \subsubsection*{Usability Considerations}
 %
@@ -86,41 +82,40 @@ A first one is about feedback.
 In a desktop application, the user could check warnings, error messages and logs.
 In a mobile app, this is possible
 but uncomfortable for most users. Therefore, Mokaminter gives feedback through
-a heartbeat graphical effect that informs the user that it is
-actually mining, producing nonces. Moreover, network disconnection
+a heartbeat graphical effect at each challenge, to inform the user that it is
+actually mining. Moreover, network disconnection
 turns the miner's tile gray in the list of miners.
 %
 Another usability issue is related to the insertion of the
-$12$ words, to import and existing key pair.
-This is frustrating and error-prone in a mobile phone, through a software keyboard.
-Thus, Mokaminter suggests the possible words while typing and the user can
-autocomplete them.
+$12$ words, to import an existing key pair.
+This is frustrating and error-prone with the software keyboard of a mobile device.
+Thus, Mokaminter autocompletes words while typing.
 %
 A last issue is the risk of specifying a plot dimension that is
 too large to complete the plot's creation in a reasonable time:
-this would hang the phone and drain its battery. To avoid this risk,
-Mokaminter imposes a maximum plot dimension, that can only be
-overridden by an explicit choice of the user.
+this would hang the device and drain its battery. To avoid this risk,
+Mokaminter imposes a maximum plot dimension, that the user can override
+with an explicit decision.
 
 \subsubsection*{Technical Considerations}
 %
 Mokaminter uses websockets for network connections,
 that perfectly match the continuous, bidirectional flow of challenges
-and answers (Fig.~\ref{fig:remote_mining}). But network connection in a
-mobile phone is less reliable than in a desktop computer, since
-it gets frequently lost (thick walls, tunnels, network switches).
-Mokaminter automatically tries to reconnect when the connection is lost or
-no challenges have been received for an extended period of time. If it fails, it
-tries again after a minute, to avoid draining the battery with
-very frequent reconnection attempts.
+and answers (Fig.~\ref{fig:mining}). But network connection in a
+mobile device may be relatively unstable, because of
+thick walls, tunnels and network switches.
+Mokaminter tries to reconnect if the connection is lost or
+if it has not received any challenge for some time. If reconnection fails, Mokaminter
+tries again after a minute, to avoid draining the battery with too
+frequent reconnection attempts.
 %
-Another technical issue is related to the background task for mining.
-The Android system is extremely restrictive with background
-tasks, since they might drain the battery. There are official guidelines
-for them, but they changed across different Android versions and
-phone manufacturers often add extra constraints. Many phones
-turn Mokaminter off overnight, when
-the Android system enters a special \emph{doze mode}. If this happens, it is enough
-for the user
-to turn it on again in the morning. A better solution does not seem in sight, at the moment.
+%Another technical issue is related to the background task for mining.
+%The Android system is extremely restrictive with background
+%tasks, since they might drain the battery. There are official guidelines
+%for them, but they changed across different Android versions and
+%phone manufacturers often add extra constraints. Many phones
+%turn Mokaminter off overnight, when
+%the Android system enters a special \emph{doze mode}. If this happens, it is enough
+%for the user
+%to turn it on again in the morning. A better solution does not seem in sight, at the moment.
 

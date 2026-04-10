@@ -4,41 +4,39 @@ Blockchain is a distributed network of computers (\emph{peers}).
 Each peer receives transaction requests, that eventually packs
 into new \emph{blocks}. These form a growing tree,
 with each block pointing back to the previous one. Mining is the process of
-block creation and includes a notion of chain quality that
-decides which of the many tree branches eventually emerges
+block creation and includes a notion of chain quality to
+decide which of the many tree branches eventually emerges
 as the stable chain, on which all peers agree,
 therefore reaching \emph{consensus}. Mining
 is normally remunerated: block creators may
-mint and earn a predetermined amount of cryptocurrency. % for each block that it creates.
-%as well as to earn a small fee on the transactions included in the blocks.
+mint and earn a predetermined amount of cryptocurrency.
 
 This very abstract description is explicitly generic \wrt{}
-the notion of transaction, irrelevant in this paper.
-A transaction is the execution of an operation
+the notion of transaction, irrelevant in this paper:
+a transaction is the execution of an operation
 that modifies the state of an abstract machine.
 For instance, it is a money transfer in Bitcoin~\cite{Nakamoto08} or
 the execution of some code over shared objects in Ethereum~\cite{AntonopoulosW25}.
 This description is also generic \wrt{} the mining algorithm. Namely,
-Bitcoin pioneered the proof of work algorihtm~\cite{DworkN92},
-while more modern blockchains mostly use a
-proof of stake algorithm~\cite{Kwon14}, and this paper focuses on a proof
-of space algorithm~\cite{Spoto25}.
+Bitcoin pioneered proof of work~\cite{DworkN92},
+while more modern blockchains mostly use
+proof of stake~\cite{Kwon14}, and this paper focuses on proof
+of space~\cite{Spoto25}.
 In Bitcoin's proof of work,
 minted blocks carry evidence of the performance of some computational
 work for their creation. The more this work, the higher the
 likelihood for the blocks to be integrated in the stable chain.
-It is well-known that this generates high electricity costs for CPU
+It is well-known that this induces high electricity costs for CPU
 computation and data centers, with a high ecological impact (resource
-consumption, e-waste). Moreover, this induces the concentration of mining power
-in countries
-where electricity is cheap, against the idea of full decentralization.
+consumption, e-waste). Moreover, this leads to the concentration of mining power
+in countries where electricity cheaper, against the idea of full decentralization.
 Proof of stake emerged as a reaction to this. Its idea is that
 only a restricted set of peers (\emph{validators}) may mint blocks.
 This makes mining cheaper, efficient and ecologically sustainable.
 Non-validators may stake on the success of validators. That introduces some
 decentralization, but
 it is generally accepted that proof of stake is more centralized than proof of work.
-This is the most used mining algorithm, at the moment.
+Currently, it is the most used mining algorithm.
 The idea of proof of space~\cite{AbusalahACKPR17,AtenieseBFG14,CohenP19,DziembowskiFKP15,ParkKFGAP18,RenD16,Spoto25} is that blocks carry evidence
 of the allocation of a large data structure on disk for their creation.
 The larger that structure, the higher the likelihood that
@@ -46,10 +44,11 @@ blocks get included in the stable chain. Proof of space is decentralized like
 Bitcoin's proof of work and ecological like proof of stake.
 
 This paper focuses on \emph{mobile mining}, that is,
-mining on a mobile phone or tablet. In principle, this is appealing because:
+on mining with a mainstream mobile device (typically, a phone or tablet).
+In principle, this is appealing because:
 %
 \begin{itemize}
-\item it leverages a huge existing hardware base, that otherwise remain unused
+\item it leverages a huge existing hardware base, that otherwise remains unused
   for most of the time;
 \item it introduces mining to a large portion of humanity, who owns a
   phone but not a powerful connected computer;
@@ -59,7 +58,7 @@ mining on a mobile phone or tablet. In principle, this is appealing because:
 \end{itemize}
 %
 Mobile mining has not been used yet because of obvious limitations
-of mobile phones \wrt{} battery capacity and network bandwidth, in particular
+of mobile devices \wrt{} battery capacity and network bandwidth, in particular
 in least favorite countries.
 
 This paper makes the following contributions:
@@ -73,12 +72,12 @@ This paper makes the following contributions:
   amount of exchanged data and earned cryptos on different devices.
 \end{enumerate}
 %
-Mokaminter is a miner for mobile devices, it is not a full blockchain
+Mokaminter is a miner for mobile devices, it is not a blockchain
 peer, it does not hold nor exchange blocks, it does not host the blockchain,
 it does not use a blockchain database:
 all that would be prohibitive on a mobile device.
-A blockchain peer takes care of such aspects and it
-is an external computer, to which Mokaminter connects.
+A blockchain peer is an external computer that takes care of such aspects.
+Mokaminter connects to a peer and mines for it.
 
 The rest of this paper is organized as follows.
 Sec.~\ref{sec:related_work} discusses related work.
@@ -87,5 +86,5 @@ discusses if such algorithms can be implemented on a mobile device.
 Sec.~\ref{sec:pos} describes the proof of space mining algorithm implemented by Mokaminter.
 Sec.~\ref{sec:mokaminter} describes the Mokaminter mobile app.
 Sec.~\ref{sec:experiments} confirms its low battery cost,
-its reduced bandwidth and the quality of its mining activity.
+its reduced bandwidth and the quality of its mining activity, in terms of earned crypto.
 Sec.~\ref{sec:conclusion} concludes.

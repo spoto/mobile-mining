@@ -4,12 +4,11 @@ Proof of space is a mining algorithm where disk (currently SSD) space
 is used instead of CPU power.
 It is energetically more efficient than proof of work and
 more decentralized than proof of stake.
-A preliminary, expensive
-\emph{plotting phase} allocates large data on disk,
+A preliminary \emph{plotting phase}, that must be expensive, allocates large data on disk,
 which is later used in a cheap
 \emph{mining phase} to quickly answer
 block creation challenges received from blockchain peers:
-the probability of creating blocks for the stable chain
+the probability of creating new blocks on top of the stable chain
 is proportional to the allocated data size.
 Pioneering work~\cite{AtenieseBFG14,DziembowskiFKP15} introduced
 formal proofs on persistent storage and showed that
@@ -24,19 +23,18 @@ mitigations to potential attacks, typical of
 proof of space, such as mining on multiple chains and block/challenge grinding.
 Chia~\cite{AbusalahACKPR17,CohenP19}, a more robust implementation, combines
 space with verifiable delay functions, in a hybrid proof of space and time mechanism.
-In Filecoin~\cite{Fil24}, parties commit space and prove, repeatedly,
+Filecoin~\cite{Fil24} lets parties commit space and prove, repeatedly,
 that they still hold data in the committed space.
-%While Chia is fully-permissionless, Filecoin is
-%quasi-permissionless: anybody can participate, but under some requirements.
 We build on the proof of space algorithm of Signum~\cite{signum}
-based on the precomputation of
-plot files that later support quick block creation, as formalized
-in~\cite{Spoto25}. We work with the generic blockchain
+based on the expensive precomputation of
+plot files that later support cheap block creation, as formalized
+in~\cite{Spoto25}. We work with peers built over the generic blockchain
 engine Mokamint~\cite{mokamint-source-code},
 derived from Signum's algorithm, but generic \wrt{} the
-notion of transactions, delegated to an application layer over Mokamint.
+notion of transactions, delegated to an application layer.
 
-There is a lack of scientific research on the use of mobile phones for blockchain mining.
+There is a lack of scientific research on the use of mobile devices
+for blockchain mining.
 In~\cite{LeePSB20}, a system is proposed to build local
 industrial IoT blockchains, where drones are mobile miners
 with proof of work. It does not scale
@@ -46,7 +44,7 @@ cannot sustain the proof of work.
 The same limitation applies to~\cite{SuankaewmaneeHN18}, that
 presents a specialized blockchain for mobile commerce, with Android phones as
 mobile miners with proof of work.
-Experiments are reported for blocks holding up to six transactions,
+Experiments are reported for blocks holding up to six transactions, which is
 sensible for a local blockchain but irrealistic for a global one.
 Despite its title, \cite{JiangLW22}~tackles another problem, namely,
 offloading blockchain applications
@@ -55,23 +53,15 @@ with the limited resources of a phone.
 More generally, this allows edge devices, with strong hardware limitations,
 to offload expensive computations
 to external servers and to the cloud~\cite{SoundararajS25}.
-The goal of the present paper is instead to perform mining \emph{in} the mobile phone
+The goal of the present paper is instead to perform mining \emph{in} the mobile device
 and let blockchain peers leverage many
 mainstream mobile devices running a mining app.
 
 A simple search on Google Play reports a few Android apps for
-\emph{crypto mining}. Despite their name, these apps are not miners, but either:
-(1) Mobile dashboards
-    to cloud pool miners: mining occurs in the cloud and
-    the app is just monitoring.
-    This is the case, for instance, of Ct Pool~\cite{ctpool-google-play},
-    ViaBTC~\cite{viabtc-google-play},
-    ECOS~\cite{ecos-google-play},
-    Cloud Mining Bitcoin Crypto~\cite{cloudminingbitcoincrypto-google-play}
-    and MineX~\cite{minex-google-play}.
-(2) Dubious games that promise Bitcoins in exchange of solving tasks
-    or watching ads. This is the case, for instance,
-    of Bitcoin Miner Earn Real Crypto~\cite{bitcoinminerearnrealcrypto-google-play}
-    and Crypto Fortune Tycoon: BTCMiner~\cite{cryptofortunetycoonbtcminer-google-play}.
-    In particular, our research did not find any app for actually mining \emph{in}
-    a mainstream mobile device.
+\emph{crypto mining}. Despite their name, these apps are not miners, but either
+mobile dashboards to cloud pool miners (mining occurs in the cloud and
+the app is just monitoring, see for instance~\cite{ctpool-google-play,viabtc-google-play,ecos-google-play,cloudminingbitcoincrypto-google-play,minex-google-play}),
+or dubious games that promise Bitcoins in exchange of solving tasks
+or watching ads (such as~\cite{bitcoinminerearnrealcrypto-google-play,cryptofortunetycoonbtcminer-google-play}).
+In particular, our research did not find any app for actually mining \emph{in}
+a mainstream mobile device.

@@ -3,14 +3,13 @@
 Different mining algorithms fit
 inside the uniform setting of a competitive game
 played, concurrently and independently, by the peers of a blockchain network, with the
-goal to decide which peer may add a \textbf{next} block to the current chain $\xi$:
+goal to decide which peer may add a \textbf{next} block to the best chain $\xi$:
 %
 \begin{itemize}
-\item \emph{challenge}: compute, deterministically,
-  from $\xi$ a challenge for \textbf{next};
+\item \emph{challenge}: compute, deterministically, from $\xi$ a challenge for \textbf{next};
 \item \emph{answer}: create, if possible, a \textbf{next} that satisfies the challenge;
-\item \emph{competition}: among more possible \textbf{next}s, prefer the \emph{best}
-  one \wrt{} some notion of chain quality.
+\item \emph{competition}: among more possible \textbf{next}s, choose the \emph{best}
+  \wrt{} some notion of chain quality.
 \end{itemize}
 %
 Each peer plays this game, whispers its resulting \textbf{next} to its
@@ -23,7 +22,7 @@ its hash becomes smaller than $\difficulty$. For the competition, the block with
 smallest hash wins.
 For proof of stake, it is generally accepted that there is
 \emph{no} mining~\cite{Kwon14}, but a mining game can be defined also in this case,
-whose challenge is the index $i$ of the chosen validator,
+whose challenge is the index $i$ of a validator,
 derived from $\xi$ often through a simple round-robin. The $i$th validator will create
 \textbf{next}, while the others will wait for that \textbf{next}.
 This process is often enriched with a Byzantine protocol
@@ -31,30 +30,30 @@ of pre-votes and pre-commits~\cite{Kwon14}.
 Finally, proof of space, as presented in~\cite{Spoto25},
 is based on the idea that \textbf{next} must contain
 a data structure, called \emph{nonce}, that can be quickly chosen among a
-set of precomputed nonces on disk (the \emph{plot file}). The mining game in this case is:
+set of precomputed nonces on disk. The mining game in this case is:
 %
 \begin{itemize}
-\item \emph{challenge}: compute a data structure from $\xi$ (see Sec.~\ref{sec:pos});
-\item \emph{answer}: provide one of the nonces in the precomputed plot,
-  the one that minimizes its \emph{waiting time} \wrt{} the challenge;
+\item \emph{challenge}: compute a challenge data structure from $\xi$ (see Sec.~\ref{sec:pos});
+\item \emph{answer}: provide the precomputed nonce
+  that minimizes its \emph{waiting time} \wrt{} the challenge;
 \item \emph{competition}: among more \textbf{next}s, choose the one whose
   nonce has the minimal waiting time.
 \end{itemize}
 %
 The key point of this mining algorithm
-is that the computation of the plot is so expensive
+is that the computation of the nonces is so expensive
 that it cannot be done on-the-fly, for each mined block, but rather
-once and for all, before starting mining.
-The plot remains on disk to answer, quickly, mining challenges.
+once and for all, before starting mining:
+they remain on disk to answer, quickly, mining challenges.
 
 This abstract presentation of mining clarifies
-that mining is a subroutine whose input is the challenge derived from the current
+that mining is a subroutine whose input is the challenge derived from the best
 chain $\xi$ and whose output is the answer \ie{}, the information
 needed to create \textbf{next}.
 Fig.~\ref{fig:mining} shows that
 the miner that provides the answer to create \textbf{next}
 and the peer that actually creates \textbf{next}
-are logically separate software parts of the same tool. Miners do not store
+are logically separate cooperating software parts. Note that miners do not store
 blocks nor the blockchain; they do not even have a database: the peer
 deals with such topics.
 
@@ -85,7 +84,7 @@ deals with such topics.
       \draw (5.25,-0.05) node {{\scriptsize (in this paper, nonces or deadlines)}};
     \end{tikzpicture}
   \end{center}
-  \caption{Blockchain peer and miner(s) as separate software tools, possibly
+  \caption{Blockchain peer and miner(s) as separate software parts, possibly
     running in different machines connected through a network.}\label{fig:mining}
 \end{figure}
 
@@ -96,12 +95,11 @@ miners, working in different machines and connected through a network.
 Namely, many users want to run a miner and earn cryptos,
 but only a few are interested in running a full blockchain peer on a dedicated machine,
 which requires technical skills, database space and a very good internet connection.
-Up to now, miners run on specialized, very expensive hardware. The goal of this article
-is to allow such miners to run inside a mobile device as well.
+Currently, miners run on specialized, very expensive hardware. The goal of this article
+is to allow them to run inside a mobile device as well.
 But this might result impossible or impractical,
-depending on the mining algorithm and on the machine
-where the miner will run. Let us consider, in particular, the case when
-the mining algorithm is one of those discussed in Sec.~\ref{sec:introduction}.
+depending on the mining algorithm. Let us consider the various
+mining algorithms discussed in Sec.~\ref{sec:introduction}.
 
 \vspace{0.5ex}\noindent\textbf{Proof of work.}
 %
@@ -112,7 +110,7 @@ This data must be exchanged at \emph{each} block creation, impossible in many
 countries where mobile internet is slow; moreover, most mobile operators limit
 the exchanged data per month; finally, the computational cost
 of proof of work would drain the battery of a mobile device. Consequently,
-at the moment, mining with proof of work is irrealistic on a mobile device,
+at the moment, mining with proof of work is irrealistic on a mainstream mobile device,
 for a global blockchain such as Bitcoin.
 
 \vspace{0.5ex}\noindent\textbf{Proof of stake.}

@@ -97,7 +97,8 @@ Each \emph{scoop} is a pair of hashes.
     \end{tikzpicture}
   \end{center}
   \caption{A nonce is a progressive number $p$ and an array of bytes split into scoops.
-    Its waiting time \wrt{} a challenge $\langle i,\gamma\rangle$ is $\hash(\scoop_i\append\gamma)$.
+    Its waiting time \wrt{} a challenge $\langle i,\gamma\rangle$ is $\hash(\scoop_i\append\gamma)$,
+    where $\append$ is concatenation of bytes.
     A plot is a set of nonces, whose waiting time
     is the minimal waiting time among those of its nonces.}\label{fig:waiting_time}
 \end{figure}
@@ -160,12 +161,12 @@ time/memory tradeoff attack~\cite{ParkKFGAP18}.
 \end{definition}
 %
 As required, the algorithm in Def.~\ref{def:nonce_construction} is expensive as soon as an expensive
-hashing algorithm is used, such as shabal256. Sec.~\ref{sec:experiments} shows this experimentally.
+hashing algorithm is used, such as shabal256. Sec.~\ref{sec:experiments} confirms this experimentally.
 
 \subsubsection*{Mining phase}
 
 The mining phase starts immediately after the plotting phase. It must be quick and cheap.
-Whenever a peer needs to create a new block \textbf{next} to expand the stable chain of blocks $\xi$,
+Whenever a peer needs to create a new block \textbf{next} to expand the best chain of blocks $\xi$,
 it computes a \emph{challenge} from $\xi$ that sends to its miners (Fig.~\ref{fig:mining}). Each miner uses
 that challenge to identify the nonce with the minimal waiting time among those
 in its plot (Fig.~\ref{fig:waiting_time}) and
@@ -181,7 +182,7 @@ plotting phase, since they induce, statistically, shorter waiting times during t
 \begin{definition}[Challenge]\label{def:challenge}
   The set of \emph{challenges} is $\Challenges=\{\langle i,\gamma\rangle\mid 0\le i<4096\text{ and $\gamma$ is a hash}\}$.
   Each peer computes the challenge
-  for expanding the stable chain of blocks $\xi$ from the identifiers of the creators of the blocks in $\xi$
+  for expanding the best chain of blocks $\xi$ from the identifiers of the creators of the blocks in $\xi$
   and from the length of $\xi$ (see~\cite{Spoto25} for a formal definition).
 \end{definition}
 %
@@ -233,5 +234,5 @@ consults only the $i$\textit{th} scoops to compute the waiting time
 As a consequence, the life of a miner consists almost only in waiting, idle,
 at step~\ref{step:deadline_mining:wait}: no CPU computation and no disk activity.
 This explains its minimal energy-consumption.
-Sec.~\ref{sec:experiments} shows this experimentally.
+Sec.~\ref{sec:experiments} confirms this experimentally.
 

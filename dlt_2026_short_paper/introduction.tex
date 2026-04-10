@@ -6,7 +6,7 @@ into new \emph{blocks}. These form a growing tree,
 with each block pointing back to the previous one. Mining is the process of
 block creation and includes a notion of chain quality to
 decide which of the many tree branches eventually emerges
-as the stable chain, on which all peers agree,
+as the best chain, on which all peers agree,
 therefore reaching \emph{consensus}. Mining
 is normally remunerated: block creators may
 mint and earn a predetermined amount of cryptocurrency.
@@ -25,7 +25,7 @@ of space~\cite{Spoto25}.
 In Bitcoin's proof of work,
 minted blocks carry evidence of the performance of some computational
 work for their creation. The more this work, the higher the
-likelihood for the blocks to be integrated in the stable chain.
+likelihood for the blocks to be integrated in the best chain.
 It is well-known that this induces high electricity costs for CPU
 computation and data centers, with a high ecological impact (resource
 consumption, e-waste). Moreover, this leads to the concentration of mining power
@@ -40,7 +40,7 @@ Currently, it is the most used mining algorithm.
 The idea of proof of space~\cite{AbusalahACKPR17,AtenieseBFG14,CohenP19,DziembowskiFKP15,ParkKFGAP18,RenD16,Spoto25} is that blocks carry evidence
 of the allocation of a large data structure on disk for their creation.
 The larger that structure, the higher the likelihood that
-blocks get included in the stable chain. Proof of space is decentralized like
+blocks get included in the best chain. Proof of space is decentralized like
 Bitcoin's proof of work and ecological like proof of stake.
 
 This paper focuses on \emph{mobile mining}, that is,

@@ -61,27 +61,32 @@ deals with such topics.
   \begin{center}
     \begin{tikzpicture}
       \draw [fill=verylightviolet,thick] (-1,-0.3) rectangle +(4,4.7);
-      \draw (1,2.5) node {blockchain peer};
-      \draw (1,1.9) node {{\small (networking, consensus}};
-      \draw (1,1.5) node {{\small and application)}};
+      \draw (1,3.2) node {blockchain peer};
+      \draw (1,2.8) node {(Mokamint)};
+      \draw (1,1.9) node {{\small (deals with networking,}};
+      \draw (1,1.5) node {{\small consensus}};
+      \draw (1,1.1) node {{\small and application;}};
+      \draw (1,0.7) node {{\small stores the blockchain)}};
 
-      \draw [fill=verylightred,thick] (7,3) rectangle +(2,0.8);
-      \draw (8.0,3.4) node {$\text{miner}_1$};
+      \draw [fill=verylightred,thick] (7,3) rectangle +(2.2,0.8);
+      \draw (8.1,3.6) node {$\text{miner}_1$};
+      \draw (8.1,3.23) node {(Mokaminter)};
       \draw[->, thick] (3,3.65) -- (7,3.65);
       \draw (5.25,3.85) node {{\small challenges}};
       \draw[<-, thick] (3,3.15) -- (7,3.15);
       \draw (5.25,2.9) node {{\small answers}};
-      \draw (5.25,2.55) node {{\scriptsize (in this paper, nonces or deadlines)}};
+      \draw (5.25,2.55) node {{\scriptsize (nonces or deadlines)}};
 
       \draw (8.0,2.075) node {$\vdots$};
 
-      \draw [fill=verylightred,thick] (7,0.35) rectangle +(2,0.8);
-      \draw (8.0,0.75) node {$\text{miner}_n$};
+      \draw [fill=verylightred,thick] (7,0.35) rectangle +(2.2,0.8);
+      \draw (8.1,0.95) node {$\text{miner}_n$};
+      \draw (8.1,0.56) node {(Mokaminter)};
       \draw[->, thick] (3,1.0) -- (7,1.0);
       \draw (5.25,1.2) node {{\small challenges}};
       \draw[<-, thick] (3,0.5) -- (7,0.5);
       \draw (5.25,0.25) node {{\small answers}};
-      \draw (5.25,-0.05) node {{\scriptsize (in this paper, nonces or deadlines)}};
+      \draw (5.25,-0.05) node {{\scriptsize (nonces or deadlines)}};
     \end{tikzpicture}
   \end{center}
   \caption{Blockchain peer and miner(s) as separate software parts, possibly

@@ -2,8 +2,8 @@
 
 This section reports experiments with the plotting and mining phases.
 We selected a mobile phone, a tablet and a desktop computer, all relatively old devices
-with quite limited resources. The mobile phone and
-the tablet ran the Mokaminter miner, while the desktop computer ran a desktop miner and it has been
+with limited resources. The mobile phone and
+the tablet run the Mokaminter miner, while the desktop computer runs a desktop miner and it has been
 chosen to compare the results of the mobile devices with those of a home
 computer with a stable internet connection.
 
@@ -18,22 +18,22 @@ builds the plot in a shorter time.
     \begin{tabular}{|c|c||c|c|c|}
       \hline
       \textbf{device} & \textbf{type} & \textbf{nonces} & \textbf{size} & \textbf{time} \\\hline\hline
-      Xiami 11 Lite 5G NE & phone & 1000 & 0.26GB & 1m13s \\\hline
-      Xiami 11 Lite 5G NE & phone & 5000 & 1.28GB & 6m03s \\\hline
-      Xiami 11 Lite 5G NE & phone & 10000 & 2.56GB & 12m05s \\\hline\hline
-      Samsung Galaxy Tab S6 Lite & tablet & 1000 & 0.26GB & 2m15s \\\hline
-      Samsung Galaxy Tab S6 Lite & tablet & 5000 & 1.28GB & 11m12s \\\hline
-      Samsung Galaxy Tab S6 Lite & tablet & 10000 & 2.56GB & 22m21s \\\hline\hline
-      Intel NUC8i5BEH & desktop & 1000 & 0.26GB & 20s \\\hline
-      Intel NUC8i5BEH & desktop & 5000 & 1.28GB & 1m40s \\\hline
-      Intel NUC8i5BEH & desktop & 10000 & 2.56GB & 3m24s \\\hline
+      Xiami 11 Lite 5G NE & phone & 1000 & 0.26~GB & 1m13s \\\hline
+      Xiami 11 Lite 5G NE & phone & 5000 & 1.28~GB & 6m03s \\\hline
+      Xiami 11 Lite 5G NE & phone & 10000 & 2.56~GB & 12m05s \\\hline\hline
+      Samsung Galaxy Tab S6 Lite & tablet & 1000 & 0.26~GB & 2m15s \\\hline
+      Samsung Galaxy Tab S6 Lite & tablet & 5000 & 1.28~GB & 11m12s \\\hline
+      Samsung Galaxy Tab S6 Lite & tablet & 10000 & 2.56~GB & 22m21s \\\hline\hline
+      Intel NUC8i5BEH & desktop & 1000 & 0.26~GB & 20s \\\hline
+      Intel NUC8i5BEH & desktop & 5000 & 1.28~GB & 1m40s \\\hline
+      Intel NUC8i5BEH & desktop & 10000 & 2.56~GB & 3m24s \\\hline
     \end{tabular}
   \end{center}
   \caption{Results about the plotting phase. \emph{Type} is the type of device;
     \emph{nonces} is the number of nonces in the plot file;
     \emph{size} is the size of the plot file; \emph{time} is the time for creating the
     plot file (Def.~\ref{def:nonce_construction}, repeated for each nonce in the plot).
-    Data has been collected by manually creating the plots.
+    Data has been collected by manually triggering the creation of the plots.
   }
   \label{fig:plotting_phase_experiments}
 \end{figure}
@@ -50,10 +50,10 @@ the earnings in fiat currency, since Hotmoka's mokas are not currently exchangea
   \begin{center}
     \begin{tabular}{|c|c||c|c|c|c|c|}
       \hline
-      \textbf{device} & \textbf{type} & \textbf{CPU} & \textbf{RAM} & \textbf{network} & \textbf{per chall.} & \textbf{earned crypto} \\\hline\hline
-      Xiami 11 Lite 5G NE & phone & 0.56\% & 2.4\% (192MB) & 3.36MB & 0.207s & 373.30 mokas \\\hline
-      Samsung Galaxy Tab S6 Lite & tablet & 0.23\% & 3.5\% (140MB) & 3.38MB & 0.225s & 266.63 mokas \\\hline
-      Intel NUC8i5BEH & desktop & 0.09\% & 1.4\% (224MB) & 3.39MB & 0.019s & 319.95 mokas \\\hline
+      \textbf{device} & \textbf{type} & \textbf{CPU} & \textbf{RAM} & \textbf{network} & \textbf{challenge} & \textbf{earned crypto} \\\hline\hline
+      Xiami 11 Lite 5G NE & phone & 0.56\% & 2.4\% (192~MB) & 3.36~MB & 0.207s & 373.30 mokas \\\hline
+      Samsung Galaxy Tab S6 Lite & tablet & 0.23\% & 3.5\% (140~MB) & 3.38~MB & 0.225s & 266.63 mokas \\\hline
+      Intel NUC8i5BEH & desktop & 0.09\% & 1.4\% (224~MB) & 3.39~MB & 0.019s & 319.95 mokas \\\hline
     \end{tabular}
   \end{center}
   \caption{Results about the mining phase for the mainnet of the Hotmoka blockchain.
@@ -61,7 +61,7 @@ the earnings in fiat currency, since Hotmoka's mokas are not currently exchangea
     percent of the CPU power of the device used for mining;
     \emph{RAM} is the percent (and absolute value) of the
     RAM of the device used for mining; \emph{network} is the amount of data exchanged during one day of mining;
-    \emph{per chall.} is the average time, in seconds, for answering each challenge
+    \emph{challenge} is the average time, in seconds, for answering each challenge
     (steps~\ref{step:deadline_mining:minimize}
     and~\ref{step:deadline_mining:compute_deadline} of Alg.~\ref{alg:deadline_mining});
     \emph{earned crypto} is the amount of crypto
@@ -74,13 +74,13 @@ the earnings in fiat currency, since Hotmoka's mokas are not currently exchangea
 \end{figure}
 
 These mining experiments have been performed against the mainnet of Hotmoka, that creates a block every $20$ seconds
-on average. Therefore, column \textbf{per chall.} of Fig.~\ref{fig:mining_phase_experiments} is actually telling us that
-Mokaminter sits idle for around $99\%$ of its time, waiting at step~\ref{step:deadline_mining:wait}
+on average. Therefore, column \textbf{challenge} in Fig.~\ref{fig:mining_phase_experiments} is actually telling us that
+Mokaminter sits idle for around $99\%$ of its time, when it waits at step~\ref{step:deadline_mining:wait}
 of Alg.~\ref{alg:deadline_mining}. Together with the very limited CPU and RAM costs
 (Fig.~\ref{fig:mining_phase_experiments}), it suggests that Mokaminter's battery use should be minimal.
-An exact evaluation is difficult since it highly depends on the other apps
+An exact evaluation of the battery use is difficult since it highly depends on the other apps
 installed in the device and on the usage pattern of the device by its user.
-In order to get some hint, in realistic conditions, we have installed Mokaminter on the personal phone of
+In order to get some hint, in realistic conditions, we have installed Mokaminter in the personal phone of
 a group of $11$ professors and students from the UFMA university in Brazil
 (other potential users owned only an iPhone and could not take part in the experiment).
 Each of them created a miner for the Hotmoka blockchain

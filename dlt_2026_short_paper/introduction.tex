@@ -2,22 +2,21 @@
 
 Blockchain is a distributed network of computers (\emph{peers}).
 Each peer receives transaction requests, that eventually packs
-into new \emph{blocks}. These form a growing tree,
-with each block pointing back to the previous one. Mining is the process of
+into \emph{blocks}. These form a growing tree,
+where each block points back to the previous one. Mining is the process of
 block creation and includes a notion of chain quality to
-decide which of the many tree branches eventually emerges
+decide which of the many tree branches emerges
 as the best chain, on which all peers agree,
-therefore reaching \emph{consensus}. Mining
-is normally remunerated: block creators may
-mint and earn a predetermined amount of cryptocurrency.
+hence reaching \emph{consensus}. Mining
+is often remunerated: block creators may
+mint and earn some amount of cryptocurrency.
 
-This very abstract description is explicitly generic \wrt{}
-the notion of transaction, irrelevant in this paper:
-a transaction is the execution of an operation
+This abstract description is explicitly generic \wrt{}
+the notion of transaction, irrelevant here: a transaction is an operation
 that modifies the state of an abstract machine.
 For instance, it is a money transfer in Bitcoin~\cite{Nakamoto08} or
 the execution of some code over shared objects in Ethereum~\cite{AntonopoulosW25}.
-This description is also generic \wrt{} the mining algorithm. Namely,
+This description is also generic \wrt{} the mining algorithm.
 Bitcoin pioneered proof of work~\cite{DworkN92},
 while more modern blockchains mostly use
 proof of stake~\cite{Kwon14}, and this paper focuses on proof
@@ -29,17 +28,17 @@ likelihood for the blocks to be integrated in the best chain.
 It is well-known that this induces high electricity costs for CPU
 computation and data centers, with a high ecological impact (resource
 consumption, e-waste). Moreover, this leads to the concentration of mining power
-in countries where electricity cheaper, against the idea of full decentralization.
-Proof of stake emerged as a reaction to this. Its idea is that
-only a restricted set of peers (\emph{validators}) may mint blocks.
+in countries where electricity is cheaper, against the idea of full decentralization.
+Proof of stake emerged as a reaction to that. Its idea is that
+only a restricted set of peers (\emph{validators}) create blocks.
 This makes mining cheaper, efficient and ecologically sustainable.
 Non-validators may stake on the success of validators. That introduces some
 decentralization, but
-it is generally accepted that proof of stake is more centralized than proof of work.
-Currently, it is the most used mining algorithm.
+proof of stake is generally considered as more centralized than proof of work.
+Still, it is the most used mining algorithm.
 The idea of proof of space~\cite{AbusalahACKPR17,AtenieseBFG14,CohenP19,DziembowskiFKP15,ParkKFGAP18,RenD16,Spoto25} is that blocks carry evidence
-of the allocation of a large data structure on disk for their creation.
-The larger that structure, the higher the likelihood that
+of the allocation of large data on disk, used for their creation.
+The larger that data, the higher the likelihood that
 blocks get included in the best chain. Proof of space is decentralized like
 Bitcoin's proof of work and ecological like proof of stake.
 
@@ -54,10 +53,10 @@ In principle, this is appealing because:
   phone but not a powerful connected computer;
 \item it can be easily updated, thanks to the automatic update system of mobile devices;
 \item it simplifies the start-up of new blockchains, since it is easier to convince people
-  to install an app than to run and maintain a software on an always connected computer.
+  to install an app than to run and maintain some software on an always connected computer.
 \end{itemize}
 %
-Mobile mining has not been used yet because of obvious limitations
+Mobile mining has not been used yet because of the obvious limitations
 of mobile devices \wrt{} battery capacity and network bandwidth, in particular
 in least favorite countries.
 
@@ -65,25 +64,23 @@ This paper makes the following contributions:
 %
 \begin{enumerate}
 \item it presents mobile mining, its power and limitations;
-\item it shows how proof of space emerges as a niche solution here, whose mining
-  is less sensitive to these limitations;
+\item it shows how proof of space emerges as a niche solution, less sensitive
+  to such limitations;
 \item it presents Mokaminter, our actual Android app for mobile mining with proof of space;
-\item it reports experiments with Mokaminter, discussing its battery consumption,
-  amount of exchanged data and earned cryptos on different devices.
+\item it reports experiments with Mokaminter, discussing its minimal CPU, RAM and data exchange costs
+  and its battery use, as well as the amount of crypto earned with different devices.
 \end{enumerate}
 %
 Mokaminter is a miner for mobile devices, not a blockchain
 peer: it does not hold nor exchange blocks, it does not host the blockchain,
-it does not use a blockchain database:
-all that would be prohibitive on a mobile device.
+it does not use a database: all that would be prohibitive on a mobile device.
 Mokaminter connects and mines for an external peer that keeps the blockchain.
 
 The rest of this paper is organized as follows.
 Sec.~\ref{sec:related_work} discusses related work.
 Sec.~\ref{sec:mining} gives a uniform description of various mining algorithms and
-discusses if such algorithms can be implemented on a mobile device.
-Sec.~\ref{sec:pos} describes the proof of space mining algorithm implemented by Mokaminter.
+discusses if they can be used on a mobile device.
+Sec.~\ref{sec:pos} describes Mokamint's proof of space mining algorithm.
 Sec.~\ref{sec:mokaminter} describes the Mokaminter mobile app.
-Sec.~\ref{sec:experiments} confirms its low battery cost,
-its reduced bandwidth and the quality of its mining activity, in terms of earned crypto.
+Sec.~\ref{sec:experiments} confirms its reduced costs with actual experiments.
 Sec.~\ref{sec:conclusion} concludes.

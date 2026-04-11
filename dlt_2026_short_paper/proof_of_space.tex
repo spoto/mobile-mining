@@ -13,8 +13,7 @@ This phase must be expensive, so that the plot cannot be recomputed on the fly d
 subsequent mining phase and must be kept on disk.
 A plot is a set of \emph{nonces} (Fig.~\ref{fig:waiting_time}), for distinct progressive numbers.
 A nonce has a progressive number
-and an array of bytes, split into $4096$ \emph{scoops}.
-Each \emph{scoop} is a pair of hashes.
+and an array of bytes, split into $4096$ \emph{scoops}. Each scoop is a pair of hashes.
 %
 \begin{definition}[Scoop, Nonce]\label{def:scoop_nonce}
   The set of \emph{scoops} is $\Scoops=\{\langle h_1,h_2\rangle\mid h_1,h_2\text{ are hashes}\}$
@@ -122,8 +121,8 @@ and the chain identifier of the blockchain for which mining will be performed.
 Each nonce and consequently each plot is \emph{for a given prolog $\pi$}.
 Therefore, a miner cannot use the same plot for mining for more peers or for more blockchains.
 Def.~\ref{def:nonce_construction} formalizes the construction of a nonce,
-given its progressive number $p$ and $\pi$.
-The algorithm computes a sequence of hashes from a $\seed$ that includes $p$ and $\pi$
+given its progressive number $p$ and prolog $\pi$.
+It computes a sequence of hashes from a $\seed$ that includes $p$ and $\pi$
 (steps~\ref{step:nonce_construction:seed}
 and~\ref{step:nonce_construction:first_hash}, where $\append$ is concatenation of bytes).
 It constructs a \emph{final} hash as a digest of
@@ -133,7 +132,7 @@ is bitwise exclusive or, to minimize information loss). This makes each $h_i$ de
 on all others, so that one must compute them all in order to compute each of them.
 Then it shuffles the sequence (step~\ref{step:nonce_construction:swap}).
 This makes each scoop include a $h_i$ with $i\ge 4096$,
-so that smaller scoops are not easier to compute than the others. This avoids a potential
+so that smaller scoops are not easier to compute than the others, which avoids a potential
 time/memory tradeoff attack~\cite{ParkKFGAP18}.
 %
 \begin{definition}[$\nonce(p,\pi)$]\label{def:nonce_construction}
@@ -146,21 +145,20 @@ time/memory tradeoff attack~\cite{ParkKFGAP18}.
   %
   \begin{enumerate}
   \item\label{step:nonce_construction:seed} let $\seed=\pi.\mathit{key}^{\mathit{peer}}_{\public}\append
-    \pi.\mathit{key}^{\mathit{miner}}_{\public}\append\pi.\chainid\append p$;
+    \pi.\mathit{key}^{\mathit{miner}}_{\public}\append\pi.\chainid\append p$ (concatenation of their byte representation);
   \item\label{step:nonce_construction:first_hash}
     for each $i$ from $2\cdot 4096-1$ to $0$, let
     $h_i=\hash\left(\left(\append_{i<j<2\cdot 4096}h_j\right)\append\seed\right)$;
   \item\label{step:nonce_construction:final_hash}
     let $\finalhash=\hash\left(\left(\append_{0\le j<2\cdot 4096}h_j\right)\append\seed\right)$;
   \item\label{step:nonce_construction:modify} for each $i$ from $0$ to $2\cdot 4096-1$, reassign
-    $h_i$ to $h_i\xor\finalhash$;
+    $h_i\xor\finalhash$ to $h_i$;
   \item\label{step:nonce_construction:swap}
-    for each odd $i$ from $1$ to $2\cdot 4096-1$, swap
-    $h_i$ with $h_{2\cdot 4096-i}$.
+    for each odd $i$ from $1$ to $2\cdot 4096-1$, swap $h_i$ with $h_{2\cdot 4096-i}$.
   \end{enumerate}
 \end{definition}
 %
-As required, the algorithm in Def.~\ref{def:nonce_construction} is expensive as soon as an expensive
+The algorithm in Def.~\ref{def:nonce_construction} is expensive as soon as an expensive
 hashing algorithm is used, such as shabal256. Sec.~\ref{sec:experiments} confirms this experimentally.
 
 \subsubsection*{Mining phase}
@@ -186,17 +184,16 @@ plotting phase, since they induce, statistically, shorter waiting times during t
   and from the length of $\xi$ (see~\cite{Spoto25} for a formal definition).
 \end{definition}
 %
-Nonces are relatively big (around $262$ kbytes) for peers to store
-them in blockchain, inside each block, and exchange them with miner(s)
-(Fig.~\ref{fig:mining}). Therefore, a more compact \emph{deadline} data structure is used.
-A deadline carries the information needed
+Nonces are relatively big (around $262$~KB) to be stored inside each block and exchanged with miner(s)
+(Fig.~\ref{fig:mining}). Therefore, more compact \emph{deadlines} are used, which
+carry the information needed
 to reconstruct the represented nonce (progressive $p$ and prolog $\pi$, see Def.~\ref{def:nonce_construction}).
 Therefore, in Fig.~\ref{fig:mining}, a miner
 will actually send back to the peer a small deadline $\delta(\nonce,\pi)$ rather than a larger $\nonce$
 and the peer will actually store deadlines in blocks, not nonces.
 %
 \begin{definition}[Deadline]\label{def:deadline}
-  The set of \emph{deadlines} is $\Deadlines=\{\langle p,\pi\rangle\mid\pi\in\Prologs\text{ and }p\in\nat\}$.
+  The set of \emph{deadlines} is $\Deadlines=\{\langle p,\pi\rangle\mid p\in\nat\text{ and }\pi\in\Prologs\}$.
   Given a $\nonce$ built for $\pi$, its compact representation is
   the deadline $\delta(\nonce,\pi)=\langle\nonce.p,\pi\rangle$.
 \end{definition}
@@ -223,9 +220,9 @@ and the peer will actually store deadlines in blocks, not nonces.
 \end{algorithm}
 
 Alg.~\ref{alg:deadline_mining} is the mining phase, executed inside a dedicated thread
-by each Mokamint miner $M$ connected to a peer $P$. It is an infinite loop that
+by each miner $M$ connected to a peer $P$. It is an infinite loop that
 waits for a challenge (step~\ref{step:deadline_mining:wait}), finds the best nonce
-for that challenge, among those in the precomputed plot stored on disk
+for that challenge among those in the precomputed plot stored on disk
 (step~\ref{step:deadline_mining:minimize}), and sends back to $P$ the deadline
 corresponding to that nonce (step~\ref{step:deadline_mining:compute_deadline}).
 At step~\ref{step:deadline_mining:minimize}, this algorithm

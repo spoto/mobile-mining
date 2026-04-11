@@ -6,26 +6,25 @@ to a peer of the same or of different blockchains.
 Mokaminter is an open-source app for Android, distributed
 on Google Play~\cite{mokaminter-google-play} under
 the Apache 2.0 license. Its source code is available at~\cite{mokaminter-source-code}.
-An iPhone version might be available eventually,
-but it is more difficult to create since
+An iPhone version might be eventually available,
+but it is more difficult to build since
 it cannot leverage existing Java libraries from desktop miners.
 
 Mokaminter works for blockchains built through
-the Mokamint generic engine~\cite{mokamint-source-code}, that implements
+the Mokamint generic engine~\cite{mokamint-source-code} (see Fig.~\ref{fig:mining}), that implements
 the proof of space algorithm in~\cite{Spoto25}. Mokamint
 implements the networking and consensus layers of
-a blockchain, while the application layer is left generic and can be
-built on top.
+a blockchain, while the application layer is left generic and can be built on top.
 This idea of a pluggable application layer has been borrowed from Tendermint~\cite{Kwon14}.
 Currently, there exist Mokamint applications for Hotmoka~\cite{hotmoka}, a software layer
-for running smart contracts in a subset of Java~\cite{Spoto19}, and for a ledger functionally
+for running Solidity-like smart contracts in a subset of Java~\cite{Spoto19}, and
+for a ledger functionally
 equivalent to Bitcoin~\cite{bitcoin-mokamint}. Therefore Mokaminter mines, at the moment,
 for either of those blockchains, with more to come in the future.
 
 Creation and activation of a miner works as follows:
 (1) the user specifies the URI (universal resource identifier) of a
-blockchain peer running Mokamint and the desired number of nonces
-for the plot file;
+blockchain peer running Mokamint and the desired number of nonces for the plot file;
   %(Fig.~\ref{fig:mokaminter_add_miner}, above);
 (2) the app creates a new private/public key pair to identify the miner,
   represented, as usual from Bitcoin's time~\cite{Antonopoulos23},
@@ -63,21 +62,20 @@ for the plot file;
 %  \label{fig:mokaminter_mining}
 %\end{figure}
 
-\subsubsection*{Security Considerations}
+\vspace{0.5ex}\noindent\textbf{Security considerations.}
 %
 A lost or stolen device is a relatively frequent event.
 If private keys were kept in the device, who finds
-or steals the device could also steal the cryptocurrency accumulated while mining for such keys.
-Therefore, Mokaminter does not store private keys in the device.
-Namely, only the public key is needed for creating the plot (Def.~\ref{def:nonce_construction}), and
-the app can forget the private key. On the negative side, this means
+or steals the device could also steal the cryptocurrency accumulated while mining with such keys.
+Therefore, Mokaminter does not store private keys.
+Namely, only the public key is needed to create the plot (Def.~\ref{def:nonce_construction}), and
+the app can forget the private key. This entails, however,
 that the user must not lose the $12$ words of the key pair,
 or otherwise the earned crypto becomes inaccessible.
 
-\subsubsection*{Usability Considerations}
+\vspace{0.5ex}\noindent\textbf{Usability considerations.}
 %
-A mobile app has quite different usability considerations
-than a desktop application.
+A mobile app has quite different usability considerations than a desktop application.
 %
 A first one is about feedback.
 In a desktop application, the user could check warnings, error messages and logs.
@@ -98,7 +96,7 @@ this would hang the device and drain its battery. To avoid this risk,
 Mokaminter imposes a maximum plot dimension, that the user can override
 with an explicit decision.
 
-\subsubsection*{Technical Considerations}
+\vspace{0.5ex}\noindent\textbf{Technical considerations.}
 %
 Mokaminter uses websockets for network connections,
 that perfectly match the continuous, bidirectional flow of challenges
@@ -106,7 +104,7 @@ and answers (Fig.~\ref{fig:mining}). But network connection in a
 mobile device may be relatively unstable, because of
 thick walls, tunnels and network switches.
 Mokaminter tries to reconnect if the connection is lost or
-if it has not received any challenge for some time. If reconnection fails, Mokaminter
+if it has not received any challenge for some time. If reconnection fails, it
 tries again after a minute, to avoid draining the battery with too
 frequent reconnection attempts.
 %

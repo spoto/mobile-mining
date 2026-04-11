@@ -1,14 +1,13 @@
 \section{An Abstract Presentation of Mining}\label{sec:mining}
 
-Different mining algorithms fit
-inside the uniform setting of a competitive game
-played, concurrently and independently, by the peers of a blockchain network, with the
+Different mining algorithms fit inside the uniform setting of a game
+played, concurrently, by the peers of a blockchain network, with the
 goal to decide which peer may add a \textbf{next} block to the best chain $\xi$:
 %
 \begin{itemize}
-\item \emph{challenge}: compute, deterministically, from $\xi$ a challenge for \textbf{next};
+\item \emph{challenge}: compute from $\xi$, deterministically, a challenge for \textbf{next};
 \item \emph{answer}: create, if possible, a \textbf{next} that satisfies the challenge;
-\item \emph{competition}: among more possible \textbf{next}s, choose the \emph{best}
+\item \emph{competition}: among more possible \textbf{next}s, choose the \emph{best} one
   \wrt{} some notion of chain quality.
 \end{itemize}
 %
@@ -21,15 +20,14 @@ value and the answer is to rotate some fields of the new block in such a way tha
 its hash becomes smaller than $\difficulty$. For the competition, the block with the
 smallest hash wins.
 For proof of stake, it is generally accepted that there is
-\emph{no} mining~\cite{Kwon14}, but a mining game can be defined also in this case,
-whose challenge is the index $i$ of a validator,
-derived from $\xi$ often through a simple round-robin. The $i$th validator will create
-\textbf{next}, while the others will wait for that \textbf{next}.
+\emph{no} mining~\cite{Kwon14}, but a challenge is actually the index $i$ of a validator,
+derived from $\xi$ often through a simple round-robin. The $i$th validator may create
+\textbf{next}, while the others shall wait for that \textbf{next}.
 This process is often enriched with a Byzantine protocol
 of pre-votes and pre-commits~\cite{Kwon14}.
 Finally, proof of space, as presented in~\cite{Spoto25},
 is based on the idea that \textbf{next} must contain
-a data structure, called \emph{nonce}, that can be quickly chosen among a
+a data structure, called \emph{nonce}, that can quickly be chosen among a
 set of precomputed nonces on disk. The mining game in this case is:
 %
 \begin{itemize}
@@ -42,7 +40,7 @@ set of precomputed nonces on disk. The mining game in this case is:
 %
 The key point of this mining algorithm
 is that the computation of the nonces is so expensive
-that it cannot be done on-the-fly, for each mined block, but rather
+that it cannot be done on the fly, for each mined block, but rather
 once and for all, before starting mining:
 they remain on disk to answer, quickly, mining challenges.
 
@@ -54,8 +52,7 @@ Fig.~\ref{fig:mining} shows that
 the miner that provides the answer to create \textbf{next}
 and the peer that actually creates \textbf{next}
 are logically separate cooperating software parts. Note that miners do not store
-blocks nor the blockchain; they do not even have a database: the peer
-deals with such topics.
+blocks nor the blockchain; they do not even have a database: the peer deals with such topics.
 
 \begin{figure}[t]
   \begin{center}
@@ -94,14 +91,14 @@ deals with such topics.
 \end{figure}
 
 Traditionally, peer and miners work in the same machine,
-but they have been already offloaded to different machines, for instance in pool
+but they have been already offloaded to different machines in pool
 mining architectures, where a single peer leverages the power of many, remote
 miners, working in different machines and connected through a network.
 Namely, many users want to run a miner and earn cryptos,
 but only a few are interested in running a full blockchain peer on a dedicated machine,
 which requires technical skills, database space and a very good internet connection.
 Currently, miners run on specialized, very expensive hardware. The goal of this article
-is to allow them to run inside a mobile device as well.
+is to allow them to run inside a mainstream mobile device as well.
 But this might result impossible or impractical,
 depending on the mining algorithm. Let us consider the various
 mining algorithms discussed in Sec.~\ref{sec:introduction}.
@@ -127,11 +124,11 @@ not seem of any practical interest.
 
 \vspace{0.5ex}\noindent\textbf{Proof of space.}
 %
-In this last case, mining requires the use of disk space, but no significant
-CPU power nor disk activity. Currently, mobile devices have an average disk space
+In this case, mining uses disk space, but no significant
+CPU power or disk activity. Currently, mobile devices have an average disk space
 of 256~GB, smaller than the average 1000~GB of desktop computers but still significant.
-Moreover, the proof of space of~\cite{Spoto25} uses very small challenges (around 64~bytes)
-and answers (nonces, compacted into \emph{deadlines} of around 200~bytes).
-The block being created is not needed for mining in this case. This makes proof of space
+Moreover, the proof of space in~\cite{Spoto25} uses small challenges (around 64~bytes)
+and answers (nonces compacted into \emph{deadlines} of around 200~bytes).
+The block being created is not needed for mining. This makes proof of space
 ideal for a mobile miner with limited resources and that
-is why it has been chosen for the implementation of our Mokaminter mobile miner app.
+is why it has been chosen for the implementation of our Mokaminter miner app.

@@ -1,68 +1,104 @@
 \section{Experiments}\label{sec:experiments}
 
-Namely, Fig.~\ref{fig:plot_and_mining_costs} reports the time for the creation of a plot file and the time for
-using that file for mining, collected with Mokamint. Both grow linearly with the number of nonces in the plot file.
-We recall that the goal of Signum's proof of space is to make the former expensive and the latter cheap. For instance, Fig.~\ref{fig:plot_and_mining_costs} shows that,
-even with a powerful CPU, a plot of $4000$ nonces cannot
-be recomputed at every block challenge, if the block creation rate is $20$ seconds.
-That is, the nonces must be precomputed and stored on disk.
+This section reports experiments with the plotting and mining phases.
+We selected a mobile phone, a tablet and a desktop computer, all relatively old devices
+with quite limited resources. The mobile phone and
+the tablet ran the Mokaminter miner, while the desktop computer ran a desktop miner and it has been
+chosen to compare the results of the mobile devices with those of a home
+computer with a stable internet connection.
+
+Fig.~\ref{fig:plotting_phase_experiments} reports results about the plotting phase.
+It confirms that this phase is expensive, as required, with a cost that grows linearly with the
+plot size, as expected since a plot is a linear collection of nonces
+(Fig.~\ref{fig:waiting_time}). Of course, a faster CPU, such as that of the desktop computer,
+builds the plot in a shorter time.
 
 \begin{figure}[t]
-  \begin{tabular}{|c||c|c|c|c|c|c|c|}
-    \hline
-    nonces & size & time for creation & time per challenge \\\hline\hline
-    1000 & 256MBytes & 7.85s & 0.00078s \\\hline
-    2000 & 512MBytes & 14.73s & 0.00156s \\\hline
-    4000 & 1GByte & 31.47s & 0.00273s \\\hline
-    8000 & 2GBytes & 64.80s & 0.00546s \\\hline
-    16000 & 4GBytes & 130.99s & 0.01131s \\\hline
-    32000 & 8GBytes & 257.71s & 0.02223s \\\hline
-    64000 & 16GBytes & 554.25s & 0.04407s \\\hline
-  \end{tabular}
-  \caption{Time for the creation of plot files and for their use for mining:
-    \emph{nonces} is the number of nonces in the plot file; \emph{size} is the size
-    of the plot file; \emph{time for creation} is the time (in seconds) for creating the
-    plot file (Def.~\ref{def:plot} and~\ref{def:nonce_construction});
-    \emph{time for challenge} is the time (in seconds) to answer a challenge
-    to compute a deadline, with that plot file (steps~\ref{step:deadline_mining:minimize}
-    and~\ref{step:deadline_mining:compute_deadline} of Alg.~\ref{alg:deadline_mining}).
-    Experiments have been performed on am Intel Core i7-11800H CPU.
-    They can be verified by executing the \texttt{PlotProfiler} class
-    of the \texttt{io-mokamint-plotter} module of~\cite{MokamintSourceCode}.
+  \begin{center}
+    \begin{tabular}{|c|c||c|c|c|}
+      \hline
+      \textbf{device} & \textbf{type} & \textbf{nonces} & \textbf{size} & \textbf{time} \\\hline\hline
+      Xiami 11 Lite 5G NE & phone & 1000 & 0.26GB & 1m13s \\\hline
+      Xiami 11 Lite 5G NE & phone & 5000 & 1.28GB & 6m03s \\\hline
+      Xiami 11 Lite 5G NE & phone & 10000 & 2.56GB & 12m05s \\\hline\hline
+      Samsung Galaxy Tab S6 Lite & tablet & 1000 & 0.26GB & 2m15s \\\hline
+      Samsung Galaxy Tab S6 Lite & tablet & 5000 & 1.28GB & 11m12s \\\hline
+      Samsung Galaxy Tab S6 Lite & tablet & 10000 & 2.56GB & 22m21s \\\hline\hline
+      Intel NUC8i5BEH & desktop & 1000 & 0.26GB & 20s \\\hline
+      Intel NUC8i5BEH & desktop & 5000 & 1.28GB & 1m40s \\\hline
+      Intel NUC8i5BEH & desktop & 10000 & 2.56GB & 3m24s \\\hline
+    \end{tabular}
+  \end{center}
+  \caption{Results about the plotting phase. \emph{Type} is the type of device;
+    \emph{nonces} is the number of nonces in the plot file;
+    \emph{size} is the size of the plot file; \emph{time} is the time for creating the
+    plot file (Def.~\ref{def:nonce_construction}, repeated for each nonce in the plot).
+    Data has been collected by manually creating the plots.
   }
-  \label{fig:plot_and_mining_costs}
+  \label{fig:plotting_phase_experiments}
 \end{figure}
 
-Mokaminter has been installed on the personal phone of
-a group of $11$ professors and students from the UFMA university in Brazil
-(other potential users
-owned only an iPhone and could not take part in the experiment).
-Each of them created a miner for the Hotmoka blockchain
-and let it run in the phone for a day. At the end, they collected
-statistics about two quality metrics:
-amount of data exchanged
-and percentage of battery use, as reported by
-the Android system in the settings page for Mokaminter.
-The result is that Mokaminter exchanged only $0.808$~MB
-per day and consumed only $0.27\%$ of battery power, on average.
-These numbers can vary, of course, with the connection quality
-and with the use of other apps in the phone, but the
-experiment was meant to leave users free to operate on their phone as
-they were used to, in order to measure costs in a realistic setting
-that reflects real use patterns.
+Fig.~\ref{fig:mining_phase_experiments} reports results about the mining phase.
+It shows that CPU and RAM costs of Mokaminter are minimal, as well as its
+amount of data exchanged through the network. It shows that answering challenges is quick (as required).
+Finally, it shows that a mobile miner in a phone or tablet, surely experiencing some network swaps
+and disconnections, yields similar mining earnings to those
+of a desktop computer using a reliable home internet connection. Note that we cannot express
+the earnings in fiat currency, since Hotmoka's mokas are not currently exchangeable.
 
+\begin{figure}[t]
+  \begin{center}
+    \begin{tabular}{|c|c||c|c|c|c|c|}
+      \hline
+      \textbf{device} & \textbf{type} & \textbf{CPU} & \textbf{RAM} & \textbf{network} & \textbf{per chall.} & \textbf{earned crypto} \\\hline\hline
+      Xiami 11 Lite 5G NE & phone & 0.56\% & 2.4\% (192MB) & 3.36MB & 0.207s & 373.30 mokas \\\hline
+      Samsung Galaxy Tab S6 Lite & tablet & 0.23\% & 3.5\% (140MB) & 3.38MB & 0.225s & 266.63 mokas \\\hline
+      Intel NUC8i5BEH & desktop & 0.09\% & 1.4\% (224MB) & 3.39MB & 0.019s & 319.95 mokas \\\hline
+    \end{tabular}
+  \end{center}
+  \caption{Results about the mining phase for the mainnet of the Hotmoka blockchain.
+    \emph{Type} is the type of device; \emph{CPU} is the
+    percent of the CPU power of the device used for mining;
+    \emph{RAM} is the percent (and absolute value) of the
+    RAM of the device used for mining; \emph{network} is the amount of data exchanged during one day of mining;
+    \emph{per chall.} is the average time, in seconds, for answering each challenge
+    (steps~\ref{step:deadline_mining:minimize}
+    and~\ref{step:deadline_mining:compute_deadline} of Alg.~\ref{alg:deadline_mining});
+    \emph{earned crypto} is the amount of crypto
+    earned during one day of mining (\emph{moka} is the crypto unit of Hotmoka). Data has been collected
+    through logs and the \texttt{top} Linux utility, run in the device through the Android Device Bridge
+    (\texttt{adb}). Network usage has been collected through the app management page of Android and
+    the \texttt{vnstat} Linux utility.
+  }
+  \label{fig:mining_phase_experiments}
+\end{figure}
+
+These mining experiments have been performed against the mainnet of Hotmoka, that creates a block every $20$ seconds
+on average. Therefore, column \textbf{per chall.} of Fig.~\ref{fig:mining_phase_experiments} is actually telling us that
+Mokaminter sits idle for around $99\%$ of its time, waiting at step~\ref{step:deadline_mining:wait}
+of Alg.~\ref{alg:deadline_mining}. Together with the very limited CPU and RAM costs
+(Fig.~\ref{fig:mining_phase_experiments}), it suggests that Mokaminter's battery use should be minimal.
+An exact evaluation is difficult since it highly depends on the other apps
+installed in the device and on the usage pattern of the device by its user.
+In order to get some hint, in realistic conditions, we have installed Mokaminter on the personal phone of
+a group of $11$ professors and students from the UFMA university in Brazil
+(other potential users owned only an iPhone and could not take part in the experiment).
+Each of them created a miner for the Hotmoka blockchain
+and let it run in the phone for a day. At the end, they consulted the
+settings page for Mokaminter in Android and reported the
+percent of battery used.
+The result is that Mokaminter consumed only $0.27\%$ of battery power, on average.
 The quality of mobile internet in the area of Brazil where
 the experiment has been conducted is low in comparison to other areas
-of the country. Still, Mokaminter worked and mined without problems.
-To push this test to te limit, Mokaminter has also been used during
-an international flight, using the minimal free internet connection
-on board. Even in this extremely adverse condition, Mokaminter
-worked and mined.
+of the country. Still, Mokaminter worked and mined correctly.
+To push this test to the limit, Mokaminter has also been used during
+an international flight, with the minimal free internet connection
+on board. Even in this adverse condition, it worked and mined without problems.
 
-In conclusion, these simple, yet limited experiments show that
-Mokaminter is actually working, in various internet conditions,
-and that its comsumption is minimal, in terms of bandwidth and
-battery usage.
+%In conclusion, these simple, yet limited experiments show that
+%Mokaminter is actually working, in various internet conditions,
+%and that its comsumption is minimal, in terms of bandwidth and
+%battery usage.
 
 %Telefono: chiave GD9cM3Jh6t7gMjPL4nTg5CHyZNyV8fKLuumP41GUrd44
 %746601836927020031549974

@@ -10,8 +10,3 @@
 pdfa.xmpi
 *~
 *.pdf
-slides/*.nav
-slides/*.snm
-slides/*.vrb
-slides/*.toc
-slides/*.pdf

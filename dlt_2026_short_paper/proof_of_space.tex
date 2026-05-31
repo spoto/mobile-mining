@@ -170,8 +170,9 @@ that challenge to identify the nonce with the minimal waiting time among those
 in its plot (Fig.~\ref{fig:waiting_time}) and
 sends that nonce back as answer to the peer (Fig.~\ref{fig:mining}).
 The peer will further select the nonce with the minimal waiting time
-among those received from its connected miners and use it to build \textbf{next}, which
-is then propagated to all peers, after the waiting time has elapsed.
+among those received from its connected miners and use it to build \textbf{next}, wait for the
+waiting time (as required by a consensus rule, or otherwise \textbf{next} would be invalid)
+and then propagate \textbf{next} to all peers.
 That is, the miner that provided the nonce with the minimal waiting time wins the mining competition.
 Therefore, it is in the miners' interest to create larger plots during the
 plotting phase, since they induce, statistically, shorter waiting times during the mining phase
@@ -182,6 +183,8 @@ plotting phase, since they induce, statistically, shorter waiting times during t
   Each peer computes the challenge
   for expanding the best chain of blocks $\xi$ from the identifiers of the creators of the blocks in $\xi$
   and from the length of $\xi$ (see~\cite{Spoto25} for a formal definition).
+  The waiting time of a nonce \wrt{} a challenge $\langle i,\gamma\rangle$
+  is $\hash(\scoop_i\append\gamma)$ (Fig.~\ref{fig:waiting_time}).
 \end{definition}
 %
 Nonces are relatively big (around $262$~KB) to be stored inside each block and exchanged with miner(s)

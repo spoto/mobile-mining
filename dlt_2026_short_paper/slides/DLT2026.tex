@@ -40,6 +40,7 @@
 
 \newcommand{\wrt}{\textit{wrt.\ }}
 \newcommand{\ie}{, \textit{ie.}, }
+\newcommand{\iestart}{\textit{ie.}, }
 
 \newcommand{\numberofscoops}{{\#\mathit{scoops}}}
 \newcommand{\noncesize}{{\mathit{nonce}_{\mathit{size}}}}
@@ -253,7 +254,7 @@
     \end{tikzpicture}
   \end{center}
 
-  \medskip
+  \smallskip
 
   \begin{center}
     \alert{Why a mobile application?}
@@ -266,8 +267,8 @@
   \item a mobile application could introduce mining to a large portion of humanity, who owns a
     phone but not a powerful connected computer
   \item it can be easily and automatically  updated
-  \item it simplifies the start-up of new blockchains, since it is easy to convince people
-    to install an app
+  \item it simplifies the start-up of new blockchains
+  \item it has an educational and marketing relevance
   \end{itemize}
 
 \end{frame}
@@ -534,7 +535,7 @@
       \draw (8.5,2.1) node[scale=0.7] {\phone};
 
       \draw[->, thick] (3.5,1.0) -- (7,1.0);
-      \draw (5.25,1.2) node {{\small challenges ($\langle i,\gamma\rangle$)}};
+      \draw (5.25,1.25) node {{\small challenges ($\langle i,\gamma\rangle$)}};
 
       \draw[<-, thick] (3.5,0.5) -- (7,0.5);
       \draw (5.25,0.25) node {{\small answers (nonces)}};
@@ -579,9 +580,9 @@
     \begin{tabular}{|c|c||c|c|c|}
       \hline
       \textbf{device} & \textbf{type} & \textbf{nonces} & \textbf{size} & \textbf{time} \\\hline\hline
-      Xiami 11 Lite 5G NE & phone & 1000 & 0.26~GB & 1m13s \\\hline
-      Xiami 11 Lite 5G NE & phone & 5000 & 1.28~GB & 6m03s \\\hline
-      Xiami 11 Lite 5G NE & phone & 10000 & 2.56~GB & 12m05s \\\hline\hline
+      Xiaomi 11 Lite 5G NE & phone & 1000 & 0.26~GB & 1m13s \\\hline
+      Xiaomi 11 Lite 5G NE & phone & 5000 & 1.28~GB & 6m03s \\\hline
+      Xiaomi 11 Lite 5G NE & phone & 10000 & 2.56~GB & 12m05s \\\hline\hline
       Samsung Galaxy Tab S6 Lite & tablet & 1000 & 0.26~GB & 2m15s \\\hline
       Samsung Galaxy Tab S6 Lite & tablet & 5000 & 1.28~GB & 11m12s \\\hline
       Samsung Galaxy Tab S6 Lite & tablet & 10000 & 2.56~GB & 22m21s \\\hline\hline
@@ -589,6 +590,8 @@
       Intel NUC8i5BEH & desktop & 5000 & 1.28~GB & 1m40s \\\hline
       Intel NUC8i5BEH & desktop & 10000 & 2.56~GB & 3m24s \\\hline
     \end{tabular}
+    \vspace*{1ex}\\
+    (today, the average plot size of the Hotmoka mainnet is $2257675$ nonces)
   \end{center}
 
 \end{frame}
@@ -609,11 +612,13 @@
       tablet & 0.23\% & 3.5\% (140~MB) & 3.38~MB & 0.225s & 266.63 mokas \\\hline
       desktop & 0.09\% & 1.4\% (224~MB) & 3.39~MB & 0.019s & 319.95 mokas \\\hline
     \end{tabular}
+    \vspace*{1ex}\\
+    (with a plot of $10000$ nonces)
   \end{center}
 
   \bigskip
 
-  In the remaining $\mathit{blockrate}-0.225$ seconds the miner is doing \alert{nothing}:
+  In the remaining $(\mathit{blockrate}-0.225)$ seconds the miner is doing \alert{nothing}:
   \begin{itemize}
   \item no CPU activity
   \item no disk activity
@@ -648,6 +653,34 @@
     \url{https://play.google.com/store/apps/details?id=io.mokamint.android.mokaminter}
   \end{center}
 
+\end{frame}
+
+\addtocounter{framenumber}{-1}
+
+\begin{frame}\frametitle{Can somebody impersonate another miner?}
+
+  The plotting phase creates nonces starting from a seed:
+  \[
+  \seed=\mathit{key}^{\mathit{peer}}_\public\append\mathit{key}^{\mathit{miner}}_\public\append\chainid\bowtie p  
+  \]
+  and everybody can do that with the public key of another miner!
+
+  \medskip
+  \begin{center}
+    \alert{Is this a problem?}
+  \end{center}
+  \medskip
+  \pause
+  \begin{itemize}[<+->]
+  \item if the impersonator creates good nonces (\iestart{}with minimal waiting time)
+    the fees go to the impersonated miner (thank you!)
+  \item if the impersonator creates bad nonces (\iestart{}with large waiting time)
+    the peers will just discard them
+  \item if the impersonator creates syntactically invalid nonces,
+    the peers will ban its IP (goodbye!)
+  \end{itemize}
+  \pause
+  It is also possible to sign nonces with the private key of the miner
 \end{frame}
 
 \addtocounter{framenumber}{-1}

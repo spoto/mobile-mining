@@ -11,16 +11,17 @@ Fig.~\ref{fig:plotting_phase_experiments} reports results about the plotting pha
 It confirms that this phase is expensive, as required, with a cost that grows linearly with the
 plot size, as expected since a plot is a linear collection of nonces
 (Fig.~\ref{fig:waiting_time}). Of course, a faster CPU, such as that of the desktop computer,
-builds the plot in a shorter time.
+builds the plot in a shorter time (the average plot size used in the known part of the Hotmoka
+mainnet is $2257675$ nonces, at the moment).
 
 \begin{figure}[t]
   \begin{center}
     \begin{tabular}{|c|c||c|c|c|}
       \hline
       \textbf{device} & \textbf{type} & \textbf{nonces} & \textbf{size} & \textbf{time} \\\hline\hline
-      Xiami 11 Lite 5G NE & phone & 1000 & 0.26~GB & 1m13s \\\hline
-      Xiami 11 Lite 5G NE & phone & 5000 & 1.28~GB & 6m03s \\\hline
-      Xiami 11 Lite 5G NE & phone & 10000 & 2.56~GB & 12m05s \\\hline\hline
+      Xiaomi 11 Lite 5G NE & phone & 1000 & 0.26~GB & 1m13s \\\hline
+      Xiaomi 11 Lite 5G NE & phone & 5000 & 1.28~GB & 6m03s \\\hline
+      Xiaomi 11 Lite 5G NE & phone & 10000 & 2.56~GB & 12m05s \\\hline\hline
       Samsung Galaxy Tab S6 Lite & tablet & 1000 & 0.26~GB & 2m15s \\\hline
       Samsung Galaxy Tab S6 Lite & tablet & 5000 & 1.28~GB & 11m12s \\\hline
       Samsung Galaxy Tab S6 Lite & tablet & 10000 & 2.56~GB & 22m21s \\\hline\hline
@@ -50,18 +51,20 @@ the earnings in fiat currency, since Hotmoka's mokas are not currently exchangea
   \begin{center}
     \begin{tabular}{|c|c||c|c|c|c|c|}
       \hline
-      \textbf{device} & \textbf{type} & \textbf{CPU} & \textbf{RAM} & \textbf{network} & \textbf{challenge} & \textbf{earned crypto} \\\hline\hline
-      Xiami 11 Lite 5G NE & phone & 0.56\% & 2.4\% (192~MB) & 3.36~MB & 0.207s & 373.30 mokas \\\hline
+      \textbf{device} & \textbf{type} & \textbf{CPU} & \textbf{RAM} & \textbf{network} & \textbf{answer} & \textbf{earned crypto} \\\hline\hline
+      Xiaomi 11 Lite 5G NE & phone & 0.56\% & 2.4\% (192~MB) & 3.36~MB & 0.207s & 373.30 mokas \\\hline
       Samsung Galaxy Tab S6 Lite & tablet & 0.23\% & 3.5\% (140~MB) & 3.38~MB & 0.225s & 266.63 mokas \\\hline
       Intel NUC8i5BEH & desktop & 0.09\% & 1.4\% (224~MB) & 3.39~MB & 0.019s & 319.95 mokas \\\hline
     \end{tabular}
   \end{center}
-  \caption{Results about the mining phase for the mainnet of the Hotmoka blockchain.
+  \caption{Results about the mining phase for the mainnet of the Hotmoka blockchain,
+    with a plot of $10000$ nonces.
     \emph{Type} is the type of device; \emph{CPU} is the
-    percent of the CPU power of the device used for mining;
-    \emph{RAM} is the percent (and absolute value) of the
-    RAM of the device used for mining; \emph{network} is the amount of data exchanged during one day of mining;
-    \emph{challenge} is the average time, in seconds, for answering each challenge
+    percent of CPU power used for mining;
+    \emph{RAM} is the percent (and absolute value) of
+    RAM used for mining; \emph{network} is the amount of data exchanged during
+    one day of mining;
+    \emph{answer} is the average time, in seconds, for answering each challenge
     (steps~\ref{step:deadline_mining:minimize}
     and~\ref{step:deadline_mining:compute_deadline} of Alg.~\ref{alg:deadline_mining});
     \emph{earned crypto} is the amount of crypto
@@ -74,7 +77,7 @@ the earnings in fiat currency, since Hotmoka's mokas are not currently exchangea
 \end{figure}
 
 These mining experiments have been performed against the mainnet of Hotmoka, that creates a block every $20$ seconds
-on average. Therefore, column \textbf{challenge} in Fig.~\ref{fig:mining_phase_experiments} is actually telling us that
+on average. Therefore, column \textbf{answer} in Fig.~\ref{fig:mining_phase_experiments} is actually telling us that
 Mokaminter sits idle for around $99\%$ of its time, when it waits at step~\ref{step:deadline_mining:wait}
 of Alg.~\ref{alg:deadline_mining}. Together with the very limited CPU and RAM costs
 (Fig.~\ref{fig:mining_phase_experiments}), it suggests that Mokaminter's battery use should be minimal.

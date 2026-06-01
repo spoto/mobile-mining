@@ -172,13 +172,6 @@
 
   Mining of a \textbf{next} block on top of a \textbf{block}:
 
-  \begin{description}
-  \item[{\color{red}challenge:}] \only<2->{derive (deterministically) a challenge from the \textbf{block}}
-  \item[{\color{red}answer:}] \only<3->{reply with a \textbf{next} that satisfies the challenge}
-  \item[{\color{red}competition:}] \only<4->{in case of more \textbf{next}, select a \emph{best} one}
-  \end{description}
-
-  \bigskip
   \visible<5->{Bitcoin's Proof of Work:}
   \begin{description}
   \item<6->[{\color{red}challenge:}] find a \textbf{next} such that $\hash(\mathbf{next})>\difficulty$

@@ -72,16 +72,26 @@ Namely, only the public key is needed to create the plot (Def.~\ref{def:nonce_co
 the app can forget the private key. This entails, however,
 that the user must not lose the $12$ words of the key pair,
 or otherwise the earned crypto becomes inaccessible.
+The use of the miner's \emph{public} key for the construction of its nonces
+(step.~\ref{step:nonce_construction:seed}
+of Def.~\ref{def:nonce_construction}) might seem
+to be a security issue, since anyone can impersonate a miner.
+But that impersonation could only be a help for the impersonated miner:
+the impersonator might create nonces that are so good to win
+the mining competition, whose reward will go to the public key (hence to the miner);
+or nonces that lose the mining competition, in which case they are just ignored;
+or syntactically illegal nonces, in which case Mokamint bans the IP of the impersonator
+(it does not ban the public key of the miner). In any case, the impersonated miner
+can only win from the impersonation.
 
 \vspace{0.5ex}\noindent\textbf{Usability considerations.}
 %
 A mobile app has quite different usability considerations than a desktop application.
-%
 A first one is about feedback.
-In a desktop application, the user could check warnings, error messages and logs.
+A desktop user can check warnings, error messages and logs.
 In a mobile app, this is possible
 but uncomfortable for most users. Therefore, Mokaminter gives feedback through
-a heartbeat graphical effect at each challenge, to inform the user that it is
+a heartbeat effect at each challenge, to inform the user that it is
 actually mining. Moreover, network disconnection
 turns the miner's tile gray in the list of miners.
 %
@@ -101,12 +111,16 @@ with an explicit decision.
 Mokaminter uses websockets for network connections,
 that perfectly match the continuous, bidirectional flow of challenges
 and answers (Fig.~\ref{fig:mining}). But network connection in a
-mobile device may be relatively unstable, because of
-thick walls, tunnels and network switches.
+mobile device may be relatively unstable (thick walls, tunnels, network switches).
 Mokaminter tries to reconnect if the connection is lost or
 if it has not received any challenge for some time. If reconnection fails, it
 tries again after a minute, to avoid draining the battery with too
-frequent reconnection attempts.
+frequent attempts. Background mining execution and battery optimization
+are a complication solved through the official
+Android good practice~\cite{background-tasks}
+that ensures a background task to run continously,
+leveraging either a \texttt{WorkManager} or a \texttt{JobService}, depending on the
+Android version, together with a foreground notification.
 %
 %Another technical issue is related to the background task for mining.
 %The Android system is extremely restrictive with background

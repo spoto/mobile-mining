@@ -124,7 +124,7 @@ Def.~\ref{def:nonce_construction} formalizes the construction of a nonce,
 given its progressive number $p$ and prolog $\pi$.
 It computes a sequence of hashes from a $\seed$ that includes $p$ and $\pi$
 (steps~\ref{step:nonce_construction:seed}
-and~\ref{step:nonce_construction:first_hash}, where $\append$ is concatenation of bytes).
+and~\ref{step:nonce_construction:first_hash}).
 It constructs a \emph{final} hash as a digest of
 all such hashes (step~\ref{step:nonce_construction:final_hash}) that uses to modify
 the original sequence of hashes (step~\ref{step:nonce_construction:modify}, where $\xor$

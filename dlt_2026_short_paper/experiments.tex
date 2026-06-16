@@ -44,8 +44,13 @@ It shows that CPU and RAM costs of Mokaminter are minimal, as well as its
 amount of data exchanged through the network. It shows that answering challenges is quick (as required).
 Finally, it shows that a mobile miner in a phone or tablet, surely experiencing some network swaps
 and disconnections, yields similar mining earnings to those
-of a desktop computer using a reliable home internet connection. Note that we cannot express
-the earnings in fiat currency, since Hotmoka's mokas are not currently exchangeable.
+of a desktop computer using a reliable home internet connection.
+The exact earnings may vary
+randomly in different runs, for the probabilistic
+nature of the mining algorithm, but their order of magnitude is similar.
+Note that earnings cannot be expressed in fiat
+currency, since Hotmoka's mokas are not currently exchangeable.
+
 
 \begin{figure}[t]
   \begin{center}
@@ -78,7 +83,7 @@ the earnings in fiat currency, since Hotmoka's mokas are not currently exchangea
 
 These mining experiments have been performed on the Hotmoka mainnet, that creates a block every $20$ seconds,
 on average. Therefore, column \textbf{answer} in Fig.~\ref{fig:mining_phase_experiments} tells that
-Mokaminter sits idle for around $99\%$ of the time, waiting at step~\ref{step:deadline_mining:wait}
+Mokaminter sits idle for about $99\%$ of the time, waiting at step~\ref{step:deadline_mining:wait}
 of Alg.~\ref{alg:deadline_mining}. Together with the very limited CPU and RAM costs
 (Fig.~\ref{fig:mining_phase_experiments}), it suggests that Mokaminter's battery use should be minimal.
 An exact evaluation of the battery use is difficult since it depends on the other apps
@@ -95,10 +100,6 @@ of the country. Still, Mokaminter worked and mined correctly.
 Mokaminter has also been used during
 an international flight, with the minimal free internet connection
 on board. Even in this adverse condition, it worked and mined without problems.
-Column \textbf{earned crypto} in Fig.~\ref{fig:mining_phase_experiments} shows that
-revenues are similar for all kinds of devices: exact numbers may vary
-randomly in different runs, as expected for the probabilistic nature of the mining algorithm,
-but the order of magnitude is similar.
 
 %In conclusion, these simple, yet limited experiments show that
 %Mokaminter is actually working, in various internet conditions,

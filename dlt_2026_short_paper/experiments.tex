@@ -76,27 +76,29 @@ the earnings in fiat currency, since Hotmoka's mokas are not currently exchangea
   \label{fig:mining_phase_experiments}
 \end{figure}
 
-These mining experiments have been performed against the mainnet of Hotmoka, that creates a block every $20$ seconds
-on average. Therefore, column \textbf{answer} in Fig.~\ref{fig:mining_phase_experiments} is actually telling us that
-Mokaminter sits idle for around $99\%$ of its time, when it waits at step~\ref{step:deadline_mining:wait}
+These mining experiments have been performed on the Hotmoka mainnet, that creates a block every $20$ seconds,
+on average. Therefore, column \textbf{answer} in Fig.~\ref{fig:mining_phase_experiments} tells that
+Mokaminter sits idle for around $99\%$ of the time, waiting at step~\ref{step:deadline_mining:wait}
 of Alg.~\ref{alg:deadline_mining}. Together with the very limited CPU and RAM costs
 (Fig.~\ref{fig:mining_phase_experiments}), it suggests that Mokaminter's battery use should be minimal.
-An exact evaluation of the battery use is difficult since it highly depends on the other apps
+An exact evaluation of the battery use is difficult since it depends on the other apps
 installed in the device and on the usage pattern of the device by its user.
-In order to get some hint, in realistic conditions, we have installed Mokaminter in the personal phone of
+In order to get some realistic hint, we have installed Mokaminter in the phone of
 a group of $11$ professors and students from the UFMA university in Brazil
-(other potential users owned only an iPhone and could not take part in the experiment).
-Each of them created a miner for the Hotmoka blockchain
-and let it run in the phone for a day. At the end, they consulted the
-settings page for Mokaminter in Android and reported the
-percent of battery used.
-The result is that Mokaminter consumed only $0.27\%$ of battery power, on average.
+(other users owned only an iPhone and could not take part in the experiment).
+Each of them created a miner and let it run in the phone for a day. At the end,
+the settings page for Mokaminter in Android reported the percent of battery used.
+Mokaminter consumed only $0.27\%$ of battery power, on average.
 The quality of mobile internet in the area of Brazil where
 the experiment has been conducted is low in comparison to other areas
 of the country. Still, Mokaminter worked and mined correctly.
-To push this test to the limit, Mokaminter has also been used during
+Mokaminter has also been used during
 an international flight, with the minimal free internet connection
 on board. Even in this adverse condition, it worked and mined without problems.
+Column \textbf{earned crypto} in Fig.~\ref{fig:mining_phase_experiments} shows that
+revenues are similar for all kinds of devices: exact numbers may vary
+randomly in different runs, as expected for the probabilistic nature of the mining algorithm,
+but the order of magnitude is similar.
 
 %In conclusion, these simple, yet limited experiments show that
 %Mokaminter is actually working, in various internet conditions,

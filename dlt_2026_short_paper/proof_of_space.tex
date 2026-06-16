@@ -6,14 +6,14 @@ and is well beyond the space limit of the present short paper. This section
 reports only a minimal, simplified formalization, enough to understand the way mining works.
 The reader is referred to~\cite{Spoto25} for more details.
 
-\subsubsection*{Plotting phase}
-
+\vspace{0.5ex}\noindent\textbf{Plotting phase.}
+%
 Each miner runs the plotting phase first and only once, to create a \emph{plot file} on disk.
 This phase must be expensive, so that the plot cannot be recomputed on the fly during the
-subsequent mining phase and must be kept on disk.
+subsequent mining phase and must remain on disk.
 A plot is a set of \emph{nonces} (Fig.~\ref{fig:waiting_time}), for distinct progressive numbers.
 A nonce has a progressive number
-and an array of bytes, split into $4096$ \emph{scoops}. Each scoop is a pair of hashes.
+and a byte array split into $4096$ \emph{scoops}. Each scoop is a pair of hashes.
 %
 \begin{definition}[Scoop, Nonce]\label{def:scoop_nonce}
   The set of \emph{scoops} is $\Scoops=\{\langle h_1,h_2\rangle\mid h_1,h_2\text{ are hashes}\}$
@@ -136,11 +136,11 @@ so that smaller scoops are not easier to compute than the others, which avoids a
 time/memory tradeoff attack~\cite{ParkKFGAP18}.
 %
 \begin{definition}[$\nonce(p,\pi)$]\label{def:nonce_construction}
-  Given $p\in\mathbb{N}$ and $\pi\in\Prologs$, let
-  \[
+  Given $p\in\mathbb{N}$ and $\pi\in\Prologs$, the \emph{nonce for $p$ and $\pi$} is
+  $
   \nonce(p,\pi)=\langle p,\langle h_0,h_1\rangle\append
-  \cdots\append\langle h_{2\cdot 4096-2},h_{2\cdot 4096-1}\rangle\rangle\in\Nonces,
-  \]
+  \cdots\append\langle h_{2\cdot 4096-2},h_{2\cdot 4096-1}\rangle\rangle\in\Nonces
+  $,
   where the hashes $h_0,\ldots,h_{2\cdot 4096-1}$ are constructed as follows:
   %
   \begin{enumerate}
@@ -161,22 +161,25 @@ time/memory tradeoff attack~\cite{ParkKFGAP18}.
 The algorithm in Def.~\ref{def:nonce_construction} is expensive as soon as an expensive
 hashing algorithm is used, such as shabal256. Sec.~\ref{sec:experiments} confirms this experimentally.
 
-\subsubsection*{Mining phase}
-
+\vspace{0.5ex}\noindent\textbf{Mining phase.}
+%
 The mining phase starts immediately after the plotting phase. It must be quick and cheap.
-Whenever a peer needs to create a new block \textbf{next} to expand the best chain of blocks $\xi$,
-it computes a \emph{challenge} from $\xi$ that sends to its miners (Fig.~\ref{fig:mining}). Each miner uses
-that challenge to identify the nonce with the minimal waiting time among those
-in its plot (Fig.~\ref{fig:waiting_time}) and
-sends that nonce back as answer to the peer (Fig.~\ref{fig:mining}).
-The peer will further select the nonce with the minimal waiting time
-among those received from its connected miners and use it to build \textbf{next}, wait for the
+Whenever a peer wants to expand the best chain of blocks $\xi$ with
+a new block \textbf{next},
+it derives from $\xi$ a \emph{challenge} that sends to its miners
+(Fig.~\ref{fig:mining}). Each miner uses
+the challenge to find the nonce with the minimal waiting time among those
+in its plot (Fig.~\ref{fig:waiting_time}) and sends it to the peer as answer
+(Fig.~\ref{fig:mining}).
+The peer selects the nonce with the minimal waiting time
+among those received from its miners, use it to build \textbf{next}, waits for the
 waiting time (as required by a consensus rule, or otherwise \textbf{next} would be invalid)
-and then propagate \textbf{next} to all peers.
-That is, the miner that provided the nonce with the minimal waiting time wins the mining competition.
-Therefore, it is in the miners' interest to create larger plots during the
-plotting phase, since they induce, statistically, shorter waiting times during the mining phase
-(Fig.~\ref{fig:waiting_time}).
+and then gossips \textbf{next} to its peers.
+That is, the miner that provided the nonce with the minimal waiting time wins the
+competition.
+Therefore, it is in the miners' interest to create larger plots in the
+plotting phase, since these induce, statistically, shorter waiting times
+during the mining phase (Fig.~\ref{fig:waiting_time}).
 %
 \begin{definition}[Challenge]\label{def:challenge}
   The set of \emph{challenges} is $\Challenges=\{\langle i,\gamma\rangle\mid 0\le i<4096\text{ and $\gamma$ is a hash}\}$.
